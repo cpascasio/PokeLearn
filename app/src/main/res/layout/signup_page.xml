@@ -1,0 +1,44 @@
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@drawable/BGSignUpPage">
+	<!--
+    /*
+     *	This content is generated from the API File Info.
+     *	(Alt+Shift+Ctrl+I).
+     *
+     *	@desc
+     *	@file 		[for_ui]_sign_up
+     *	@date 		Saturday 23rd of March 2024 06:38:39 PM
+     *	@title 		Page 1
+     *	@author
+     *	@keywords
+     *	@generator 	Export Kit v1.3.figma
+     *
+     */
+    -->
+	<ScrollView
+		android:id="@+id/[for_ui]_sign_up"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent">
+
+		<RelativeLayout
+			android:id="@+id/content_container"
+			android:layout_width="360dp"
+			android:layout_height="640dp">
+
+
+			<ImageView
+				android:id="@+id/pokelearn_logo_3"
+				android:layout_width="50dp"
+				android:layout_height="50dp"
+				android:layout_marginStart="155dp"
+				android:layout_marginTop="239dp"
+				android:contentDescription="pokelearn_logo_3"
+				android:src="@drawable/pokelearn_logo" />
+
+		</RelativeLayout>
+
+	</ScrollView>
+</HorizontalScrollView>

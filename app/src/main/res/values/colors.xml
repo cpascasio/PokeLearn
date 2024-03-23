@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- welcome_page colors -->
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,4 +11,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="_bg__welcome_page_ek2_color">#FFFFFF</color>
+    <color name="_bg__welcome_page_bg_color">#000000</color>
+    <color name="red_box_color">#F4000E</color>
+    <color name="sign_in_box_color">#FFBC1E</color>
+    <color name="sign_in_color">#00244A</color>
+    <color name="sign_up_box_color">#004081</color>
+
+    <!-- [for_ui]_login colors -->
+    <color name="_bg____for_ui__login_color">#00244A</color>
+    <color name="_bg__top_red_element_ek1_color">#000000</color>
+    <color name="half_circle_black_color">#FFFFFF</color>
 </resources>

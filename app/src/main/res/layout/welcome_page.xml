@@ -1,0 +1,93 @@
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@drawable/BGWelcomePage">
+	<!--
+    /*
+     *	This content is generated from the API File Info.
+     *	(Alt+Shift+Ctrl+I).
+     *
+     *	@desc
+     *	@file 		welcome_page
+     *	@date 		Thursday 21st of March 2024 06:27:51 AM
+     *	@title 		Page 1
+     *	@author
+     *	@keywords
+     *	@generator 	Export Kit v1.3.figma
+     *
+     */
+    -->
+	<ScrollView
+		android:id="@+id/welcome_page"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent">
+
+		<RelativeLayout
+			android:id="@+id/content_container"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+
+			<Button
+				android:id="@+id/btnSignUp"
+				android:layout_width="wrap_content"
+				android:layout_height="45dp"
+				android:layout_alignParentTop="true"
+				android:layout_marginLeft="210dp"
+				android:layout_marginTop="475dp"
+				android:layout_marginRight="60dp"
+				android:background="#004081"
+				android:fontFamily="@font/squada_one"
+				android:text="Sign Up"
+				android:textColor="#FFBC1E"
+				android:textSize="20sp" />
+
+			<Button
+				android:id="@+id/btnLogin"
+				android:layout_width="wrap_content"
+				android:layout_height="45dp"
+				android:layout_alignParentTop="true"
+				android:layout_marginLeft="60dp"
+				android:layout_marginTop="475dp"
+				android:background="#FFBC1E"
+				android:fontFamily="@font/squada_one"
+				android:text="Login"
+				android:textColor="#004081"
+				android:textSize="20sp" />
+
+			<ImageView
+				android:id="@+id/pokelearn_logo"
+				android:layout_width="84dp"
+				android:layout_height="84dp"
+				android:layout_marginStart="138dp"
+				android:layout_marginTop="278dp"
+				android:contentDescription="pokelearn_logo"
+				android:src="@drawable/pokelearn_logo" />
+
+			<ImageView
+				android:id="@+id/app_name_white"
+				android:layout_width="280dp"
+				android:layout_height="45dp"
+				android:layout_marginStart="35dp"
+				android:layout_marginTop="114dp"
+				android:contentDescription="logo_name_white"
+				android:src="@drawable/logo_name_white" />
+
+			<TextView
+				android:id="@+id/app_tagline"
+				android:layout_width="129dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal|center"
+				android:layout_marginLeft="111dp"
+				android:layout_marginTop="151dp"
+				android:fontFamily="@font/squada_one"
+				android:gravity="center"
+				android:text="@string/tagline_string"
+				android:textColor="@color/_bg__welcome_page_ek2_color"
+				android:textSize="14sp" />
+
+		</RelativeLayout>
+
+	</ScrollView>
+</HorizontalScrollView>

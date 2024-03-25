@@ -19,7 +19,9 @@ class MainActivity : ComponentActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var setTimerButton: Button
     private lateinit var cancelButton: Button
-    private lateinit var customDurationEditText: EditText
+    private lateinit var hoursEditText: EditText
+    private lateinit var minutesEditText: EditText
+    private lateinit var secondsEditText: EditText
     private lateinit var shakingPokeballImageView: ImageView
 
     private var countDownTimer: CountDownTimer? = null
@@ -53,7 +55,9 @@ class MainActivity : ComponentActivity() {
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(dialogView)
 
-        customDurationEditText = dialogView.findViewById(R.id.customDurationEditText)
+        hoursEditText = dialogView.findViewById(R.id.hoursEditText)
+        minutesEditText = dialogView.findViewById(R.id.minutesEditText)
+        secondsEditText = dialogView.findViewById(R.id.secondsEditText)
         val startTimerButton = dialogView.findViewById<Button>(R.id.startTimerButton)
 
         startTimerButton.setOnClickListener {
@@ -65,11 +69,14 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun startTimer() {
-        val input = customDurationEditText.text.toString()
-        if (input.isEmpty()) return
+        val hours = hoursEditText.text.toString().toIntOrNull() ?: 0
+        val minutes = minutesEditText.text.toString().toIntOrNull() ?: 0
+        val seconds = secondsEditText.text.toString().toIntOrNull() ?: 0
 
-        val millisInput = input.toLong() * 1000 * 60 // Convert minutes to milliseconds
-        setTime(millisInput)
+        val totalMillis = (hours.toLong() * 3600L + minutes.toLong() * 60L + seconds.toLong()) * 1000L
+        if (totalMillis <= 0) return
+
+        setTime(totalMillis)
 
         if (countDownTimer != null) {
             countDownTimer?.cancel()

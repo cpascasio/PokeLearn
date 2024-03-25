@@ -2,22 +2,17 @@ package com.mobdeve.s13.grp7.pokelearn
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.mobdeve.s13.grp7.pokelearn.databinding.ActivityMainBinding
-import com.mobdeve.s13.grp7.pokelearn.ui.theme.PokeLearnTheme
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.os.CountDownTimer
+import android.view.View
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.gif.GifDrawable
 
 class MainActivity : ComponentActivity() {
     private lateinit var timerText: TextView
@@ -25,10 +20,12 @@ class MainActivity : ComponentActivity() {
     private lateinit var setTimerButton: Button
     private lateinit var cancelButton: Button
     private lateinit var customDurationEditText: EditText
+    private lateinit var shakingPokeballImageView: ImageView
 
     private var countDownTimer: CountDownTimer? = null
     private var startTimeInMillis: Long = 0
     private var timeLeftInMillis: Long = 0
+    private var isTimerSet: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +33,19 @@ class MainActivity : ComponentActivity() {
         val view = binding.root
         setContentView(view)
 
-        timerText = findViewById(R.id.timerText)
-        progressBar = findViewById(R.id.progressBar)
-        setTimerButton = findViewById(R.id.setTimerButton)
-        cancelButton = findViewById(R.id.cancelButton)
+        timerText = findViewById(R.id.tvwMP_Timer)
+        progressBar = findViewById(R.id.MP_ProgressBar)
+        setTimerButton = findViewById(R.id.btnMP_SetTimer)
+        cancelButton = findViewById(R.id.btnMP_Cancel)
+        shakingPokeballImageView = findViewById(R.id.ivwMPShakingPokeball)
 
         setTimerButton.setOnClickListener { showTimerSettingsDialog() }
         cancelButton.setOnClickListener { cancelTimer() }
+
+        // Load the static Pokeball image initially
+        Glide.with(this)
+            .load(R.drawable.pokeball_static)
+            .into(shakingPokeballImageView)
     }
 
     private fun showTimerSettingsDialog() {
@@ -80,10 +83,24 @@ class MainActivity : ComponentActivity() {
             }
 
             override fun onFinish() {
-                timerText.text = "00:00"
+                timerText.text = "00:00:00"
                 progressBar.progress = 0
+                isTimerSet = false
+                // Switch back to the static Pokeball image
+                Glide.with(this@MainActivity)
+                    .load(R.drawable.pokeball_static)
+                    .into(shakingPokeballImageView)
+                // Ensure the progress bar is visible
+                progressBar.visibility = View.VISIBLE
             }
         }.start()
+
+        isTimerSet = true
+        // Load the shaking Pokeball image when the timer is set
+        Glide.with(this)
+            .asGif()
+            .load(R.drawable.pokeball_shaking)
+            .into(shakingPokeballImageView)
     }
 
     private fun cancelTimer() {
@@ -91,7 +108,14 @@ class MainActivity : ComponentActivity() {
             countDownTimer?.cancel()
             countDownTimer = null
             // Reset the timer text without changing the progress bar
-            timerText.text = "00:00"
+            timerText.text = "00:00:00"
+            isTimerSet = false
+            // Switch back to the static Pokeball image
+            Glide.with(this)
+                .load(R.drawable.pokeball_static)
+                .into(shakingPokeballImageView)
+            // Ensure the progress bar is visible
+            progressBar.visibility = View.VISIBLE
         }
     }
 

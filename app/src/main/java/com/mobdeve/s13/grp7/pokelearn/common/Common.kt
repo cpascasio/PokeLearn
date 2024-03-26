@@ -6,4 +6,5 @@ import com.mobdeve.s13.grp7.pokelearn.model.Pokemon
 
 object Common {
     var pokemonList:ArrayList<Pokemon> = ArrayList()
+    val KEY_ENABLE_HOME = "position"
 }

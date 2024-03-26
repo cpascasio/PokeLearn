@@ -1,4 +1,9 @@
 package com.mobdeve.s13.grp7.pokelearn.Interface
 
-class ItemClickListener {
+import android.view.View
+
+interface IItemClickListener {
+
+    fun OnClick(view: View, position: Int)
+
 }

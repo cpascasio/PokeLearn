@@ -6,9 +6,12 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.mobdeve.s13.grp7.pokelearn.Interface.IItemClickListener
 import com.mobdeve.s13.grp7.pokelearn.PokemonDetailsActivity
+import com.mobdeve.s13.grp7.pokelearn.common.Common
 import com.mobdeve.s13.grp7.pokelearn.databinding.PokemonListItemBinding
 import com.mobdeve.s13.grp7.pokelearn.model.PokeListItemModel
 import com.mobdeve.s13.grp7.pokelearn.model.Pokemon
@@ -30,6 +33,8 @@ class PokemonListAdapter(var pokeListItemModels: ArrayList<Pokemon>, private var
     // Handles binding a model to the ViewHolder.
     override fun onBindViewHolder(holder: PokemonListAdapter.PokemonListViewHolder, position: Int) {
         holder.bindPokeListItem(this.pokeListItemModels[position], position)
+
+
     }
 
     inner class PokemonListViewHolder(private val pokemonListItemBinding: PokemonListItemBinding): RecyclerView.ViewHolder(pokemonListItemBinding.root), View.OnClickListener {
@@ -38,10 +43,16 @@ class PokemonListAdapter(var pokeListItemModels: ArrayList<Pokemon>, private var
 
         private lateinit var item: Pokemon
 
-        // Allows for the itemView to trigger the logic in OnClick()
-        init {
-            this@PokemonListViewHolder.itemView.setOnClickListener(this)
+        internal var itemClickListener: IItemClickListener? = null
+
+        fun setItemClickListener(iItemClickListener: IItemClickListener) {
+            this.itemClickListener = iItemClickListener;
         }
+
+        init {
+            pokemonListItemBinding.root.setOnClickListener(this)
+        }
+
 
         fun bindPokeListItem(pokeListItemModel: Pokemon, position: Int) {
             this@PokemonListViewHolder.myPosition = position
@@ -69,12 +80,16 @@ class PokemonListAdapter(var pokeListItemModels: ArrayList<Pokemon>, private var
         override fun onClick(v: View?) {
             this.pokemonListItemBinding.root.setOnClickListener {
                 val position: Int = this.bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val poke: Pokemon = pokeListItemModels[position]
-                    val intent = Intent(v?.context, PokemonDetailsActivity::class.java)
-                    intent.putExtra("POKE_ID", poke.id)
-                    v?.context?.startActivity(intent)
-                }
+                Toast.makeText(activity, "Clicked at Pokemon: " + pokeListItemModels[position].name, Toast.LENGTH_SHORT).show()
+//                val poke: Pokemon = pokeListItemModels[position]
+//                val intent = Intent(v?.context, PokemonDetailsActivity::class.java).apply {
+//                    putExtra("POKE_ID", poke.id)
+//                    putExtra("position", position) // Adding position as extra
+//                    putExtra(Common.KEY_ENABLE_HOME, true) // Adding KEY_ENABLE_HOME
+//                }
+//                v?.context?.startActivity(intent)
+
+//
             }
         }
     }

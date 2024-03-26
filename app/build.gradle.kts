@@ -71,7 +71,10 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:5.0.0-rc01")
     implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
     annotationProcessor("com.github.bumptech.glide:compiler:5.0.0-rc01")
+
+    implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
 
     implementation("com.squareup.retrofit2:retrofit:2.3.0")
     implementation("com.squareup.retrofit2:converter-gson:2.3.0")

@@ -35,20 +35,34 @@ class PokemonList : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val itemView: View? = inflater.inflate(R.layout.fragment_pokemon_list, container, false)
+        return inflater.inflate(R.layout.fragment_pokemon_list, container, false)
         // Inflate the layout for this fragment
 
-        rvw_pokemon = itemView!!.findViewById(R.id.rvw_pokemon) as RecyclerView
+//        rvw_pokemon = itemView!!.findViewById(R.id.rvw_pokemon) as RecyclerView
+//        rvw_pokemon.setHasFixedSize(true)
+//        rvw_pokemon.layoutManager = GridLayoutManager(activity, 2)
+//
+//        val itemDecoration = ItemOffsetDecoration(requireActivity(), R.dimen.spacing)
+//        rvw_pokemon.addItemDecoration(itemDecoration)
+//
+//        fetchData()
+//
+//        return itemView
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rvw_pokemon = view.findViewById(R.id.rvw_pokemon) as RecyclerView
         rvw_pokemon.setHasFixedSize(true)
-        rvw_pokemon.layoutManager = GridLayoutManager(activity, 2)
+        rvw_pokemon.layoutManager = GridLayoutManager(requireContext(), 2)
 
         val itemDecoration = ItemOffsetDecoration(requireActivity(), R.dimen.spacing)
         rvw_pokemon.addItemDecoration(itemDecoration)
 
         fetchData()
-
-        return itemView
     }
+
 
     private fun fetchData() {
 compositeDisposable.add(iPokemonList.listPokemon

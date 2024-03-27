@@ -4,14 +4,19 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.mobdeve.s13.grp7.pokelearn.common.Common
+import com.mobdeve.s13.grp7.pokelearn.database.MyDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.databinding.ActivityMainBinding
 import com.mobdeve.s13.grp7.pokelearn.model.Pokemon
+import org.json.JSONArray
+import java.io.IOException
+import java.nio.charset.Charset
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,6 +56,43 @@ class MainActivity : AppCompatActivity() {
 
         //registerReceiver(showDetail, IntentFilter(Common.KEY_ENABLE_HOME))
 
+
+        // Load the JSON data from the assets directory
+        val jsonString: String
+        try {
+            val inputStream = assets.open("new-pokedex.json")
+            val size = inputStream.available()
+            val buffer = ByteArray(size)
+            inputStream.read(buffer)
+            inputStream.close()
+            jsonString = String(buffer, Charset.forName("UTF-8"))
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return
+        }
+
+
+        val jsonArray = JSONArray(jsonString)
+
+        // Create an instance of MyDatabaseHelper
+        val dbHelper = MyDatabaseHelper(this)
+
+        // Iterate over the JSON array
+        for (i in 0 until jsonArray.length()) {
+            // Get each JSONObject
+            val jsonObject = jsonArray.getJSONObject(i)
+
+            // Insert the JSONObject into the database
+            dbHelper.addPokemon(jsonObject)
+        }
+
+        val pokemonList = dbHelper.getAllPokemon()
+
+        for (pokemon in pokemonList) {
+            Log.d("MainActivity", pokemon.toString())
+        }
+
+
         binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId) {
@@ -66,7 +108,6 @@ class MainActivity : AppCompatActivity() {
             true
 
         }
-
 
 
     }

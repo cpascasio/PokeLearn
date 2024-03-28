@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s13.grp7.pokelearn.adapter.PokemonListAdapter
 import com.mobdeve.s13.grp7.pokelearn.common.Common
 import com.mobdeve.s13.grp7.pokelearn.common.ItemOffsetDecoration
+import com.mobdeve.s13.grp7.pokelearn.database.MyDatabaseHelper
 import io.reactivex.disposables.CompositeDisposable
 import retrofit2.Retrofit
 import com.mobdeve.s13.grp7.pokelearn.retrofit.IPokemonList
@@ -19,16 +20,17 @@ import io.reactivex.schedulers.Schedulers
 
 class PokemonList : Fragment() {
 
-    internal var compositeDisposable = CompositeDisposable()
-    internal var iPokemonList:IPokemonList
+    //internal var compositeDisposable = CompositeDisposable()
+    //internal var iPokemonList:IPokemonList
 
     internal lateinit var rvw_pokemon : RecyclerView
+    private lateinit var dbHelper: MyDatabaseHelper
 
-    init {
-        val retrofit: Retrofit = RetrofitClient.instance
-        iPokemonList = retrofit.create(IPokemonList::class.java)
-
-    }
+//    init {
+//        val retrofit: Retrofit = RetrofitClient.instance
+//        iPokemonList = retrofit.create(IPokemonList::class.java)
+//
+//    }
 
 
     override fun onCreateView(
@@ -60,20 +62,25 @@ class PokemonList : Fragment() {
         val itemDecoration = ItemOffsetDecoration(requireActivity(), R.dimen.spacing)
         rvw_pokemon.addItemDecoration(itemDecoration)
 
+
+        dbHelper = MyDatabaseHelper(requireContext())
         fetchData()
     }
 
 
     private fun fetchData() {
-compositeDisposable.add(iPokemonList.listPokemon
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{pokemonDex ->
-                Common.pokemonList = pokemonDex.pokemon!!
-                val adapter = PokemonListAdapter(Common.pokemonList, requireActivity())
-
-                rvw_pokemon.adapter = adapter
-            })
+//compositeDisposable.add(iPokemonList.listPokemon
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe{pokemonDex ->
+//                Common.pokemonList = pokemonDex.pokemon!!
+//                val adapter = PokemonListAdapter(Common.pokemonList, requireActivity())
+//
+//                rvw_pokemon.adapter = adapter
+//            })
+        val pokemonList = dbHelper.getAllPokemon()
+        val adapter = PokemonListAdapter(pokemonList, requireActivity())
+        rvw_pokemon.adapter = adapter
 
     }
 

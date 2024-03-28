@@ -4,8 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
-import android.widget.Toast
+import com.mobdeve.s13.grp7.pokelearn.model.PokemonNew
 import org.json.JSONObject
 
 class MyDatabaseHelper(context: Context) :
@@ -46,37 +45,37 @@ class MyDatabaseHelper(context: Context) :
         onCreate(db)
     }
 
-    fun addPokemon(pokemon: JSONObject): Boolean {
+    fun addPokemon(pokemon: PokemonNew): Boolean {
         val db = this.writableDatabase
         val cv = ContentValues()
 
-        cv.put(COL_ID, pokemon.getInt("id"))
-        cv.put(COL_NAME, pokemon.getString("name"))
-        cv.put(COL_TYPE, pokemon.getJSONArray("type").toString())
-        cv.put(COL_SPECIES, pokemon.getString("species"))
-        cv.put(COL_DESCRIPTION, pokemon.getString("description"))
-        cv.put(COL_ABILITY, pokemon.getJSONArray("ability").toString())
-        cv.put(COL_HEIGHT, pokemon.getString("height"))
-        cv.put(COL_WEIGHT, pokemon.getString("weight"))
+        cv.put(COL_ID, pokemon.id)
+        cv.put(COL_NAME, pokemon.name)
+        cv.put(COL_TYPE, pokemon.type.joinToString())
+        cv.put(COL_SPECIES, pokemon.species)
+        cv.put(COL_DESCRIPTION, pokemon.description)
+        cv.put(COL_ABILITY, pokemon.ability.joinToString())
+        cv.put(COL_HEIGHT, pokemon.height)
+        cv.put(COL_WEIGHT, pokemon.weight)
 
         val result = db.insert(TABLE_NAME, null, cv)
 
         return result != -1L
     }
 
-    fun updatePokemon(pokemon: JSONObject): Boolean {
+    fun updatePokemon(pokemon: PokemonNew): Boolean {
         val db = this.writableDatabase
         val cv = ContentValues()
 
-        cv.put(COL_NAME, pokemon.getString("name"))
-        cv.put(COL_TYPE, pokemon.getJSONArray("type").toString())
-        cv.put(COL_SPECIES, pokemon.getString("species"))
-        cv.put(COL_DESCRIPTION, pokemon.getString("description"))
-        cv.put(COL_ABILITY, pokemon.getJSONArray("ability").toString())
-        cv.put(COL_HEIGHT, pokemon.getString("height"))
-        cv.put(COL_WEIGHT, pokemon.getString("weight"))
+        cv.put(COL_NAME, pokemon.name)
+        cv.put(COL_TYPE, pokemon.type.joinToString())
+        cv.put(COL_SPECIES, pokemon.species)
+        cv.put(COL_DESCRIPTION, pokemon.description)
+        cv.put(COL_ABILITY, pokemon.ability.joinToString())
+        cv.put(COL_HEIGHT, pokemon.height)
+        cv.put(COL_WEIGHT, pokemon.weight)
 
-        val result = db.update(TABLE_NAME, cv, "$COL_ID=?", arrayOf(pokemon.getString("id")))
+        val result = db.update(TABLE_NAME, cv, "$COL_ID=?", arrayOf(pokemon.id.toString()))
 
         return result > 0
     }
@@ -88,57 +87,53 @@ class MyDatabaseHelper(context: Context) :
         return result > 0
     }
 
-    fun getPokemon(id: Int): JSONObject? {
+    fun getPokemon(id: Int): PokemonNew? {
         val db = this.readableDatabase
         val queryResult = db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $COL_ID=?", arrayOf(id.toString()))
+        var pokemon: PokemonNew? = null
         if (queryResult.moveToFirst()) {
-            val pokemon = JSONObject()
-
-            try {
-                pokemon.put("id", queryResult.getInt(queryResult.getColumnIndexOrThrow(COL_ID)))
-                pokemon.put("name", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_NAME)))
-                pokemon.put("type", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_TYPE)))
-                pokemon.put("species", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_SPECIES)))
-                pokemon.put("description", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_DESCRIPTION)))
-                pokemon.put("ability", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_ABILITY)))
-                pokemon.put("height", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_HEIGHT)))
-                pokemon.put("weight", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_WEIGHT)))
-            } catch (e: IllegalArgumentException) {
-                // Log the error
-                Log.e("MyDatabaseHelper", "Column not found", e)
-                // Provide a suitable error message
-                Toast.makeText(this.context, "An error occurred while retrieving the Pokémon data.", Toast.LENGTH_SHORT).show()
-                return null
+            pokemon = PokemonNew().apply {
+                this.id = queryResult.getInt(queryResult.getColumnIndexOrThrow(COL_ID))
+                this.name = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_NAME))
+                this.type = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_TYPE)).split(",")
+                this.species = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_SPECIES))
+                this.description = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_DESCRIPTION))
+                this.ability = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_ABILITY)).split(",")
+                this.height = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_HEIGHT))
+                this.weight = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_WEIGHT))
             }
-
             queryResult.close()
-
-            return pokemon
         }
-
-        queryResult.close()
-
-        return null
+        return pokemon
     }
 
-    fun getAllPokemon(): List<JSONObject> {
+    fun getAllPokemon(): List<PokemonNew> {
         val db = this.readableDatabase
         val queryResult = db.rawQuery("SELECT * FROM $TABLE_NAME", null)
 
-        val pokemonList = mutableListOf<JSONObject>()
+        val pokemonList = mutableListOf<PokemonNew>()
 
         if (queryResult.moveToFirst()) {
             do {
-                val pokemon = JSONObject()
+                val id = queryResult.getInt(queryResult.getColumnIndexOrThrow(COL_ID))
+                val name = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_NAME))
+                val type = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_TYPE)).split(",")
+                val species = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_SPECIES))
+                val description = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_DESCRIPTION))
+                val ability = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_ABILITY)).split(",")
+                val height = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_HEIGHT))
+                val weight = queryResult.getString(queryResult.getColumnIndexOrThrow(COL_WEIGHT))
 
-                pokemon.put("id", queryResult.getInt(queryResult.getColumnIndexOrThrow(COL_ID)))
-                pokemon.put("name", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_NAME)))
-                pokemon.put("type", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_TYPE)))
-                pokemon.put("species", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_SPECIES)))
-                pokemon.put("description", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_DESCRIPTION)))
-                pokemon.put("ability", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_ABILITY)))
-                pokemon.put("height", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_HEIGHT)))
-                pokemon.put("weight", queryResult.getString(queryResult.getColumnIndexOrThrow(COL_WEIGHT)))
+                val pokemon = PokemonNew().apply {
+                    this.id = id
+                    this.name = name
+                    this.type = type
+                    this.species = species
+                    this.description = description
+                    this.ability = ability
+                    this.height = height
+                    this.weight = weight
+                }
 
                 pokemonList.add(pokemon)
             } while (queryResult.moveToNext())

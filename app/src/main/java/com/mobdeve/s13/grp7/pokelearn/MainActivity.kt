@@ -18,12 +18,15 @@ import com.mobdeve.s13.grp7.pokelearn.model.PokemonNew
 import org.json.JSONArray
 import java.io.IOException
 import java.nio.charset.Charset
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var toolbar: Toolbar
+
+
 
 //    private val showDetail = object:BroadcastReceiver() {
 //        override fun onReceive(p0: Context?, intent: Intent?) {
@@ -56,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(PokemonList())
 
         //registerReceiver(showDetail, IntentFilter(Common.KEY_ENABLE_HOME))
+
 
         // Create an instance of MyDatabaseHelper
         val dbHelper = MyDatabaseHelper(this)

@@ -20,7 +20,7 @@ import com.mobdeve.s13.grp7.pokelearn.model.PokeListItemModel
 import com.mobdeve.s13.grp7.pokelearn.model.Pokemon
 import com.mobdeve.s13.grp7.pokelearn.model.PokemonNew
 
-class PokemonListAdapter(private val pokemonList: List<PokemonNew>, private val context: Context) : RecyclerView.Adapter<PokemonListAdapter.PokemonListViewHolder>(){
+class PokemonListAdapter(private val pokemonList: ArrayList<PokemonNew>, private val context: Context) : RecyclerView.Adapter<PokemonListAdapter.PokemonListViewHolder>(){
 
     // Handles the logic needed for getItemCount().
     override fun getItemCount(): Int {

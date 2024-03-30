@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">PokeLearn</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <!-- welcome_page strings -->
     <string name="ek_img_content">ExportKit Image</string>
     <string name="sign_in_string">Sign In</string>
@@ -17,4 +20,10 @@
     <string name="fb_login_protocol_scheme">fb1591014438343280</string>
     <string name="facebook_client_token">6690f2d67f0070d747f7e6caacb54c41</string>
     <string name="pokelearn">pokelearn</string>
+
+    <string name="home_activity_label">Home Activity</string>
+
+
+    <string name="about"><u>About</u></string>
+
 </resources>

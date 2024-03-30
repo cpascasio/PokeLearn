@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_home"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/ivwMP_Name"
+        android:layout_width="259dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="7dp"
+        android:contentDescription="logo_name_white"
+        android:src="@drawable/logo_name_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/MP_ProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="349dp"
+        android:layout_height="306dp"
+        android:layout_marginTop="50dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="100"
+        android:progressDrawable="@drawable/circular_progress_drawable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivwMP_Name" />
+
+    <TextView
+        android:id="@+id/tvwMP_Timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/squada_one"
+        android:text="00:00:00"
+        android:textColor="#00244A"
+        android:textSize="80sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/MP_ProgressBar" />
+
+    <Button
+        android:id="@+id/btnMP_SetTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#004081"
+        android:fontFamily="@font/squada_one"
+        android:text="Set Timer"
+        android:textColor="#FFBC1E"
+        app:layout_constraintEnd_toStartOf="@+id/btnMP_Cancel"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvwMP_Timer" />
+
+    <Button
+        android:id="@+id/btnMP_Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#004081"
+        android:fontFamily="@font/squada_one"
+        android:text="Cancel Timer"
+        android:textColor="#FFBC1E"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnMP_SetTimer"
+        app:layout_constraintTop_toBottomOf="@+id/tvwMP_Timer" />
+
+    <ImageView
+        android:id="@+id/ivwMP_YellowBG"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/bg_yellow_circle"
+        app:layout_constraintBottom_toBottomOf="@+id/MP_ProgressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/MP_ProgressBar" />
+
+    <ImageView
+        android:id="@+id/ivwMPShakingPokeball"
+        android:layout_width="237dp"
+        android:layout_height="340dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivwMP_Name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

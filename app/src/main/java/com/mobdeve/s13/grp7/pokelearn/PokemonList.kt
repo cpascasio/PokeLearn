@@ -157,10 +157,6 @@ class PokemonList : Fragment() {
 //                rvw_pokemon.adapter = adapter
 //            })
 
-
-
-
-
         userPokemonList = fetchUserData(dummyData)
 
         val adapter = PokemonListAdapter(userPokemonList, requireActivity())

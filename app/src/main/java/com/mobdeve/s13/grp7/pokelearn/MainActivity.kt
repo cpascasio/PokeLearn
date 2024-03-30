@@ -1,33 +1,23 @@
 package com.mobdeve.s13.grp7.pokelearn
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.activity.ComponentActivity
 import android.widget.Button
 import com.google.firebase.Firebase
 import com.mobdeve.s13.grp7.pokelearn.databinding.WelcomePageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 
-//import com.mobdeve.s13.grp7.pokelearn.databinding.ActivityMainBinding
-//import com.mobdeve.s13.grp7.pokelearn.databinding.WelcomePageBinding
-
-
-
-    private lateinit var firebaseAuth: FirebaseAuth
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.os.Bundle
+
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.mobdeve.s13.grp7.pokelearn.common.Common
+
 import com.mobdeve.s13.grp7.pokelearn.database.MyDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.databinding.ActivityMainBinding
 import com.mobdeve.s13.grp7.pokelearn.model.Pokemon
@@ -43,12 +33,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var toolbar: Toolbar
 
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(HomeActivity())
+        replaceFragment(HomeFragment())
 
         //registerReceiver(showDetail, IntentFilter(Common.KEY_ENABLE_HOME))
 
@@ -108,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId) {
-                R.id.home -> replaceFragment(HomeActivity())
+                R.id.home -> replaceFragment(HomeFragment())
                 R.id.profile -> replaceFragment(Profile())
                 R.id.pokedex -> replaceFragment(PokemonList())
 

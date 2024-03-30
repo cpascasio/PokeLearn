@@ -1,7 +1,7 @@
 package com.mobdeve.s13.grp7.pokelearn
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +10,14 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import android.os.CountDownTimer
+import com.mobdeve.s13.grp7.pokelearn.R
 import com.mobdeve.s13.grp7.pokelearn.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var timerText: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var setTimerButton: Button
@@ -35,7 +37,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
 
         timerText = binding.tvwMPTimer
@@ -142,35 +144,26 @@ class HomeFragment : Fragment() {
 
         // Access the root layout of the activity and postDelayed on it
         view?.postDelayed({
-            countDownTimer = object : CountDownTimer(totalMillis, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    timeLeftInMillis = millisUntilFinished
-                    updateCountDownText()
-                    updateProgressBar()
-                }
+            // Redirect to the BreakFragment
+            val breakTimeFragment = BreakTimeFragment.newInstance(totalMillis, totalMillis)
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fragment_container, breakTimeFragment)
+                commit()
+            }
 
-                override fun onFinish() {
-                    // Reset the timer and update UI
-                    timerText.text = "00:00:00"
-                    isTimerSet = false
-                    Glide.with(this@HomeFragment)
-                        .load(R.drawable.pokeball_static)
-                        .into(shakingPokeballImageView)
-
-                    // Hide the progress bar after the break time duration
-                    progressBar.visibility = View.INVISIBLE // or View.GONE if you want to remove it completely
-                }
-            }.start()
-
-            isBreakTime = true // Set isBreakTime flag to true since it's break time
-            isTimerSet = true
-            // Load the shaking Pokeball image when the timer is set
-            Glide.with(this)
-                .asGif()
-                .load(R.drawable.pokeball_shaking)
-                .into(shakingPokeballImageView)
+            // Start the break timer
+            breakTimeFragment.startTimer()
         }, delayMillis)
+
+        isBreakTime = true // Set isBreakTime flag to true since it's break time
+        isTimerSet = true
+        // Load the shaking Pokeball image when the timer is set
+        Glide.with(this)
+            .asGif()
+            .load(R.drawable.pokeball_shaking)
+            .into(shakingPokeballImageView)
     }
+
 
     private fun cancelTimer() {
         // Cancel the current timer and reset UI

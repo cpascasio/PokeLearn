@@ -1,8 +1,13 @@
+// BreakTimeFragment.kt
+package com.mobdeve.s13.grp7.pokelearn
+
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.mobdeve.s13.grp7.pokelearn.databinding.FragmentBreakTimeBinding
 
@@ -25,17 +30,19 @@ class BreakTimeFragment : Fragment() {
         val timerText = binding.tvwBreakTimer
         val progressBar = binding.breakProgressBar
 
-        // Get break time duration from arguments
+        // Get break time duration and remaining time from arguments
         val breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY) ?: 0
-        setTime(breakDurationInMillis)
+        val remainingTimeInMillis = arguments?.getLong(REMAINING_TIME_KEY) ?: breakDurationInMillis
+        setTime(remainingTimeInMillis)
 
-        // Start the break timer
+        // Start the break timer with remaining time
         startTimer()
 
         return view
     }
 
-    private fun startTimer() {
+
+    fun startTimer() {
         countDownTimer = object : CountDownTimer(timeLeftInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 timeLeftInMillis = millisUntilFinished
@@ -70,11 +77,13 @@ class BreakTimeFragment : Fragment() {
 
     companion object {
         const val BREAK_DURATION_KEY = "break_duration"
+        const val REMAINING_TIME_KEY = "remaining_time" // Define REMAINING_TIME_KEY
 
-        fun newInstance(breakDurationInMillis: Long): BreakTimeFragment {
+        fun newInstance(breakDurationInMillis: Long, remainingTimeInMillis: Long): BreakTimeFragment {
             val fragment = BreakTimeFragment()
             val args = Bundle()
             args.putLong(BREAK_DURATION_KEY, breakDurationInMillis)
+            args.putLong(REMAINING_TIME_KEY, remainingTimeInMillis) // Add remaining time as an argument
             fragment.arguments = args
             return fragment
         }

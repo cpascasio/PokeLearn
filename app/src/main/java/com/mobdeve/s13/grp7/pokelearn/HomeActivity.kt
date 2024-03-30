@@ -24,12 +24,14 @@ class HomeFragment : Fragment() {
     private lateinit var minutesEditText: EditText
     private lateinit var secondsEditText: EditText
     private lateinit var shakingPokeballImageView: ImageView
+    private lateinit var PomodoroButton: Button
 
     private var countDownTimer: CountDownTimer? = null
     private var startTimeInMillis: Long = 0
     private var timeLeftInMillis: Long = 0
     private var isTimerSet: Boolean = false
     private var isBreakTime: Boolean = false // Track if the current timer is for break time
+    private var repetitionCount = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,9 +45,11 @@ class HomeFragment : Fragment() {
         setTimerButton = binding.btnMPSetTimer
         cancelButton = binding.btnMPCancel
         shakingPokeballImageView = binding.ivwMPShakingPokeball
+        PomodoroButton = binding.btnMPPomodoroTimer
 
         setTimerButton.setOnClickListener { showTimerSettingsDialog() }
         cancelButton.setOnClickListener { cancelTimer() }
+        PomodoroButton.setOnClickListener { startPomodoroTimer() }
 
         // Load the static Pokeball image initially
         Glide.with(this)
@@ -115,6 +119,7 @@ class HomeFragment : Fragment() {
                 override fun onFinish() {
                     // After productivity duration finishes, start the break timer
                     startBreakTimer(breakDurationInSeconds)
+                    progressBar.progress = 100 // Reset progress bar when timer finishes
                 }
             }.start()
 
@@ -209,5 +214,26 @@ class HomeFragment : Fragment() {
         if (progress == 100) {
             progressBar.progress = 0 // Reset progress to 0 when the timer finishes
         }
+    }
+
+    /**
+     * Starts the Pomodoro timer with a productivity duration of 25 minutes and a break duration of 5 minutes.
+     * After 3 repetitions, the break duration is set to 30 minutes.
+     */
+    private fun startPomodoroTimer() {
+        val productivityDurationInSeconds = 25 * 60L // 25 minutes
+        var breakDurationInSeconds = 5 * 60L // 5 minutes
+
+        // After 3 repetitions, set the break duration to 30 minutes
+        if (repetitionCount == 3) {
+            breakDurationInSeconds = 30 * 60L // 30 minutes
+            repetitionCount = 0 // Reset the counter
+        }
+
+        // Start the timer with the Pomodoro durations
+        startTimer(productivityDurationInSeconds, breakDurationInSeconds)
+
+        // Increment the counter
+        repetitionCount++
     }
 }

@@ -95,4 +95,17 @@
         app:layout_constraintStart_toEndOf="@id/btnMP_SetTimer"
         app:layout_constraintTop_toBottomOf="@+id/tvwMP_Timer" />
 
+    <Button
+        android:id="@+id/btnMP_PomodoroTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="100dp"
+        android:backgroundTint="#004081"
+        android:fontFamily="@font/squada_one"
+        android:text="Start Pomodoro"
+        android:textColor="#FFBC1E"
+        app:layout_constraintEnd_toStartOf="@+id/btnMP_Cancel"
+        app:layout_constraintStart_toEndOf="@+id/btnMP_SetTimer"
+        app:layout_constraintTop_toBottomOf="@+id/tvwMP_Timer" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

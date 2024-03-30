@@ -24,16 +24,14 @@
 		android:id="@+id/tvwLP_Title"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="152dp"
 		android:layout_marginTop="30dp"
-		android:layout_marginEnd="152dp"
 		android:fontFamily="@font/squada_one"
 		android:text="Login"
 		android:textAlignment="center"
 		android:textColor="@color/white"
 		android:textSize="24sp"
+		app:layout_constraintBottom_toTopOf="@+id/tvwLP_SUPClickable"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.54"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/ivwLP_Logo" />
 
@@ -41,14 +39,14 @@
 		android:id="@+id/tvwLP_SUPClickable"
 		android:layout_width="146dp"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="20dp"
 		android:layout_marginTop="20dp"
-		android:layout_marginEnd="184dp"
 		android:text="Don’t have an account? Sign Up"
 		android:textColor="@color/white"
 		android:textSize="10sp"
 		android:textStyle="bold"
+		app:layout_constraintBottom_toTopOf="@+id/etxtLP_User"
 		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.18"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/tvwLP_Title" />
 
@@ -69,6 +67,7 @@
 		android:textColor="@color/_bg____for_ui__login_color"
 		android:textColorHint="@color/sign_up_box_color"
 		android:textSize="14sp"
+		app:layout_constraintBottom_toTopOf="@+id/etxtLP_Pass"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/tvwLP_SUPClickable" />
@@ -90,6 +89,7 @@
 		android:textColor="@color/_bg____for_ui__login_color"
 		android:textColorHint="@color/sign_up_box_color"
 		android:textSize="14sp"
+		app:layout_constraintBottom_toTopOf="@+id/btnLP_Login"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/etxtLP_User" />
@@ -102,6 +102,7 @@
 		android:layout_marginTop="20dp"
 		android:layout_marginEnd="136dp"
 		android:text="Login"
+		app:layout_constraintBottom_toTopOf="@+id/tvwLP_FBLogin"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/etxtLP_Pass" />
@@ -113,9 +114,11 @@
 		android:layout_marginStart="152dp"
 		android:layout_marginTop="20dp"
 		android:layout_marginEnd="152dp"
+		android:layout_marginBottom="227dp"
 		android:text="Log in with"
 		android:textColor="@color/white"
 		android:textSize="8sp"
+		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/btnLP_Login" />

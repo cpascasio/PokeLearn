@@ -27,6 +27,7 @@ class HomeActivity : ComponentActivity() {
     private var startTimeInMillis: Long = 0
     private var timeLeftInMillis: Long = 0
     private var isTimerSet: Boolean = false
+    private var isBreakTime: Boolean = false // Track if the current timer is for break time
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,22 +58,73 @@ class HomeActivity : ComponentActivity() {
         hoursEditText = dialogView.findViewById(R.id.hoursEditText)
         minutesEditText = dialogView.findViewById(R.id.minutesEditText)
         secondsEditText = dialogView.findViewById(R.id.secondsEditText)
-        val startTimerButton = dialogView.findViewById<Button>(R.id.startTimerButton)
+        val startTimerButton = dialogView.findViewById<Button>(R.id.btn_StartTimer)
 
         startTimerButton.setOnClickListener {
             dialog.dismiss()
-            startTimer()
+            // Start the timer based on the input duration
+            val productivityHours = hoursEditText.text.toString().toIntOrNull() ?: 0
+            val productivityMinutes = minutesEditText.text.toString().toIntOrNull() ?: 0
+            val productivitySeconds = secondsEditText.text.toString().toIntOrNull() ?: 0
+
+            // Get break time duration
+            val breakHours = dialogView.findViewById<EditText>(R.id.breakHoursEditText).text.toString().toIntOrNull() ?: 0
+            val breakMinutes = dialogView.findViewById<EditText>(R.id.breakMinutesEditText).text.toString().toIntOrNull() ?: 0
+            val breakSeconds = dialogView.findViewById<EditText>(R.id.breakSecondsEditText).text.toString().toIntOrNull() ?: 0
+
+            val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
+            val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
+
+            if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0) {
+                // Re-show the progress bar
+                progressBar.visibility = View.VISIBLE
+                startTimer(productivityDurationInSeconds, breakDurationInSeconds)
+            }
         }
 
         dialog.show()
     }
 
-    private fun startTimer() {
-        val hours = hoursEditText.text.toString().toIntOrNull() ?: 0
-        val minutes = minutesEditText.text.toString().toIntOrNull() ?: 0
-        val seconds = secondsEditText.text.toString().toIntOrNull() ?: 0
+    private fun startTimer(productivityDurationInSeconds: Long, breakDurationInSeconds: Long) {
+        val totalProductivityMillis = productivityDurationInSeconds * 1000L
 
-        val totalMillis = (hours.toLong() * 3600L + minutes.toLong() * 60L + seconds.toLong()) * 1000L
+        if (totalProductivityMillis <= 0) return
+
+        setTime(totalProductivityMillis)
+
+        if (countDownTimer != null) {
+            countDownTimer?.cancel()
+        }
+
+        val delayMillis = 200L
+
+        // Access the root layout of the activity and postDelayed on it
+        findViewById<View>(android.R.id.content).postDelayed({
+            countDownTimer = object : CountDownTimer(totalProductivityMillis, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    timeLeftInMillis = millisUntilFinished
+                    updateCountDownText()
+                    updateProgressBar()
+                }
+
+                override fun onFinish() {
+                    // After productivity duration finishes, start the break timer
+                    startBreakTimer(breakDurationInSeconds)
+                }
+            }.start()
+
+            isBreakTime = false // Set isBreakTime flag to false since it's productivity time
+            isTimerSet = true
+            // Load the shaking Pokeball image when the timer is set
+            Glide.with(this)
+                .asGif()
+                .load(R.drawable.pokeball_shaking)
+                .into(shakingPokeballImageView)
+        }, delayMillis)
+    }
+
+    private fun startBreakTimer(durationInSeconds: Long) {
+        val totalMillis = durationInSeconds * 1000L
         if (totalMillis <= 0) return
 
         setTime(totalMillis)
@@ -81,49 +133,51 @@ class HomeActivity : ComponentActivity() {
             countDownTimer?.cancel()
         }
 
-        countDownTimer = object : CountDownTimer(timeLeftInMillis, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                timeLeftInMillis = millisUntilFinished
-                updateCountDownText()
-                updateProgressBar()
-            }
+        val delayMillis = 200L
 
-            override fun onFinish() {
-                timerText.text = "00:00:00"
-                progressBar.progress = 0
-                isTimerSet = false
-                // Switch back to the static Pokeball image
-                Glide.with(this@HomeActivity)
-                    .load(R.drawable.pokeball_static)
-                    .into(shakingPokeballImageView)
-                // Ensure the progress bar is visible
-                progressBar.visibility = View.VISIBLE
-            }
-        }.start()
+        // Access the root layout of the activity and postDelayed on it
+        findViewById<View>(android.R.id.content).postDelayed({
+            countDownTimer = object : CountDownTimer(totalMillis, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    timeLeftInMillis = millisUntilFinished
+                    updateCountDownText()
+                    updateProgressBar()
+                }
 
-        isTimerSet = true
-        // Load the shaking Pokeball image when the timer is set
-        Glide.with(this)
-            .asGif()
-            .load(R.drawable.pokeball_shaking)
-            .into(shakingPokeballImageView)
+                override fun onFinish() {
+                    // Reset the timer and update UI
+                    timerText.text = "00:00:00"
+                    isTimerSet = false
+                    Glide.with(this@HomeActivity)
+                        .load(R.drawable.pokeball_static)
+                        .into(shakingPokeballImageView)
+
+                    // Hide the progress bar after the break time duration
+                    progressBar.visibility = View.INVISIBLE // or View.GONE if you want to remove it completely
+                }
+            }.start()
+
+            isBreakTime = true // Set isBreakTime flag to true since it's break time
+            isTimerSet = true
+            // Load the shaking Pokeball image when the timer is set
+            Glide.with(this)
+                .asGif()
+                .load(R.drawable.pokeball_shaking)
+                .into(shakingPokeballImageView)
+        }, delayMillis)
     }
 
     private fun cancelTimer() {
-        if (countDownTimer != null) {
-            countDownTimer?.cancel()
-            countDownTimer = null
-            // Reset the timer text without changing the progress bar
-            timerText.text = "00:00:00"
-            isTimerSet = false
-            // Switch back to the static Pokeball image
-            Glide.with(this)
-                .load(R.drawable.pokeball_static)
-                .into(shakingPokeballImageView)
-            // Ensure the progress bar is visible
-            progressBar.visibility = View.VISIBLE
-        }
+        // Cancel the current timer and reset UI
+        countDownTimer?.cancel()
+        isTimerSet = false
+
+        // Switch Pokeball image to static
+        Glide.with(this@HomeActivity)
+            .load(R.drawable.pokeball_static)
+            .into(shakingPokeballImageView)
     }
+
 
     private fun setTime(milliseconds: Long) {
         startTimeInMillis = milliseconds
@@ -141,7 +195,15 @@ class HomeActivity : ComponentActivity() {
     }
 
     private fun updateProgressBar() {
-        val progress = ((timeLeftInMillis * 100) / startTimeInMillis).toInt()
-        progressBar.progress = progress
+        val elapsedTimeInMillis = startTimeInMillis - timeLeftInMillis
+        val progress = ((elapsedTimeInMillis * 100) / startTimeInMillis).toInt()
+        val filledProgress = 100 - progress  // Reverse progress to make it clockwise
+
+        progressBar.progress = filledProgress
+
+        // Ensure the progress bar reaches 100% when the timer finishes
+        if (progress == 100) {
+            progressBar.progress = 0 // Reset progress to 0 when the timer finishes
+        }
     }
 }

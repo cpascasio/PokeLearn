@@ -14,13 +14,22 @@
         android:text="Custom Timer"
         android:textAlignment="center"
         android:textColor="#FF7602"
-        android:textSize="45sp"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <!-- Productivity interval settings -->
+    <TextView
+        android:id="@+id/twv_TitleProdDur"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Productivity Duration"
+        android:textColor="@color/sign_up_box_color"
         android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="301dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="15dp"
+        android:layout_height="wrap_content"
         android:background="#032D5A"
         android:baselineAligned="false"
         android:gravity="center"
@@ -63,11 +72,65 @@
             android:textColorHint="#5084C9" />
     </LinearLayout>
 
+    <!-- Break time settings -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Break Time Duration"
+        android:textColor="@color/sign_up_box_color"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="301dp"
+        android:layout_height="wrap_content"
+        android:background="#032D5A"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/breakHoursEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/sign_up_box_color"
+            android:fontFamily="@font/squada_one"
+            android:hint="Hours"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="#5084C9" />
+
+        <EditText
+            android:id="@+id/breakMinutesEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/sign_up_box_color"
+            android:fontFamily="@font/squada_one"
+            android:hint="Minutes"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="#5084C9" />
+
+        <EditText
+            android:id="@+id/breakSecondsEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/sign_up_box_color"
+            android:fontFamily="@font/squada_one"
+            android:hint="Seconds"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="#5084C9" />
+    </LinearLayout>
+
     <Button
-        android:id="@+id/startTimerButton"
+        android:id="@+id/btn_StartTimer"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:background="@color/sign_in_box_color"
         android:fontFamily="@font/squada_one"
         android:text="Start Timer"

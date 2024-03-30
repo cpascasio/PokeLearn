@@ -36,6 +36,8 @@ class SignUpActivity : AppCompatActivity() {
                     if(it.isSuccessful){
                         firebaseAuth.signOut()
                         Toast.makeText(this, "User account is successfully created!", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
                     }
                     else {
                         Log.e("error: ", it.exception.toString())

@@ -86,5 +86,7 @@ dependencies {
     // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.facebook.android:facebook-android-sdk:latest.release")
+
 
 }

@@ -11,4 +11,10 @@
     <string name="tvlogin_string">Login</string>
     <string name="username_string">Sign in with </string>
     <string name="_username_ek1_string">Dont have an account? Sign Up</string>
+
+
+    <string name="facebook_app_id">1591014438343280</string>
+    <string name="fb_login_protocol_scheme">fb1591014438343280</string>
+    <string name="facebook_client_token">6690f2d67f0070d747f7e6caacb54c41</string>
+    <string name="pokelearn">pokelearn</string>
 </resources>

@@ -15,6 +15,11 @@
     <string name="username_string">Sign in with </string>
     <string name="_username_ek1_string">Dont have an account? Sign Up</string>
 
+    <string name="home_activity_label">Home Activity</string>
+
+
     <string name="about"><u>About</u></string>
 
 </resources>
+
+

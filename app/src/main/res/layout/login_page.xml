@@ -8,7 +8,7 @@
 	android:background="@drawable/bg_login">
 
 	<ImageView
-		android:id="@+id/pokelearn_logo"
+		android:id="@+id/ivwLP_Logo"
 		android:layout_width="84dp"
 		android:layout_height="84dp"
 		android:layout_marginTop="18dp"
@@ -21,39 +21,37 @@
 		app:layout_constraintVertical_bias="0.19" />
 
 	<TextView
-		android:id="@+id/tvwLoginTitle"
+		android:id="@+id/tvwLP_Title"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="152dp"
-		android:layout_marginTop="10dp"
-		android:layout_marginEnd="152dp"
+		android:layout_marginTop="30dp"
 		android:fontFamily="@font/squada_one"
 		android:text="Login"
 		android:textAlignment="center"
 		android:textColor="@color/white"
 		android:textSize="24sp"
+		app:layout_constraintBottom_toTopOf="@+id/tvwLP_SUPClickable"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.54"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/pokelearn_logo" />
+		app:layout_constraintTop_toBottomOf="@+id/ivwLP_Logo" />
 
 	<TextView
-		android:id="@+id/tvwSignUpClickable"
+		android:id="@+id/tvwLP_SUPClickable"
 		android:layout_width="146dp"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="50dp"
 		android:layout_marginTop="20dp"
-		android:layout_marginEnd="164dp"
 		android:text="Don’t have an account? Sign Up"
 		android:textColor="@color/white"
 		android:textSize="10sp"
 		android:textStyle="bold"
+		app:layout_constraintBottom_toTopOf="@+id/etxtLP_User"
 		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.18"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/tvwLoginTitle" />
+		app:layout_constraintTop_toBottomOf="@+id/tvwLP_Title" />
 
 	<EditText
-		android:id="@+id/etxtUsername"
+		android:id="@+id/etxtLP_User"
 		android:layout_width="0dp"
 		android:layout_height="35dp"
 		android:layout_marginStart="50dp"
@@ -63,17 +61,19 @@
 		android:backgroundTint="@color/sign_in_box_color"
 		android:ems="10"
 		android:fontFamily="sans-serif-thin"
+		android:hint="Username or Email"
 		android:inputType="text"
 		android:padding="5dp"
-		android:text="Username"
 		android:textColor="@color/_bg____for_ui__login_color"
+		android:textColorHint="@color/sign_up_box_color"
 		android:textSize="14sp"
+		app:layout_constraintBottom_toTopOf="@+id/etxtLP_Pass"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/tvwSignUpClickable" />
+		app:layout_constraintTop_toBottomOf="@id/tvwLP_SUPClickable" />
 
 	<EditText
-		android:id="@+id/etxtPassword"
+		android:id="@+id/etxtLP_Pass"
 		android:layout_width="0dp"
 		android:layout_height="35dp"
 		android:layout_marginStart="50dp"
@@ -83,39 +83,44 @@
 		android:backgroundTint="@color/sign_in_box_color"
 		android:ems="10"
 		android:fontFamily="sans-serif-thin"
+		android:hint="Password"
 		android:inputType="text"
 		android:padding="5dp"
-		android:text="Password"
 		android:textColor="@color/_bg____for_ui__login_color"
+		android:textColorHint="@color/sign_up_box_color"
 		android:textSize="14sp"
+		app:layout_constraintBottom_toTopOf="@+id/btnLP_Login"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/etxtUsername" />
+		app:layout_constraintTop_toBottomOf="@id/etxtLP_User" />
 
 	<Button
-		android:id="@+id/button2"
+		android:id="@+id/btnLP_Login"
 		android:layout_width="100dp"
 		android:layout_height="50dp"
 		android:layout_marginStart="136dp"
-		android:layout_marginTop="15dp"
+		android:layout_marginTop="20dp"
 		android:layout_marginEnd="136dp"
 		android:text="Login"
+		app:layout_constraintBottom_toTopOf="@+id/tvwLP_FBLogin"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/etxtPassword" />
+		app:layout_constraintTop_toBottomOf="@id/etxtLP_Pass" />
 
 	<TextView
-		android:id="@+id/tvwFacebookLogIn"
+		android:id="@+id/tvwLP_FBLogin"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="152dp"
-		android:layout_marginTop="10dp"
+		android:layout_marginTop="20dp"
 		android:layout_marginEnd="152dp"
+		android:layout_marginBottom="227dp"
 		android:text="Log in with"
 		android:textColor="@color/white"
 		android:textSize="8sp"
+		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/button2" />
+		app:layout_constraintTop_toBottomOf="@id/btnLP_Login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(PokemonList())
+        replaceFragment(HomeActivity())
 
         //registerReceiver(showDetail, IntentFilter(Common.KEY_ENABLE_HOME))
 
@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener {
 
             when(it.itemId) {
-                R.id.home -> replaceFragment(Home())
+                R.id.home -> replaceFragment(HomeActivity())
                 R.id.profile -> replaceFragment(Profile())
                 R.id.pokedex -> replaceFragment(PokemonList())
 
@@ -164,3 +164,4 @@ class MainActivity : AppCompatActivity() {
 
 
 }
+

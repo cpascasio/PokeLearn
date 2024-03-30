@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_modal_settimer"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvw_CustomTimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/squada_one"
+        android:text="Custom Timer"
+        android:textAlignment="center"
+        android:textColor="#FF7602"
+        android:textSize="45sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="301dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:background="#032D5A"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/hoursEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/sign_up_box_color"
+            android:fontFamily="@font/squada_one"
+            android:hint="Hours"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="#5084C9" />
+
+        <EditText
+            android:id="@+id/minutesEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/sign_up_box_color"
+            android:fontFamily="@font/squada_one"
+            android:hint="Minutes"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="#5084C9" />
+
+        <EditText
+            android:id="@+id/secondsEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/sign_up_box_color"
+            android:fontFamily="@font/squada_one"
+            android:hint="Seconds"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="#5084C9" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/startTimerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/sign_in_box_color"
+        android:fontFamily="@font/squada_one"
+        android:text="Start Timer"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+</LinearLayout>

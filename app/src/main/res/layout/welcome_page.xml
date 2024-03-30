@@ -5,53 +5,10 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@drawable/bg_welcomepage">
-
-	<Button
-		android:id="@+id/btnSignUp"
-		android:layout_width="100dp"
-		android:layout_height="50dp"
-		android:background="#004081"
-		android:fontFamily="@font/squada_one"
-		android:text="Sign Up"
-		android:textColor="#FFBC1E"
-		android:textSize="18sp"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toEndOf="@+id/btnLogin"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintVertical_bias="0.79" />
-
-	<Button
-		android:id="@+id/btnLogin"
-		android:layout_width="100dp"
-		android:layout_height="50dp"
-		android:background="#FFBC1E"
-		android:fontFamily="@font/squada_one"
-		android:padding="15dp"
-		android:text="Login"
-		android:textColor="#004081"
-		android:textSize="18sp"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toStartOf="@+id/btnSignUp"
-		app:layout_constraintHorizontal_bias="0.5"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintVertical_bias="0.79" />
+	android:background="@drawable/bg_welcome">
 
 	<ImageView
-		android:id="@+id/pokelearn_logo"
-		android:layout_width="84dp"
-		android:layout_height="84dp"
-		android:contentDescription="pokelearn_logo"
-		android:src="@drawable/pokelearn_logo"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
-
-	<ImageView
-		android:id="@+id/app_name_white"
+		android:id="@+id/ivwWP_Name"
 		android:layout_width="280dp"
 		android:layout_height="45dp"
 		android:layout_marginBottom="5dp"
@@ -64,7 +21,7 @@
 		app:layout_constraintVertical_bias="0.19999999" />
 
 	<TextView
-		android:id="@+id/app_tagline"
+		android:id="@+id/tvwWP_Tagline"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:fontFamily="@font/squada_one"
@@ -72,10 +29,53 @@
 		android:text="@string/tagline_string"
 		android:textColor="@color/_bg__welcome_page_ek2_color"
 		android:textSize="14sp"
-		app:layout_constraintBottom_toTopOf="@+id/pokelearn_logo"
+		app:layout_constraintBottom_toTopOf="@+id/ivwWP_Logo"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/app_name_white"
+		app:layout_constraintTop_toBottomOf="@+id/ivwWP_Name"
 		app:layout_constraintVertical_bias="0.04000002" />
+
+	<ImageView
+		android:id="@+id/ivwWP_Logo"
+		android:layout_width="84dp"
+		android:layout_height="84dp"
+		android:contentDescription="pokelearn_logo"
+		android:src="@drawable/pokelearn_logo"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<Button
+		android:id="@+id/btnWP_Login"
+		android:layout_width="100dp"
+		android:layout_height="50dp"
+		android:background="#FFBC1E"
+		android:fontFamily="@font/squada_one"
+		android:padding="15dp"
+		android:text="Login"
+		android:textColor="#004081"
+		android:textSize="18sp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/btnWP_SignUp"
+		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintVertical_bias="0.79" />
+
+	<Button
+		android:id="@+id/btnWP_SignUp"
+		android:layout_width="100dp"
+		android:layout_height="50dp"
+		android:background="#004081"
+		android:fontFamily="@font/squada_one"
+		android:text="Sign Up"
+		android:textColor="#FFBC1E"
+		android:textSize="18sp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/btnWP_Login"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintVertical_bias="0.79" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

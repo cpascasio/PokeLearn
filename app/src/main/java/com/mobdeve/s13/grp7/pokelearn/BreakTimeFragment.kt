@@ -28,7 +28,6 @@ class BreakTimeFragment : Fragment() {
 
         // Initialize UI elements
         val timerText = binding.tvwBreakTimer
-        val progressBar = binding.breakProgressBar
 
         // Get break time duration and remaining time from arguments
         val breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY) ?: 0
@@ -41,17 +40,15 @@ class BreakTimeFragment : Fragment() {
         return view
     }
 
-
-    fun startTimer() {
+    internal fun startTimer() {
         countDownTimer = object : CountDownTimer(timeLeftInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 timeLeftInMillis = millisUntilFinished
                 updateCountDownText()
-                updateProgressBar()
             }
 
             override fun onFinish() {
-                // Handle what to do when the break time is over
+                redirectToHomeFragment()
             }
         }.start()
     }
@@ -70,20 +67,27 @@ class BreakTimeFragment : Fragment() {
         binding.tvwBreakTimer.text = timeLeftFormatted
     }
 
-    private fun updateProgressBar() {
-        val progress = (((startTimeInMillis - timeLeftInMillis) * 100) / startTimeInMillis).toInt()
-        binding.breakProgressBar.progress = progress
+    private fun redirectToHomeFragment() {
+        try {
+            val homeFragment = HomeFragment()
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fragment_container, homeFragment)
+                commit()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     companion object {
         const val BREAK_DURATION_KEY = "break_duration"
-        const val REMAINING_TIME_KEY = "remaining_time" // Define REMAINING_TIME_KEY
+        const val REMAINING_TIME_KEY = "remaining_time"
 
         fun newInstance(breakDurationInMillis: Long, remainingTimeInMillis: Long): BreakTimeFragment {
             val fragment = BreakTimeFragment()
             val args = Bundle()
             args.putLong(BREAK_DURATION_KEY, breakDurationInMillis)
-            args.putLong(REMAINING_TIME_KEY, remainingTimeInMillis) // Add remaining time as an argument
+            args.putLong(REMAINING_TIME_KEY, remainingTimeInMillis)
             fragment.arguments = args
             return fragment
         }

@@ -16,13 +16,6 @@
         android:padding="16dp"/>
 
     <!-- Progress Bar -->
-    <ProgressBar
-        android:id="@+id/breakProgressBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:progress="100"
-        android:max="100"
-        android:layout_marginTop="16dp"/>
 
     <!-- Any other UI elements you want to include -->
 

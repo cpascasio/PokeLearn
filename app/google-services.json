@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "903768354019",
-    "project_id": "pokelearn-e0071",
-    "storage_bucket": "pokelearn-e0071.appspot.com"
+    "project_number": "662080009349",
+    "project_id": "pokelearn-aeb5e",
+    "storage_bucket": "pokelearn-aeb5e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:903768354019:android:ab3b53783aedfc70dfa9d6",
+        "mobilesdk_app_id": "1:662080009349:android:1fe7687e122f78dde0a5ec",
         "android_client_info": {
           "package_name": "com.mobdeve.s13.grp7.pokelearn"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAHHYgDvTuvNG2w3o4BIEqGvdjtLzf9KI8"
+          "current_key": "AIzaSyDf8dC2E2z8uYzsaUyDdBAK419mYc0ml1s"
         }
       ],
       "services": {

@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
+        binding.bottomNavigationView.setSelectedItemId(R.id.home)
 
         binding.bottomNavigationView.setOnItemSelectedListener {
 

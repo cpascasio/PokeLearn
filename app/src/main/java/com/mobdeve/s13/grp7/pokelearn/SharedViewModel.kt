@@ -1,4 +1,5 @@
-package com.mobdeve.s13.grp7.pokelearn
+import androidx.lifecycle.ViewModel
 
-class SharedViewModel {
+class SharedViewModel : ViewModel() {
+    var cycleCounter = 0
 }

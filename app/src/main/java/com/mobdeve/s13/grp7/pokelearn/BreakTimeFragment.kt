@@ -1,8 +1,10 @@
 package com.mobdeve.s13.grp7.pokelearn
 
+import SharedViewModel
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,7 @@ import android.webkit.WebView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.mobdeve.s13.grp7.pokelearn.databinding.FragmentBreakTimeBinding
 
 class BreakTimeFragment : Fragment() {
@@ -20,8 +23,12 @@ class BreakTimeFragment : Fragment() {
     private lateinit var startButton: Button
     private lateinit var webView: WebView // Declaration of webView
 
+    private lateinit var sharedViewModel: SharedViewModel
+
     private var startTimeInMillis: Long = 0
     private var timeLeftInMillis: Long = 0
+
+    private var cycleCounter = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +37,9 @@ class BreakTimeFragment : Fragment() {
     ): View {
         binding = FragmentBreakTimeBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        // Initialize the sharedViewModel
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
         // Initialize UI elements
         val timerText = binding.tvwBreakTimer
@@ -45,12 +55,6 @@ class BreakTimeFragment : Fragment() {
         val remainingTimeInMillis = arguments?.getLong(REMAINING_TIME_KEY) ?: breakDurationInMillis
         setTime(remainingTimeInMillis)
 
-
-        // Set a click listener for the Start button
-        startButton.setOnClickListener {
-            startTimer() // Start the timer when the Start button is clicked
-            startButton.isEnabled = false // Disable the button after starting the timer
-        }
 
         // Update the timer text
         updateCountDownText()
@@ -71,6 +75,11 @@ class BreakTimeFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+    }
+
     internal fun startTimer() {
         countDownTimer = object : CountDownTimer(timeLeftInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -79,7 +88,13 @@ class BreakTimeFragment : Fragment() {
             }
 
             override fun onFinish() {
-                redirectToRewardsPage()
+                if (sharedViewModel.cycleCounter < 4) {
+                    Log.d("BreakTimeFragment", "Cycle Counter: ${sharedViewModel.cycleCounter}")
+sharedViewModel.cycleCounter++
+                    redirectToHomeFragment()
+                } else {
+                    redirectToRewardsPage()
+                }
             }
         }.start()
     }
@@ -100,12 +115,22 @@ class BreakTimeFragment : Fragment() {
     }
 
     private fun redirectToHomeFragment() {
+        Log.d("BreakTimeFragment", "Redirecting to HomeFragment")
         try {
-            val homeFragment = HomeFragment()
+            val productivityTimeInMillis = arguments?.getLong(PRODUCTIVITY_TIME_KEY) ?: 0
+            val breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY) ?: 0
+            val homeFragment = HomeFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(PRODUCTIVITY_TIME_KEY, productivityTimeInMillis)
+                    putLong(BREAK_DURATION_KEY, breakDurationInMillis)
+                }
+            }
+
             requireActivity().supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fragment_container, homeFragment)
                 commit()
             }
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -114,12 +139,14 @@ class BreakTimeFragment : Fragment() {
     companion object {
         const val BREAK_DURATION_KEY = "break_duration"
         const val REMAINING_TIME_KEY = "remaining_time"
+        const val PRODUCTIVITY_TIME_KEY = "productivity_time" // New constant for productivity time key
 
-        fun newInstance(breakDurationInMillis: Long, remainingTimeInMillis: Long): BreakTimeFragment {
+        fun newInstance(breakDurationInMillis: Long, remainingTimeInMillis: Long, productivityTimeInMillis: Long): BreakTimeFragment {
             val fragment = BreakTimeFragment()
             val args = Bundle()
             args.putLong(BREAK_DURATION_KEY, breakDurationInMillis)
             args.putLong(REMAINING_TIME_KEY, remainingTimeInMillis)
+            args.putLong(PRODUCTIVITY_TIME_KEY, productivityTimeInMillis) // Add productivity time to the arguments
             fragment.arguments = args
             return fragment
         }

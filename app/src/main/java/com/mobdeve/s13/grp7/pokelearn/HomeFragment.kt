@@ -1,5 +1,6 @@
 package com.mobdeve.s13.grp7.pokelearn
 
+import SharedViewModel
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -11,12 +12,14 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mobdeve.s13.grp7.pokelearn.R
 import com.mobdeve.s13.grp7.pokelearn.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
+    private lateinit var sharedViewModel: SharedViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var timerText: TextView
     private lateinit var progressBar: ProgressBar
@@ -33,12 +36,17 @@ class HomeFragment : Fragment() {
     private var isTimerSet: Boolean = false
     private var isBreakTime: Boolean = false // Track if the current timer is for break time
 
+    private var cycleCounter = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        // Initialize the SharedViewModel
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
         timerText = binding.tvwMPTimer
         progressBar = binding.MPProgressBar
@@ -54,7 +62,23 @@ class HomeFragment : Fragment() {
             .load(R.drawable.pokeball_static)
             .into(shakingPokeballImageView)
 
+
+        // Get productivity time and break duration from arguments
+        val productivityTimeInMillis = arguments?.getLong(PRODUCTIVITY_TIME_KEY)
+        val breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY)
+
+        // Only call setProductivityTime and setupStartButton if productivityTimeInMillis and breakDurationInMillis are not null
+        if (productivityTimeInMillis != null && breakDurationInMillis != null) {
+            setProductivityTime(productivityTimeInMillis)
+            setupStartButton(productivityTimeInMillis, breakDurationInMillis)
+        }
+
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
     }
 
     private fun showTimerSettingsDialog() {
@@ -115,8 +139,8 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onFinish() {
-                    // After productivity duration finishes, start the break timer
-                    startBreakTimer(breakDurationInSeconds)
+                    //start BreakTimeFragment and pass the break duration
+                    startBreakTimer(breakDurationInSeconds, productivityDurationInSeconds)
                 }
             }.start()
 
@@ -130,8 +154,9 @@ class HomeFragment : Fragment() {
         }, delayMillis)
     }
 
-    private fun startBreakTimer(durationInSeconds: Long) {
+    private fun startBreakTimer(durationInSeconds: Long, productivityDurationInSeconds: Long) {
         val totalMillis = durationInSeconds * 1000L
+        val totalProductivityMillis = productivityDurationInSeconds * 1000L
         if (totalMillis <= 0) return
 
         setTime(totalMillis)
@@ -145,14 +170,14 @@ class HomeFragment : Fragment() {
         // Access the root layout of the activity and postDelayed on it
         view?.postDelayed({
             // Redirect to the BreakFragment
-            val breakTimeFragment = BreakTimeFragment.newInstance(totalMillis, totalMillis)
+            val breakTimeFragment = BreakTimeFragment.newInstance(totalMillis, totalMillis, totalProductivityMillis)
             requireActivity().supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fragment_container, breakTimeFragment)
                 commit()
             }
 
             // Start the break timer
-            breakTimeFragment.startTimer()
+            //breakTimeFragment.startTimer()
         }, delayMillis)
 
         isBreakTime = true // Set isBreakTime flag to true since it's break time
@@ -182,6 +207,10 @@ class HomeFragment : Fragment() {
         updateCountDownText()
     }
 
+    fun setProductivityTime(productivityTimeInMillis: Long) {
+        setTime(productivityTimeInMillis)
+    }
+
     private fun updateCountDownText() {
         val hours = (timeLeftInMillis / 1000) / 3600
         val minutes = ((timeLeftInMillis / 1000) % 3600) / 60
@@ -203,4 +232,20 @@ class HomeFragment : Fragment() {
             progressBar.progress = 0 // Reset progress to 0 when the timer finishes
         }
     }
+
+    fun setupStartButton(productivityTimeInMillis: Long, breakDurationInMillis: Long) {
+        val productivityTimeInSecondsfunc = productivityTimeInMillis / 1000L
+
+        binding.btnMPStart.apply {
+            isEnabled = true
+            setOnClickListener {
+                startTimer(productivityTimeInSecondsfunc, breakDurationInMillis)
+            }
+        }
+    }
+    companion object {
+        const val PRODUCTIVITY_TIME_KEY = "productivity_time"
+        const val BREAK_DURATION_KEY = "break_duration"
+    }
+
 }

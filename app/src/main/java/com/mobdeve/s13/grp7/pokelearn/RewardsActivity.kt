@@ -7,12 +7,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.facebook.CallbackManager
 import com.facebook.FacebookSdk
 import com.facebook.share.model.SharePhoto
 import com.facebook.share.model.SharePhotoContent
 import com.facebook.share.widget.ShareDialog
 import com.mobdeve.s13.grp7.pokelearn.databinding.RewardsPageBinding
+import kotlin.random.Random
 
 class RewardsActivity : AppCompatActivity() {
 
@@ -20,10 +22,34 @@ class RewardsActivity : AppCompatActivity() {
     private lateinit var callbackManager: CallbackManager
     private lateinit var shareDialog: ShareDialog
 
+    // Move typeColorMapping here
+    private val typeColorMapping = mapOf(
+        "Grass" to R.color.type_grass,
+        "Poison" to R.color.type_poison,
+        "Fire" to R.color.type_fire,
+        "Flying" to R.color.type_flying,
+        "Water" to R.color.type_water,
+        "Bug" to R.color.type_bug,
+        "Normal" to R.color.type_normal,
+        "Electric" to R.color.type_electric,
+        "Ground" to R.color.type_ground,
+        "Fairy" to R.color.type_fairy,
+        "Fighting" to R.color.type_fighting,
+        "Psychic" to R.color.type_psychic,
+        "Rock" to R.color.type_rock,
+        "Steel" to R.color.type_steel,
+        "Ice" to R.color.type_ice,
+        "Ghost" to R.color.type_ghost,
+        "Dragon" to R.color.type_dragon,
+        "Dark" to R.color.type_dark
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = RewardsPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        displayPokemon()
 
         // Initialize Facebook SDK
         FacebookSdk.setAutoInitEnabled(true)
@@ -42,6 +68,26 @@ class RewardsActivity : AppCompatActivity() {
             shareToFacebook()
             Toast.makeText(this, "Clicked shared", Toast.LENGTH_SHORT).show()
         }
+    }
+
+
+    fun rollPokemon(): Int {
+        // Generate a random Pokedex number from 1 to 50
+        val randomPokedexNumber = Random.nextInt(1, 51)
+        return randomPokedexNumber
+    }
+
+    fun displayPokemon() {
+        // Get the random Pokedex number
+        val randomPokedexNumber = rollPokemon()
+
+        val drawableName = "pokegif_${randomPokedexNumber}"
+        val resId = this.resources.getIdentifier(drawableName, "drawable", this.packageName)
+
+        // Use Glide to load the image resource into the ImageView
+        Glide.with(this)
+            .load(resId)
+            .into(binding.ivPokeReward)
     }
 
     private fun showRatingActivity() {

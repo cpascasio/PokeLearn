@@ -34,7 +34,7 @@
             android:theme="@style/Theme.PokeLearn" />
         <activity android:name=".PokemonDetailsActivity" /> <!-- HomeActivity -->
         <activity
-            android:name=".HomeActivity"
+            android:name=".HomeFragment"
             android:label="@string/home_activity_label"
             android:exported="false"
             android:theme="@style/Theme.PokeLearn" />

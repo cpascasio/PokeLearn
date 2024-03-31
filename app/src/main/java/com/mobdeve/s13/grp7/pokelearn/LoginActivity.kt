@@ -1,5 +1,6 @@
 package com.mobdeve.s13.grp7.pokelearn
 
+import android.R
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
@@ -14,8 +15,8 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.facebook.FacebookSdk
 import com.mobdeve.s13.grp7.pokelearn.databinding.LoginPageBinding
+
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: LoginPageBinding

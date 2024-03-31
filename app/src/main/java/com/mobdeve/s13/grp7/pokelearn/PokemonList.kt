@@ -1,29 +1,24 @@
 package com.mobdeve.s13.grp7.pokelearn
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.ScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 import com.mobdeve.s13.grp7.pokelearn.adapter.PokemonListAdapter
-import com.mobdeve.s13.grp7.pokelearn.common.Common
 import com.mobdeve.s13.grp7.pokelearn.common.ItemOffsetDecoration
 import com.mobdeve.s13.grp7.pokelearn.database.MyDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.model.PokemonNew
-import io.reactivex.disposables.CompositeDisposable
-import retrofit2.Retrofit
-import com.mobdeve.s13.grp7.pokelearn.retrofit.IPokemonList
-import com.mobdeve.s13.grp7.pokelearn.retrofit.RetrofitClient
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlin.random.Random
 
 class PokemonList : Fragment() {
@@ -147,17 +142,19 @@ class PokemonList : Fragment() {
     }
 
     private fun fetchData() {
-//compositeDisposable.add(iPokemonList.listPokemon
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe{pokemonDex ->
-//                Common.pokemonList = pokemonDex.pokemon!!
-//                val adapter = PokemonListAdapter(Common.pokemonList, requireActivity())
-//
-//                rvw_pokemon.adapter = adapter
-//            })
+        val sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val pokedexJson = sharedPreferences.getString("pokedex", null)
+        Log.d(TAG, "pokedexJson: $pokedexJson") // Add this line
+        val pokedexType = object : TypeToken<ArrayList<String>>() {}.type
+        val pokedex: ArrayList<String>? = gson.fromJson(pokedexJson, pokedexType)
+        Log.d(TAG, "pokedex: $pokedex") // Add this line
 
-        userPokemonList = fetchUserData(dummyData)
+        if (pokedex != null) {
+            userPokemonList = fetchUserData(pokedex)
+        } else {
+            userPokemonList = fetchUserData(dummyData)
+        }
 
         val adapter = PokemonListAdapter(userPokemonList, requireActivity())
         rvw_pokemon.adapter = adapter

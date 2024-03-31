@@ -11,13 +11,16 @@ import android.widget.Toast
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.mobdeve.s13.grp7.pokelearn.database.FirebaseDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.databinding.SignupPageBinding
 import com.mobdeve.s13.grp7.pokelearn.databinding.LoginPageBinding
+import com.mobdeve.s13.grp7.pokelearn.model.UserProfile
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: SignupPageBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var firebaseHelper : FirebaseDatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +28,7 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firebaseAuth = Firebase.auth
+        firebaseHelper = FirebaseDatabaseHelper()
 
         binding.signupBtn.setOnClickListener {
             val username = binding.usernameEt.text.toString()
@@ -35,6 +39,17 @@ class SignUpActivity : AppCompatActivity() {
             if(checkAllField()){
                 firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
                     if(it.isSuccessful){
+                        val user = firebaseAuth.currentUser
+
+
+                        if (user != null) {
+                            // Create a UserProfile object
+                            val userProfile = UserProfile(user.uid, username)
+
+                            // add the user to the firebase database
+                            firebaseHelper.writeUser(userProfile)
+
+                        }
                         firebaseAuth.signOut()
                         Toast.makeText(this, "User account is successfully created!", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, LoginActivity::class.java)

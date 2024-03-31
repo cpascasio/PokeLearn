@@ -88,6 +88,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.3.0")
     implementation("com.squareup.retrofit2:adapter-rxjava2:2.3.0")
 
+    implementation ("com.google.code.gson:gson:2.8.8")
+
     implementation("io.reactivex.rxjava2:rxjava:2.1.7")
     implementation("io.reactivex.rxjava2:rxandroid:2.0.1")
 

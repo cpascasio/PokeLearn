@@ -33,19 +33,34 @@ class BreakTimeFragment : Fragment() {
 
         // Initialize UI elements
         val timerText = binding.tvwBreakTimer
+
         startButton = view.findViewById(R.id.btnStart) // Find the Start button
         webView = view.findViewById(R.id.webView) // Find the WebView
+
+        val webView = binding.webView
+
 
         // Get break time duration and remaining time from arguments
         val breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY) ?: 0
         val remainingTimeInMillis = arguments?.getLong(REMAINING_TIME_KEY) ?: breakDurationInMillis
         setTime(remainingTimeInMillis)
 
+
         // Set a click listener for the Start button
         startButton.setOnClickListener {
             startTimer() // Start the timer when the Start button is clicked
             startButton.isEnabled = false // Disable the button after starting the timer
         }
+
+        // Update the timer text
+        updateCountDownText()
+
+
+        startButton.setOnClickListener {
+            startTimer()
+            startButton.isEnabled = false
+        }
+
 
         // Load the YouTube video in the WebView
         val videoUrl = "https://www.youtube.com/embed/QGZuKIPffV8?si=f9ExyuycdxpsMgcL&loop=1"

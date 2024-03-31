@@ -110,6 +110,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.facebook.android:facebook-android-sdk:latest.release")
-
+    implementation("com.facebook.android:facebook-share:latest.release")
 
 }

@@ -1,7 +1,7 @@
 package com.mobdeve.s13.grp7.pokelearn
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +10,14 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import android.os.CountDownTimer
+import com.mobdeve.s13.grp7.pokelearn.R
 import com.mobdeve.s13.grp7.pokelearn.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var timerText: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var setTimerButton: Button
@@ -24,20 +26,18 @@ class HomeFragment : Fragment() {
     private lateinit var minutesEditText: EditText
     private lateinit var secondsEditText: EditText
     private lateinit var shakingPokeballImageView: ImageView
-    private lateinit var PomodoroButton: Button
 
     private var countDownTimer: CountDownTimer? = null
     private var startTimeInMillis: Long = 0
     private var timeLeftInMillis: Long = 0
     private var isTimerSet: Boolean = false
     private var isBreakTime: Boolean = false // Track if the current timer is for break time
-    private var repetitionCount = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
 
         timerText = binding.tvwMPTimer
@@ -45,11 +45,9 @@ class HomeFragment : Fragment() {
         setTimerButton = binding.btnMPSetTimer
         cancelButton = binding.btnMPCancel
         shakingPokeballImageView = binding.ivwMPShakingPokeball
-        PomodoroButton = binding.btnMPPomodoroTimer
 
         setTimerButton.setOnClickListener { showTimerSettingsDialog() }
         cancelButton.setOnClickListener { cancelTimer() }
-        PomodoroButton.setOnClickListener { startPomodoroTimer() }
 
         // Load the static Pokeball image initially
         Glide.with(this)
@@ -119,7 +117,6 @@ class HomeFragment : Fragment() {
                 override fun onFinish() {
                     // After productivity duration finishes, start the break timer
                     startBreakTimer(breakDurationInSeconds)
-                    progressBar.progress = 100 // Reset progress bar when timer finishes
                 }
             }.start()
 
@@ -147,35 +144,26 @@ class HomeFragment : Fragment() {
 
         // Access the root layout of the activity and postDelayed on it
         view?.postDelayed({
-            countDownTimer = object : CountDownTimer(totalMillis, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    timeLeftInMillis = millisUntilFinished
-                    updateCountDownText()
-                    updateProgressBar()
-                }
+            // Redirect to the BreakFragment
+            val breakTimeFragment = BreakTimeFragment.newInstance(totalMillis, totalMillis)
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fragment_container, breakTimeFragment)
+                commit()
+            }
 
-                override fun onFinish() {
-                    // Reset the timer and update UI
-                    timerText.text = "00:00:00"
-                    isTimerSet = false
-                    Glide.with(this@HomeFragment)
-                        .load(R.drawable.pokeball_static)
-                        .into(shakingPokeballImageView)
-
-                    // Hide the progress bar after the break time duration
-                    progressBar.visibility = View.INVISIBLE // or View.GONE if you want to remove it completely
-                }
-            }.start()
-
-            isBreakTime = true // Set isBreakTime flag to true since it's break time
-            isTimerSet = true
-            // Load the shaking Pokeball image when the timer is set
-            Glide.with(this)
-                .asGif()
-                .load(R.drawable.pokeball_shaking)
-                .into(shakingPokeballImageView)
+            // Start the break timer
+            breakTimeFragment.startTimer()
         }, delayMillis)
+
+        isBreakTime = true // Set isBreakTime flag to true since it's break time
+        isTimerSet = true
+        // Load the shaking Pokeball image when the timer is set
+        Glide.with(this)
+            .asGif()
+            .load(R.drawable.pokeball_shaking)
+            .into(shakingPokeballImageView)
     }
+
 
     private fun cancelTimer() {
         // Cancel the current timer and reset UI
@@ -215,25 +203,26 @@ class HomeFragment : Fragment() {
             progressBar.progress = 0 // Reset progress to 0 when the timer finishes
         }
     }
+}
 
     /**
      * Starts the Pomodoro timer with a productivity duration of 25 minutes and a break duration of 5 minutes.
      * After 3 repetitions, the break duration is set to 30 minutes.
      */
-    private fun startPomodoroTimer() {
-        val productivityDurationInSeconds = 1 * 60L // 25 minutes
-        var breakDurationInSeconds = 2 * 60L // 5 minutes
-
-        // After 3 repetitions, set the break duration to 30 minutes
-        if (repetitionCount == 3) {
-            breakDurationInSeconds = 3 * 60L // 30 minutes
-            repetitionCount = 0 // Reset the counter
-        }
-
-        // Start the timer with the Pomodoro durations
-        startTimer(productivityDurationInSeconds, breakDurationInSeconds)
-
-        // Increment the counter
-        repetitionCount++
-    }
-}
+//    private fun startPomodoroTimer() {
+//        val productivityDurationInSeconds = 1 * 60L // 25 minutes
+//        var breakDurationInSeconds = 2 * 60L // 5 minutes
+//
+//        // After 3 repetitions, set the break duration to 30 minutes
+//        if (repetitionCount == 3) {
+//            breakDurationInSeconds = 3 * 60L // 30 minutes
+//            repetitionCount = 0 // Reset the counter
+//        }
+//
+//        // Start the timer with the Pomodoro durations
+//        startTimer(productivityDurationInSeconds, breakDurationInSeconds)
+//
+//        // Increment the counter
+//        repetitionCount++
+//    }
+//}

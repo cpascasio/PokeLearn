@@ -1,17 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_200"
-    tools:context=".Profile">
+    android:background="@drawable/bg_profile">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/ivwPP_Logo"
+        android:layout_width="86dp"
+        android:layout_height="72dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="pokelearn_logo_3"
+        android:src="@drawable/pokelearn_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32" />
+
     <TextView
+        android:id="@+id/tvwPP_Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profile:Fragment"
-        android:textSize="26dp"
-        android:layout_gravity="center" />
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/squada_one"
+        android:text="Profile"
+        android:textAlignment="center"
+        android:textColor="#F4000E"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@+id/ivwLine2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivwPP_Logo" />
 
-</FrameLayout>
+    <!-- Hiding Username TextView -->
+    <!--<TextView
+        android:id="@+id/tvwPP_Username"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/squada_one"
+        android:text="AshKetchum"
+        android:textAlignment="textStart"
+        android:textColor="#5084C9"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/ivwLine2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvwPP_TitleUser"
+        app:layout_constraintTop_toBottomOf="@+id/ivwLine1" />-->
+
+    <ImageView
+        android:id="@+id/ivwLine2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tvwPP_TitleEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvwPP_Name"
+        app:srcCompat="@drawable/profile_line" />
+
+    <TextView
+        android:id="@+id/tvwPP_TitleEmail"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/squada_one"
+        android:text="Email"
+        android:textAlignment="center"
+        android:textColor="#004081"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/ivwLine3"
+        app:layout_constraintEnd_toStartOf="@+id/tvwPP_Username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivwLine2" />
+
+    <TextView
+        android:id="@+id/tvwPP_Email"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/squada_one"
+        android:text="ash.ketchum@gmail.com"
+        android:textAlignment="textStart"
+        android:textColor="#5084C9"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/ivwLine3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvwPP_TitleEmail"
+        app:layout_constraintTop_toBottomOf="@+id/ivwLine2" />
+
+    <ImageView
+        android:id="@+id/ivwLine3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tvwPP_TitlePass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvwPP_TitleEmail"
+        app:srcCompat="@drawable/profile_line" />
+
+    <TextView
+        android:id="@+id/tvwPP_TitlePass"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/squada_one"
+        android:text="Password"
+        android:textAlignment="center"
+        android:textColor="#004081"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/ivwLine4"
+        app:layout_constraintEnd_toStartOf="@+id/tvwPP_Username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivwLine3" />
+
+    <TextView
+        android:id="@+id/tvwPP_Password"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/squada_one"
+        android:text="********"
+        android:textAlignment="textStart"
+        android:textColor="#5084C9"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/ivwLine4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvwPP_TitlePass"
+        app:layout_constraintTop_toBottomOf="@+id/ivwLine3" />
+
+    <ImageView
+        android:id="@+id/ivwLine4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="212dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvwPP_TitlePass"
+        app:srcCompat="@drawable/profile_line" />
+
+    <Button
+        android:id="@+id/logoutBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivwLine4" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

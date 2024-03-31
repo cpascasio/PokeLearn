@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.AccessToken
@@ -38,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
                         firebaseAuth.signOut()
                         Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
 
-                        val intent = Intent(this, MainActivity::class.java)
+                        val intent = Intent(this, HomeFragment::class.java)
                         startActivity(intent)
                         finish()
                     }
@@ -85,6 +86,12 @@ class LoginActivity : AppCompatActivity() {
         return true
     }
 
+    fun onSignUpClicked(view: View) {
+        val intent = Intent(this, SignUpActivity::class.java)
+        startActivity(intent)
+    }
+
+
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -112,7 +119,7 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
                     val user = firebaseAuth.currentUser
 //                    updateUI(user)
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, HomeFragment::class.java))
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)

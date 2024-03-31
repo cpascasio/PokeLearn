@@ -50,7 +50,10 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintHorizontal_bias="0.386"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/tvwLP_Title" />
+		app:layout_constraintTop_toBottomOf="@+id/tvwLP_Title"
+		android:clickable="true"
+		android:onClick="onSignUpClicked"
+		android:focusable="true" />
 
 	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/emailLayout"
@@ -128,6 +131,3 @@
 		tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.Toast
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -82,6 +83,11 @@ class SignUpActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    fun onLoginClicked(view: View) {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 
 //        setContentView(R.layout.signup_page)

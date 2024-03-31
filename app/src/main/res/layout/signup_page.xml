@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_signup_profile">
+    android:background="@drawable/bg_signup">
 
     <ImageView
         android:id="@+id/ivwSUP_Logo"
@@ -134,14 +134,15 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:contextClickable="false"
         android:text="Already have an account? Login"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signupBtn"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:clickable="true"
+        android:onClick="onLoginClicked"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

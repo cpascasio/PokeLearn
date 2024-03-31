@@ -45,5 +45,8 @@
     <color name="pokedex_background">#00244A</color>
     <color name="pokedex_search_border">#5084C9</color>
 
+    <color name="material_dynamic_neutral90">#FFFFFF</color>
+
+
 
 </resources>

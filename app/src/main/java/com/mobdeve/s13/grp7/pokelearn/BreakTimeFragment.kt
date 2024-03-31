@@ -5,6 +5,8 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -27,6 +29,7 @@ class BreakTimeFragment : Fragment() {
 
         // Initialize UI elements
         val timerText = binding.tvwBreakTimer
+        val webView = binding.webView
 
         // Get break time duration and remaining time from arguments
         val breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY) ?: 0
@@ -35,6 +38,13 @@ class BreakTimeFragment : Fragment() {
 
         // Start the break timer with remaining time
         startTimer()
+
+        // Load the YouTube video in the WebView
+        val videoUrl = "https://www.youtube.com/embed/V2KCAfHjySQ?si=bhUQ6aaMCT7FT7bA"
+        val videoHtml = "<iframe width=\"100%\" height=\"100%\" src=\"$videoUrl\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+        webView.loadData(videoHtml, "text/html", "utf-8")
+        webView.settings.javaScriptEnabled = true
+        webView.webChromeClient = WebChromeClient()
 
         return view
     }

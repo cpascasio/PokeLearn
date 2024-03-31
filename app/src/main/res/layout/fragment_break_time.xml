@@ -7,17 +7,13 @@
 
     <!-- Timer TextView -->
 
-    <TextView
-        android:id="@+id/tvwBreakTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:gravity="center_horizontal"
-        android:padding="16dp"
-        android:text="00:00:00"
-        android:textSize="40sp"
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="344dp"
+        android:layout_height="219dp"
+        android:layout_marginTop="150dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonPlayYouTubeVideo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,21 +21,36 @@
         android:id="@+id/buttonPlayYouTubeVideo"
         android:layout_width="192dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="112dp"
+        android:layout_marginTop="10dp"
         android:text="Play Video"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/webView" />
 
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="344dp"
-        android:layout_height="219dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonPlayYouTubeVideo"
+    <TextView
+        android:id="@+id/tvwBreakTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:text="00:00:00"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonPlayYouTubeVideo" />
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="Start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvwBreakTimer"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tvwBreakTimer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

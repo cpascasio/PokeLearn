@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif-condensed-medium"
         android:text="Productivity Duration"
         android:textColor="@color/sign_up_box_color"
         android:textStyle="bold" />
@@ -77,6 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-condensed-medium"
         android:text="Break Time Duration"
         android:textColor="@color/sign_up_box_color"
         android:textStyle="bold" />

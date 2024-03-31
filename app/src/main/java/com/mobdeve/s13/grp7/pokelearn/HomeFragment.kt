@@ -204,25 +204,3 @@ class HomeFragment : Fragment() {
         }
     }
 }
-
-    /**
-     * Starts the Pomodoro timer with a productivity duration of 25 minutes and a break duration of 5 minutes.
-     * After 3 repetitions, the break duration is set to 30 minutes.
-     */
-//    private fun startPomodoroTimer() {
-//        val productivityDurationInSeconds = 1 * 60L // 25 minutes
-//        var breakDurationInSeconds = 2 * 60L // 5 minutes
-//
-//        // After 3 repetitions, set the break duration to 30 minutes
-//        if (repetitionCount == 3) {
-//            breakDurationInSeconds = 3 * 60L // 30 minutes
-//            repetitionCount = 0 // Reset the counter
-//        }
-//
-//        // Start the timer with the Pomodoro durations
-//        startTimer(productivityDurationInSeconds, breakDurationInSeconds)
-//
-//        // Increment the counter
-//        repetitionCount++
-//    }
-//}

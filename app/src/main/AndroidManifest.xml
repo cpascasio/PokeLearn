@@ -37,18 +37,12 @@
 
         </activity>
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        
-
 
         <activity android:name=".PokemonDetailsActivity" />
 
         <!-- HomeActivity -->
         <activity
-            android:name=".HomeActivity"
+            android:name=".HomeFragment"
             android:label="@string/home_activity_label"
             android:theme="@style/Theme.PokeLearn" />
 

@@ -7,6 +7,11 @@
     android:background="@drawable/bg_home"
     android:padding="16dp">
 
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <ImageView
         android:id="@+id/ivwMP_Name"
         android:layout_width="259dp"

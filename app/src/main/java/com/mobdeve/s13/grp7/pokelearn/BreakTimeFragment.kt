@@ -103,6 +103,10 @@ class BreakTimeFragment : Fragment() {
         }
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/merging-branch
     private fun redirectToRewardsPage() {
         try {
             val rewardsIntent = Intent(requireContext(), RewardsActivity::class.java)
@@ -112,5 +116,11 @@ class BreakTimeFragment : Fragment() {
             e.printStackTrace()
         }
     }
+<<<<<<< HEAD
 
 }
+=======
+}
+
+
+>>>>>>> refs/remotes/origin/merging-branch

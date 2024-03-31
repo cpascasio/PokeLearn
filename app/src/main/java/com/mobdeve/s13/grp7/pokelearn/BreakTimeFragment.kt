@@ -5,8 +5,7 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.mobdeve.s13.grp7.pokelearn.databinding.FragmentBreakTimeBinding
 
@@ -16,6 +15,7 @@ class BreakTimeFragment : Fragment() {
 
     private var startTimeInMillis: Long = 0
     private var timeLeftInMillis: Long = 0
+    private lateinit var startButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,14 +27,18 @@ class BreakTimeFragment : Fragment() {
 
         // Initialize UI elements
         val timerText = binding.tvwBreakTimer
+        startButton = view.findViewById(R.id.btnStart) // Find the Start button
 
         // Get break time duration and remaining time from arguments
         val breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY) ?: 0
         val remainingTimeInMillis = arguments?.getLong(REMAINING_TIME_KEY) ?: breakDurationInMillis
         setTime(remainingTimeInMillis)
 
-        // Start the break timer with remaining time
-        startTimer()
+        // Set a click listener for the Start button
+        startButton.setOnClickListener {
+            startTimer() // Start the timer when the Start button is clicked
+            startButton.isEnabled = false // Disable the button after starting the timer
+        }
 
         return view
     }
@@ -55,6 +59,7 @@ class BreakTimeFragment : Fragment() {
     private fun setTime(milliseconds: Long) {
         startTimeInMillis = milliseconds
         timeLeftInMillis = milliseconds
+        updateCountDownText() // Update UI with initial time
     }
 
     private fun updateCountDownText() {

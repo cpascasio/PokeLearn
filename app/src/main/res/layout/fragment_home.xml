@@ -54,18 +54,17 @@
         app:layout_constraintTop_toBottomOf="@id/MP_ProgressBar" />
 
     <Button
-        android:id="@+id/btnMP_SetTimer"
+        android:id="@+id/btnMP_Start"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
         android:backgroundTint="#004081"
         android:fontFamily="@font/squada_one"
-        android:text="Set Timer"
+        android:text="Start"
         android:textColor="#FFBC1E"
-        app:layout_constraintEnd_toStartOf="@+id/btnMP_Cancel"
-        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvwMP_Timer" />
+        app:layout_constraintEnd_toStartOf="@id/btnMP_Cancel"
+        app:layout_constraintTop_toBottomOf="@+id/tvwMP_Timer" />
 
     <Button
         android:id="@+id/btnMP_Cancel"
@@ -74,25 +73,38 @@
         android:layout_marginTop="32dp"
         android:backgroundTint="#004081"
         android:fontFamily="@font/squada_one"
-        android:text="Cancel Timer"
+        android:text="Cancel"
         android:textColor="#FFBC1E"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnMP_SetTimer"
+        app:layout_constraintStart_toEndOf="@id/btnMP_Start"
         app:layout_constraintTop_toBottomOf="@+id/tvwMP_Timer" />
 
+    <Button
+        android:id="@+id/btnMP_SetTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="#004081"
+        android:fontFamily="@font/squada_one"
+        android:text="Set Custom Timer"
+        android:textColor="#FFBC1E"
+        app:layout_constraintEnd_toStartOf="@+id/btnMP_PomodoroTimer"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnMP_Start" />
 
     <Button
         android:id="@+id/btnMP_PomodoroTimer"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="30dp"
         android:backgroundTint="#004081"
         android:fontFamily="@font/squada_one"
         android:text="Start Pomodoro Timer"
         android:textColor="#FFBC1E"
-        app:layout_constraintEnd_toStartOf="@+id/btnMP_Cancel"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnMP_SetTimer"
-        app:layout_constraintTop_toBottomOf="@+id/tvwMP_Timer" />
+        app:layout_constraintTop_toBottomOf="@+id/btnMP_Cancel" />
 
     <ImageView
         android:id="@+id/ivwMP_YellowBG"

@@ -16,10 +16,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".BreakTimeActivity"
+            android:name=".HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".RewardsActivity"
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
@@ -74,6 +74,15 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="com.facebook.app.FacebookContentProvider1591014438343280"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true" />
+
+
     </application>
+    <queries>
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
+    </queries>
 
 </manifest>

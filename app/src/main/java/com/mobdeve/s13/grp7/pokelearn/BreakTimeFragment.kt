@@ -1,5 +1,6 @@
 package com.mobdeve.s13.grp7.pokelearn
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -57,7 +58,7 @@ class BreakTimeFragment : Fragment() {
             }
 
             override fun onFinish() {
-                redirectToHomeFragment()
+                redirectToRewardsPage()
             }
         }.start()
     }
@@ -101,4 +102,15 @@ class BreakTimeFragment : Fragment() {
             return fragment
         }
     }
+
+    private fun redirectToRewardsPage() {
+        try {
+            val rewardsIntent = Intent(requireContext(), RewardsActivity::class.java)
+            startActivity(rewardsIntent)
+            requireActivity().finish() // Optional: Finish the current activity if needed
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+        }
+    }
+
 }

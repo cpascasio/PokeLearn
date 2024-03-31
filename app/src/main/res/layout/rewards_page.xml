@@ -41,7 +41,6 @@
         android:id="@+id/ivPokeReward"
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:src="@tools:sample/avatars"
         app:layout_constraintBottom_toTopOf="@+id/tvwRP_Description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

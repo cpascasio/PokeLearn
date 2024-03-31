@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
                         firebaseAuth.signOut()
                         Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
 
-                        val intent = Intent(this, HomeActivity::class.java)
+                        val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     }
@@ -120,7 +120,7 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
                     val user = firebaseAuth.currentUser
 //                    updateUI(user)
-                    startActivity(Intent(this, HomeActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)

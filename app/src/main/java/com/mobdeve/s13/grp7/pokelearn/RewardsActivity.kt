@@ -33,12 +33,23 @@ class RewardsActivity : AppCompatActivity() {
         callbackManager = CallbackManager.Factory.create()
         shareDialog = ShareDialog(this)
 
-
+        binding.btnRPOK.setOnClickListener {
+            // Show the rating dialog when OK button is clicked
+            showRatingActivity()
+        }
 
         binding.shareBtn.setOnClickListener {
             shareToFacebook()
             Toast.makeText(this, "Clicked shared", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showRatingActivity() {
+        val ratingDialog = RatingActivity(this) { rating ->
+            // Handle the rating here
+            Toast.makeText(this, "Rating submitted: $rating", Toast.LENGTH_SHORT).show()
+        }
+        ratingDialog.show()
     }
 
     private fun shareToFacebook() {

@@ -20,11 +20,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-<<<<<<< HEAD
-            android:name=".RewardsActivity"
-=======
             android:name=".HomeActivity"
->>>>>>> refs/remotes/origin/merging-branch
             android:exported="false" />
         <activity
             android:name=".RewardsActivity"
@@ -82,20 +78,12 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider1591014438343280"
             android:exported="true" />
-=======
-        <provider
-            android:authorities="com.facebook.app.FacebookContentProvider1591014438343280"
-            android:name="com.facebook.FacebookContentProvider"
-            android:exported="true" />
 
-
->>>>>>> refs/remotes/origin/merging-branch
     </application>
     <queries>
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />

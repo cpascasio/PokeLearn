@@ -48,12 +48,11 @@ class BreakTimeFragment : Fragment() {
         }
 
         // Load the YouTube video in the WebView
-        val videoUrl = "https://www.youtube.com/embed/V2KCAfHjySQ?si=bhUQ6aaMCT7FT7bA"
+        val videoUrl = "https://www.youtube.com/embed/QGZuKIPffV8?si=f9ExyuycdxpsMgcL&loop=1"
         val videoHtml = "<iframe width=\"100%\" height=\"100%\" src=\"$videoUrl\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
         webView.loadData(videoHtml, "text/html", "utf-8")
         webView.settings.javaScriptEnabled = true
         webView.webChromeClient = WebChromeClient()
-
         return view
     }
 

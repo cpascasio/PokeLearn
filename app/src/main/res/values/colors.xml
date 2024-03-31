@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- welcome_page colors -->
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,4 +11,42 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="_bg__welcome_page_ek2_color">#FFFFFF</color>
+    <color name="_bg__welcome_page_bg_color">#000000</color>
+    <color name="red_box_color">#F4000E</color>
+    <color name="sign_in_box_color">#FFBC1E</color>
+    <color name="sign_in_color">#00244A</color>
+    <color name="sign_up_box_color">#004081</color>
+
+    <!-- [for_ui]_login colors -->
+    <color name="_bg____for_ui__login_color">#00244A</color>
+    <color name="_bg__top_red_element_ek1_color">#000000</color>
+    <color name="half_circle_black_color">#FFFFFF</color>
+
+    <color name="type_grass">#4CAF50</color>
+    <color name="type_poison">#9C27B0</color>
+    <color name="type_fire">#FF5722</color>
+    <color name="type_flying">#2196F3</color>
+    <color name="type_water">#03A9F4</color>
+    <color name="type_bug">#8BC34A</color>
+    <color name="type_normal">#FFC107</color>
+    <color name="type_electric">#FFD740</color>
+    <color name="type_ground">#795548</color>
+    <color name="type_fairy">#E91E63</color>
+    <color name="type_fighting">#FF9800</color>
+    <color name="type_psychic">#673AB7</color>
+    <color name="type_rock">#607D8B</color>
+    <color name="type_steel">#9E9E9E</color>
+    <color name="type_ice">#00BCD4</color>
+    <color name="type_ghost">#9E9E9E</color>
+    <color name="type_dragon">#3F51B5</color>
+<color name="type_dark">#9E9E9E</color>
+    <color name="pokedex_background">#00244A</color>
+    <color name="pokedex_search_border">#5084C9</color>
+
+    <color name="material_dynamic_neutral90">#FFFFFF</color>
+
+
+
 </resources>

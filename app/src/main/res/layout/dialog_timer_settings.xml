@@ -128,6 +128,61 @@
             android:textColorHint="#5084C9" />
     </LinearLayout>
 
+    <!-- Long Break time settings -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="Long Break Time Duration"
+        android:textColor="@color/sign_up_box_color"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="301dp"
+        android:layout_height="wrap_content"
+        android:background="#032D5A"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/longbreakHoursEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/sign_up_box_color"
+            android:fontFamily="@font/squada_one"
+            android:hint="Hours"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="#5084C9" />
+
+        <EditText
+            android:id="@+id/longbreakMinutesEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/sign_up_box_color"
+            android:fontFamily="@font/squada_one"
+            android:hint="Minutes"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="#5084C9" />
+
+        <EditText
+            android:id="@+id/longbreakSecondsEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/sign_up_box_color"
+            android:fontFamily="@font/squada_one"
+            android:hint="Seconds"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="#5084C9" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/btn_StartTimer"
         android:layout_width="wrap_content"

@@ -1,6 +1,7 @@
 package com.mobdeve.s13.grp7.pokelearn
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,12 +15,16 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
+import com.mobdeve.s13.grp7.pokelearn.database.FirebaseDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.databinding.LoginPageBinding
+import com.mobdeve.s13.grp7.pokelearn.model.UserProfile
 
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: LoginPageBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var firebaseHelper: FirebaseDatabaseHelper
     var callbackManager = CallbackManager.Factory.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firebaseAuth = FirebaseAuth.getInstance()
+        firebaseHelper = FirebaseDatabaseHelper()
 
         binding.loginBtn.setOnClickListener {
             val email = binding.emailEt.text.toString()
@@ -36,7 +42,27 @@ class LoginActivity : AppCompatActivity() {
             if(checkAllField()){
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
                     if(it.isSuccessful){
-                        firebaseAuth.signOut()
+                        // add user to the firebase database
+                        // Create a UserProfile object
+
+                        val sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+                        // store userID to shared preferences
+                        editor.putString("uid", firebaseAuth.currentUser?.uid)
+                        editor.putString("email", email)
+                        editor.putString("password", password)
+                        editor.putString("username", firebaseAuth.currentUser?.displayName)
+                        // Fetch pokedex from Firebase
+                        firebaseHelper.readPokedex(firebaseAuth.currentUser!!.uid) { pokedex ->
+                            // Convert pokedex ArrayList to a JSON string
+                            val gson = Gson()
+                            val pokedexJson = gson.toJson(pokedex)
+                            editor.putString("pokedex", pokedexJson)
+
+                            Log.d("pokedexasdasd", pokedexJson)
+
+                            editor.apply()
+                        }
                         Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
 
                         val intent = Intent(this, MainActivity::class.java)

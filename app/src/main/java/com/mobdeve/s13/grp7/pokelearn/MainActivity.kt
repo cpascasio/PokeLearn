@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Button
 import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
 import com.mobdeve.s13.grp7.pokelearn.databinding.WelcomePageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -39,6 +40,8 @@ import androidx.core.app.NotificationManagerCompat
 import io.grpc.Context
 
 class MainActivity : AppCompatActivity() {
+
+
 
     private lateinit var binding: ActivityMainBinding
 
@@ -94,12 +97,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.bottomNavigationView.selectedItemId = R.id.home
         replaceFragment(HomeFragment())
 
         //registerReceiver(showDetail, IntentFilter(Common.KEY_ENABLE_HOME))
+
 
         // Create an instance of MyDatabaseHelper
         val dbHelper = MyDatabaseHelper(this)

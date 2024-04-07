@@ -90,39 +90,5 @@ class SignUpActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-//        setContentView(R.layout.signup_page)
 
-//        firebaseAuth = FirebaseAuth.getInstance()
-//
-//        binding.textView.setOnClickListener {
-//            val intent = Intent(this, LoginActivity::class.java)
-//            startActivity(intent)
-//        }
-//
-//        binding.signupBtn.setOnClickListener {
-//            val username = binding.usernameEt.text.toString()
-//            val email = binding.emailEt.text.toString()
-//            val pass = binding.passET.text.toString()
-//            val confirmPass = binding.confirmPassEt.text.toString()
-//
-//            if (username.isNotEmpty() && email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()) {
-//                if (pass == confirmPass) {
-//
-//                    firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
-//                        if (it.isSuccessful) {
-//                            val intent = Intent(this, LoginActivity::class.java)
-//                            startActivity(intent)
-//                        } else {
-//                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
-//
-//                        }
-//                    }
-//                } else {
-//                    Toast.makeText(this, "Passwords does not match.", Toast.LENGTH_SHORT).show()
-//                }
-//            } else {
-//                Toast.makeText(this, "Empty Fields are not allowed.", Toast.LENGTH_SHORT).show()
-//
-//            }
-//        }
 }

@@ -39,6 +39,7 @@
 		android:id="@+id/ivwWP_Logo"
 		android:layout_width="84dp"
 		android:layout_height="84dp"
+		android:clickable="false"
 		android:contentDescription="pokelearn_logo"
 		android:src="@drawable/pokelearn_logo"
 		app:layout_constraintBottom_toBottomOf="parent"

@@ -93,6 +93,7 @@ dependencies {
 
     implementation ("com.google.android.material:material:1.5.0")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.4.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
     testImplementation("junit:junit:4.13.2")
@@ -110,6 +111,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.facebook.android:facebook-android-sdk:latest.release")
-
+    implementation("com.facebook.android:facebook-share:latest.release")
 
 }

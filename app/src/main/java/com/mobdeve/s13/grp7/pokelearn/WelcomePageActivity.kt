@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.mobdeve.s13.grp7.pokelearn.databinding.WelcomePageBinding
@@ -15,6 +16,8 @@ class WelcomePageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
 
         val binding = WelcomePageBinding.inflate(layoutInflater)
         val view = binding.root

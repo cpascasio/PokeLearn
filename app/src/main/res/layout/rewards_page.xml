@@ -19,13 +19,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.26999998" />
 
     <TextView
         android:id="@+id/tvwRP_Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="@font/squada_one"
         android:text="YOU’VE SUCCESSFULLY EARNED A NEW POKEMON!"
         android:textAlignment="center"
@@ -34,22 +34,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvwRP_Title"
+        app:layout_constraintTop_toBottomOf="@id/ivPokeReward"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/ivPokeReward"
         android:layout_width="160dp"
         android:layout_height="160dp"
-        app:layout_constraintBottom_toTopOf="@+id/tvwRP_Description"
+        android:layout_marginTop="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvwRP_Title" />
+        app:layout_constraintTop_toBottomOf="@+id/tvwRP_Title"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/btnRP_OK"
+        android:id="@+id/btnRPOK"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:backgroundTint="#F4000E"
         android:fontFamily="@font/squada_one"
         android:text="OK"
@@ -59,5 +62,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvwRP_Description"
-        app:layout_constraintVertical_bias="0.060000002" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/shareBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/squada_one"
+        android:text="Share to your friends"
+        android:textColor="#AA0015"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRPOK" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,6 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="140dp"
+            android:fontFamily="@font/squada_one"
             android:gravity="center"
             android:text="placeholder"
             android:textColor="@color/white"
@@ -44,6 +45,7 @@
             android:id="@+id/txtPokeID"
             android:layout_width="0dp"
             android:layout_height="32dp"
+            android:fontFamily="@font/squada_one"
             android:gravity="center"
             android:text="ID"
             android:textColor="@color/white"
@@ -149,6 +151,7 @@
             android:layout_marginLeft="60dp"
             android:layout_marginTop="40dp"
             android:layout_marginRight="60dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
 
@@ -156,6 +159,7 @@
                 android:id="@+id/txtHeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="Height"
                 android:textStyle="bold" />
@@ -165,8 +169,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/black"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout
@@ -175,6 +179,7 @@
             android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="60dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
 
@@ -182,6 +187,7 @@
                 android:id="@+id/txtWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="Weight"
                 android:textStyle="bold" />
@@ -190,9 +196,9 @@
                 android:id="@+id/txtPokeWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout
@@ -201,6 +207,7 @@
             android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="60dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
 
@@ -208,6 +215,7 @@
                 android:id="@+id/txtCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="Category"
                 android:textStyle="bold" />
@@ -217,8 +225,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/black"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout
@@ -227,6 +235,7 @@
             android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="60dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
 
@@ -234,6 +243,7 @@
                 android:id="@+id/txtAbilities"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="Abilities"
                 android:textStyle="bold" />
@@ -243,8 +253,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/black"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -263,8 +273,8 @@
 
             <Button
                 android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="134dp"
+                android:layout_height="139dp"
                 android:background="@drawable/ic_baseline_catching_pokemon"
                 android:clickable="false"
                 android:contextClickable="false"

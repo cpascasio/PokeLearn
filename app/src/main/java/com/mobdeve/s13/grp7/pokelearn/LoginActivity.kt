@@ -1,6 +1,5 @@
 package com.mobdeve.s13.grp7.pokelearn
 
-import android.R
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle

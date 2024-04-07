@@ -66,11 +66,12 @@ class HomeFragment : Fragment() {
         // Get productivity time and break duration from arguments
         val productivityTimeInMillis = arguments?.getLong(PRODUCTIVITY_TIME_KEY)
         val breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY)
+        val longbreakDurationInMillis = arguments?.getLong(LONGBREAK_DURATION_KEY)
 
         // Only call setProductivityTime and setupStartButton if productivityTimeInMillis and breakDurationInMillis are not null
-        if (productivityTimeInMillis != null && breakDurationInMillis != null) {
+        if (productivityTimeInMillis != null && breakDurationInMillis != null && longbreakDurationInMillis != null) {
             setProductivityTime(productivityTimeInMillis)
-            setupStartButton(productivityTimeInMillis, breakDurationInMillis)
+            setupStartButton(productivityTimeInMillis, breakDurationInMillis, longbreakDurationInMillis)
         }
 
         return view
@@ -103,20 +104,26 @@ class HomeFragment : Fragment() {
             val breakMinutes = dialogView.findViewById<EditText>(R.id.breakMinutesEditText).text.toString().toIntOrNull() ?: 0
             val breakSeconds = dialogView.findViewById<EditText>(R.id.breakSecondsEditText).text.toString().toIntOrNull() ?: 0
 
+            // Get break time duration
+            val longbreakHours = dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).text.toString().toIntOrNull() ?: 0
+            val longbreakMinutes = dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).text.toString().toIntOrNull() ?: 0
+            val longbreakSeconds = dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).text.toString().toIntOrNull() ?: 0
+
             val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
             val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
+            val longbreakDurationInSeconds = longbreakHours * 3600L + longbreakMinutes * 60L + longbreakSeconds
 
-            if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0) {
+            if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0 && longbreakDurationInSeconds > 0) {
                 // Re-show the progress bar
                 progressBar.visibility = View.VISIBLE
-                startTimer(productivityDurationInSeconds, breakDurationInSeconds)
+                startTimer(productivityDurationInSeconds, breakDurationInSeconds, longbreakDurationInSeconds)
             }
         }
 
         dialog.show()
     }
 
-    private fun startTimer(productivityDurationInSeconds: Long, breakDurationInSeconds: Long) {
+    private fun startTimer(productivityDurationInSeconds: Long, breakDurationInSeconds: Long, longbreakDurationInSeconds: Long) {
         val totalProductivityMillis = productivityDurationInSeconds * 1000L
 
         if (totalProductivityMillis <= 0) return
@@ -140,7 +147,7 @@ class HomeFragment : Fragment() {
 
                 override fun onFinish() {
                     //start BreakTimeFragment and pass the break duration
-                    startBreakTimer(breakDurationInSeconds, productivityDurationInSeconds)
+                    startBreakTimer(breakDurationInSeconds, productivityDurationInSeconds, longbreakDurationInSeconds)
                 }
             }.start()
 
@@ -154,9 +161,10 @@ class HomeFragment : Fragment() {
         }, delayMillis)
     }
 
-    private fun startBreakTimer(durationInSeconds: Long, productivityDurationInSeconds: Long) {
+    private fun startBreakTimer(durationInSeconds: Long, productivityDurationInSeconds: Long, longbreakDurationInSeconds: Long) {
         val totalMillis = durationInSeconds * 1000L
         val totalProductivityMillis = productivityDurationInSeconds * 1000L
+        val totalLongbreakMillis = longbreakDurationInSeconds * 1000L
         if (totalMillis <= 0) return
 
         setTime(totalMillis)
@@ -170,7 +178,7 @@ class HomeFragment : Fragment() {
         // Access the root layout of the activity and postDelayed on it
         view?.postDelayed({
             // Redirect to the BreakFragment
-            val breakTimeFragment = BreakTimeFragment.newInstance(totalMillis, totalMillis, totalProductivityMillis)
+            val breakTimeFragment = BreakTimeFragment.newInstance(totalMillis, totalMillis, totalProductivityMillis, totalLongbreakMillis)
             requireActivity().supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fragment_container, breakTimeFragment)
                 commit()
@@ -244,15 +252,17 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun setupStartButton(productivityTimeInMillis: Long, breakDurationInMillis: Long) {
+    fun setupStartButton(productivityTimeInMillis: Long, breakDurationInMillis: Long, longbreakDurationInMillis: Long) {
         val productivityTimeInSecondsfunc = productivityTimeInMillis / 1000L
 
         val breakDurationInMillisfunc = breakDurationInMillis / 1000L
 
+        val longbreakDurationInMillisfunc = longbreakDurationInMillis / 1000L
+
         binding.btnMPStart.apply {
             isEnabled = true
             setOnClickListener {
-                startTimer(productivityTimeInSecondsfunc, breakDurationInMillisfunc)
+                startTimer(productivityTimeInSecondsfunc, breakDurationInMillisfunc, longbreakDurationInMillisfunc)
                 isEnabled = false
             }
         }
@@ -260,6 +270,7 @@ class HomeFragment : Fragment() {
     companion object {
         const val PRODUCTIVITY_TIME_KEY = "productivity_time"
         const val BREAK_DURATION_KEY = "break_duration"
+        const val LONGBREAK_DURATION_KEY = "longbreak_duration"
     }
 
 }

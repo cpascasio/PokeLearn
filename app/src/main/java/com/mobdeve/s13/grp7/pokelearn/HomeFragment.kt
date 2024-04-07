@@ -194,6 +194,17 @@ class HomeFragment : Fragment() {
         // Cancel the current timer and reset UI
         countDownTimer?.cancel()
         isTimerSet = false
+        countDownTimer = null
+        startTimeInMillis = 0
+        timeLeftInMillis = 0
+        isBreakTime = false
+        updateCountDownText()
+
+        // Set startTimer button to not clickable
+        binding.btnMPStart.isEnabled = false
+
+        // set cancel button to not clickable
+        cancelButton.isEnabled = false
 
         // Switch Pokeball image to static
         Glide.with(this)
@@ -242,6 +253,7 @@ class HomeFragment : Fragment() {
             isEnabled = true
             setOnClickListener {
                 startTimer(productivityTimeInSecondsfunc, breakDurationInMillisfunc)
+                isEnabled = false
             }
         }
     }

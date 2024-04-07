@@ -28,18 +28,19 @@ class BreakTimeFragment : Fragment() {
     private var startTimeInMillis: Long = 0
     private var timeLeftInMillis: Long = 0
 
-    private var cycleCounter = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = FragmentBreakTimeBinding.inflate(inflater, container, false)
         val view = binding.root
 
         // Initialize the sharedViewModel
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        Log.d("BreakTimeFragment", "STARTING Cycle Counter: ${sharedViewModel.cycleCounter}")
 
         // Initialize UI elements
         val timerText = binding.tvwBreakTimer
@@ -51,9 +52,26 @@ class BreakTimeFragment : Fragment() {
 
 
         // Get break time duration and remaining time from arguments
-        val breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY) ?: 0
-        val remainingTimeInMillis = arguments?.getLong(REMAINING_TIME_KEY) ?: breakDurationInMillis
+        var breakDurationInMillis: Long
+        var remainingTimeInMillis: Long
+        if(sharedViewModel.cycleCounter == 3) {
+            // set breakDurationInMillis to 10 seconds
+
+            Log.d("BreakTimeFragment", "SET TO 30 MINUTES")
+            breakDurationInMillis = 10000
+            remainingTimeInMillis = breakDurationInMillis
+            //breakDurationInMillis = 1800000
+            //remainingTimeInMillis = breakDurationInMillis
+        }else{
+            breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY) ?: 0
+            remainingTimeInMillis = arguments?.getLong(REMAINING_TIME_KEY) ?: breakDurationInMillis
+        }
+
+
+        Log.d("BreakTimeFragment", "Remaining Time IN MILLIS: $remainingTimeInMillis")
+
         setTime(remainingTimeInMillis)
+
 
 
         // Update the timer text
@@ -88,12 +106,16 @@ class BreakTimeFragment : Fragment() {
             }
 
             override fun onFinish() {
-                if (sharedViewModel.cycleCounter < 4) {
-                    Log.d("BreakTimeFragment", "Cycle Counter: ${sharedViewModel.cycleCounter}")
-sharedViewModel.cycleCounter++
-                    redirectToHomeFragment()
-                } else {
+                if(sharedViewModel.cycleCounter == 3) {
+
                     redirectToRewardsPage()
+                    sharedViewModel.cycleCounter = 0
+                    Log.d("BreakTimeFragment", "Cycle Counter if 3: ${sharedViewModel.cycleCounter}")
+                } else{
+
+sharedViewModel.cycleCounter++
+                    Log.d("BreakTimeFragment", "Cycle Counter: ${sharedViewModel.cycleCounter}")
+                    redirectToHomeFragment()
                 }
             }
         }.start()

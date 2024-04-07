@@ -236,10 +236,12 @@ class HomeFragment : Fragment() {
     fun setupStartButton(productivityTimeInMillis: Long, breakDurationInMillis: Long) {
         val productivityTimeInSecondsfunc = productivityTimeInMillis / 1000L
 
+        val breakDurationInMillisfunc = breakDurationInMillis / 1000L
+
         binding.btnMPStart.apply {
             isEnabled = true
             setOnClickListener {
-                startTimer(productivityTimeInSecondsfunc, breakDurationInMillis)
+                startTimer(productivityTimeInSecondsfunc, breakDurationInMillisfunc)
             }
         }
     }

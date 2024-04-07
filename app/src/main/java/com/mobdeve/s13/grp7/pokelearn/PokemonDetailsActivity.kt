@@ -1,15 +1,19 @@
 package com.mobdeve.s13.grp7.pokelearn
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
+import androidx.navigation.fragment.findNavController
 
 class PokemonDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,8 +126,16 @@ class PokemonDetailsActivity : AppCompatActivity() {
         heightTextView.text = pokemonHeight.toString()
         weightTextView.text = pokemonWeight.toString()
 
+        val backButton: Button = findViewById(R.id.btnBack)
 
+        backButton.setOnClickListener {
+            Log.d("Back Button", "Clicked back button")
+            onBackPressed()
+
+        }
 
         // Now you can use these attributes in your activity
     }
+
+
 }

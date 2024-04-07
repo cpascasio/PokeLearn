@@ -44,7 +44,7 @@ class Profile : Fragment() {
             auth.signOut()
             // Navigate to the login screen or perform any other action after logout
             // For example, navigate back to the LoginActivity
-            val intent = Intent(activity, LoginActivity::class.java)
+            val intent = Intent(activity, WelcomePageActivity::class.java)
             startActivity(intent)
             activity?.finish() // Finish the current activity to prevent navigating back to it with the back button
         }

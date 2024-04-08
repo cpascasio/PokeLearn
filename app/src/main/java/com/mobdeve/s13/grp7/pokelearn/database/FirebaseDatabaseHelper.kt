@@ -7,7 +7,6 @@ import com.mobdeve.s13.grp7.pokelearn.model.UserProfile
 class FirebaseDatabaseHelper {
 
 
-
     private val database = FirebaseDatabase.getInstance("https://pokelearn-aeb5e-default-rtdb.asia-southeast1.firebasedatabase.app/")
 
     fun writeUser(userProfile: UserProfile) {
@@ -21,13 +20,13 @@ class FirebaseDatabaseHelper {
                 }
             }
 
-
-
             override fun onCancelled(databaseError: DatabaseError) {
                 // Handle error here
             }
         })
     }
+
+
     fun readUser(userId: String, onDataReceived: (UserProfile?) -> Unit) {
         val myRef = database.getReference("userprofiles").child(userId)
 
@@ -42,6 +41,7 @@ class FirebaseDatabaseHelper {
             }
         })
     }
+
 
     fun readPokedex(userId: String, onDataReceived: (ArrayList<String>?) -> Unit) {
         val myRef = database.getReference("userprofiles").child(userId)

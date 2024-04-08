@@ -306,6 +306,10 @@ class HomeFragment : Fragment() {
 
             // Start the break timer
             //breakTimeFragment.startTimer()
+
+            // Update the timer text when starting break timer
+            updateCountDownText() // Update the timer text
+
         }, delayMillis)
 
         isBreakTime = true // Set isBreakTime flag to true since it's break time
@@ -326,7 +330,7 @@ class HomeFragment : Fragment() {
         startTimeInMillis = 0
         timeLeftInMillis = 0
         isBreakTime = false
-        updateCountDownText()
+        updateCountDownText() // Update the timer text
 
         // Set startTimer button to not clickable
         binding.btnMPStart.isEnabled = false
@@ -410,6 +414,13 @@ class HomeFragment : Fragment() {
         scheduleLogTask() // Schedule a log task if the app is going into the background
     }
 
+    override fun onResume() {
+        super.onResume()
+        startTimeInMillis = 0
+        timeLeftInMillis = 0
+        updateCountDownText() // Update the timer text when the fragment resumes
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         cancelLogTask() // Cancel any scheduled log task when the activity is destroyed
@@ -427,8 +438,4 @@ class HomeFragment : Fragment() {
     private fun isValidInput(hours: Int, minutes: Int, seconds: Int): Boolean {
         return hours in 0..24 && minutes in 0..59 && seconds in 0..59
     }
-
-
-
-
 }

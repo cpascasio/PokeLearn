@@ -77,7 +77,7 @@ class HomeFragment : Fragment() {
         }
         Log.d("MainActivity", "before notif builder")
         val notificationBuilder = NotificationCompat.Builder(requireContext(), channelId)
-            .setSmallIcon(R.drawable.logo_pokelearn)
+            .setSmallIcon(R.drawable.pokelearn_logo)
             .setContentTitle("Wild Distraction Appeared!")
             .setContentText("It seems like you’ve been distracted. Your Pokemon might escape!")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

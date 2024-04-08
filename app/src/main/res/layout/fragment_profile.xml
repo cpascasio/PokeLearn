@@ -81,8 +81,8 @@
 
     <TextView
         android:id="@+id/tvwPP_Email"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="18dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/squada_one"
@@ -124,8 +124,8 @@
 
     <TextView
         android:id="@+id/tvwPP_Password"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
+        android:layout_width="148dp"
+        android:layout_height="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/squada_one"
@@ -149,6 +149,64 @@
         app:layout_constraintTop_toBottomOf="@+id/tvwPP_TitlePass"
         app:srcCompat="@drawable/profile_line" />
 
+    <TextView
+        android:id="@+id/tvwPP_TitleStat1"
+        android:layout_width="161dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/squada_one"
+        android:text="Productivity Cycles Completed"
+        android:textAlignment="textStart"
+        android:textColor="#004081"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivwLine4" />
+
+    <TextView
+        android:id="@+id/tvwPP_Stat1Num"
+        android:layout_width="86dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/squada_one"
+        android:text="0"
+        android:textAlignment="textStart"
+        android:textColor="#5084C9"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.304"
+        app:layout_constraintStart_toEndOf="@id/tvwPP_TitleStat1"
+        app:layout_constraintTop_toBottomOf="@+id/ivwLine4" />
+
+    <TextView
+        android:id="@+id/tvwPP_TitleStat2"
+        android:layout_width="161dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/squada_one"
+        android:text="Total Time Spent"
+        android:textAlignment="textStart"
+        android:textColor="#004081"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvwPP_TitleStat1" />
+
+    <TextView
+        android:id="@+id/tvwPP_Stat2Num"
+        android:layout_width="86dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/squada_one"
+        android:text="0 minutes"
+        android:textAlignment="textStart"
+        android:textColor="#5084C9"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.304"
+        app:layout_constraintStart_toEndOf="@id/tvwPP_TitleStat2"
+        app:layout_constraintTop_toBottomOf="@id/tvwPP_Stat1Num" />
+
     <Button
         android:id="@+id/logoutBtn"
         android:layout_width="86dp"
@@ -159,7 +217,9 @@
         android:textColor="#004081"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivwLine4" />
+        app:layout_constraintTop_toBottomOf="@+id/ivwLine4"
+        app:layout_constraintVertical_bias="0.635" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

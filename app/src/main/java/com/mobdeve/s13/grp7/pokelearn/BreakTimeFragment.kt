@@ -75,12 +75,21 @@ class BreakTimeFragment : Fragment() {
         // Get break time duration and remaining time from arguments
         var breakDurationInMillis: Long
         var remainingTimeInMillis: Long
+        var longbreakTimeInMillis: Long
         if(sharedViewModel.cycleCounter == 3) {
-            breakDurationInMillis = 10000 // Set break duration to 10 seconds for testing
+            // set breakDurationInMillis to 10 seconds
+
+            Log.d("BreakTimeFragment", "SET TO 30 MINUTES")
+            breakDurationInMillis = arguments?.getLong(LONGBREAK_DURATION_KEY) ?: 0
             remainingTimeInMillis = breakDurationInMillis
-        } else {
+
+
+            //breakDurationInMillis = 1800000
+            //remainingTimeInMillis = breakDurationInMillis
+        }else{
             breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY) ?: 0
             remainingTimeInMillis = arguments?.getLong(REMAINING_TIME_KEY) ?: breakDurationInMillis
+            longbreakTimeInMillis = arguments?.getLong(LONGBREAK_DURATION_KEY) ?: 0
         }
 
         setTime(remainingTimeInMillis)
@@ -151,10 +160,12 @@ class BreakTimeFragment : Fragment() {
         try {
             val productivityTimeInMillis = arguments?.getLong(PRODUCTIVITY_TIME_KEY) ?: 0
             val breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY) ?: 0
+            val longbreakTimeInMillis = arguments?.getLong(LONGBREAK_DURATION_KEY) ?: 0
             val homeFragment = HomeFragment().apply {
                 arguments = Bundle().apply {
                     putLong(PRODUCTIVITY_TIME_KEY, productivityTimeInMillis)
                     putLong(BREAK_DURATION_KEY, breakDurationInMillis)
+                    putLong(LONGBREAK_DURATION_KEY, longbreakTimeInMillis)
                 }
             }
 
@@ -167,6 +178,25 @@ class BreakTimeFragment : Fragment() {
             e.printStackTrace()
         }
     }
+
+    companion object {
+        const val BREAK_DURATION_KEY = "break_duration"
+        const val REMAINING_TIME_KEY = "remaining_time"
+        const val PRODUCTIVITY_TIME_KEY = "productivity_time" // New constant for productivity time key
+        const val LONGBREAK_DURATION_KEY = "longbreak_duration"
+
+        fun newInstance(breakDurationInMillis: Long, remainingTimeInMillis: Long, productivityTimeInMillis: Long, longbreakTimeInMillis: Long): BreakTimeFragment {
+            val fragment = BreakTimeFragment()
+            val args = Bundle()
+            args.putLong(BREAK_DURATION_KEY, breakDurationInMillis)
+            args.putLong(REMAINING_TIME_KEY, remainingTimeInMillis)
+            args.putLong(PRODUCTIVITY_TIME_KEY, productivityTimeInMillis) // Add productivity time to the arguments
+            args.putLong(LONGBREAK_DURATION_KEY, longbreakTimeInMillis)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
 
     private fun redirectToRewardsPage() {
         try {

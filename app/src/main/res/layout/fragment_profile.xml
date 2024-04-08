@@ -66,7 +66,7 @@
         android:id="@+id/tvwPP_TitleEmail"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="72dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/squada_one"
@@ -92,8 +92,10 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/ivwLine3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.525"
         app:layout_constraintStart_toEndOf="@+id/tvwPP_TitleEmail"
-        app:layout_constraintTop_toBottomOf="@+id/ivwLine2" />
+        app:layout_constraintTop_toBottomOf="@+id/ivwLine2"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/ivwLine3"
@@ -110,18 +112,22 @@
         android:layout_width="161dp"
         android:layout_height="17dp"
         android:layout_marginStart="72dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginBottom="5dp"
         android:fontFamily="@font/squada_one"
         android:text="Productivity Cycles Completed"
         android:textAlignment="textStart"
         android:textColor="#004081"
         android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvwPP_TitleStat2"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="488dp" />
+        app:layout_constraintTop_toBottomOf="@+id/ivwLine3" />
 
     <TextView
         android:id="@+id/tvwPP_Stat1Num"
         android:layout_width="86dp"
         android:layout_height="16dp"
+        android:layout_marginTop="55dp"
         android:fontFamily="@font/squada_one"
         android:text="0"
         android:textAlignment="textStart"
@@ -130,7 +136,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.293"
         app:layout_constraintStart_toEndOf="@id/tvwPP_TitleStat1"
-        tools:layout_editor_absoluteY="489dp" />
+        app:layout_constraintTop_toBottomOf="@+id/ivwLine3" />
 
     <TextView
         android:id="@+id/tvwPP_TitleStat2"
@@ -156,10 +162,12 @@
         android:textAlignment="textStart"
         android:textColor="#5084C9"
         android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/logoutBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.304"
+        app:layout_constraintHorizontal_bias="0.293"
         app:layout_constraintStart_toEndOf="@id/tvwPP_TitleStat2"
-        app:layout_constraintTop_toBottomOf="@id/tvwPP_Stat1Num" />
+        app:layout_constraintTop_toBottomOf="@id/tvwPP_Stat1Num"
+        app:layout_constraintVertical_bias="0.025" />
 
     <Button
         android:id="@+id/logoutBtn"
@@ -172,6 +180,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvwPP_TitleStat2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

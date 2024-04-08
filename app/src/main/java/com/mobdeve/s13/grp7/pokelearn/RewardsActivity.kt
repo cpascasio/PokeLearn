@@ -88,14 +88,15 @@ class RewardsActivity : AppCompatActivity() {
 
         binding.btnRPOK.setOnClickListener {
             // Show the rating dialog when OK button is clicked
-            showRatingActivity()
+//            showRatingActivity()
+            redirectToHomeFragment()
         }
 
 
 
         binding.shareBtn.setOnClickListener {
             shareToFacebook()
-            Toast.makeText(this, "Clicked shared", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Shared to Facebook", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -240,5 +241,11 @@ class RewardsActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         callbackManager.onActivityResult(requestCode, resultCode, data)
+    }
+
+    // create a function to redirect to home fragment
+    private fun redirectToHomeFragment() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }

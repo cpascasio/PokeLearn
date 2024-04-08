@@ -134,7 +134,9 @@ class BreakTimeFragment : Fragment() {
     }
 
     private fun cancelTimer() {
-        countDownTimer.cancel()
+        if(::countDownTimer.isInitialized) {
+            countDownTimer.cancel()
+        }
         isTimerSet = false
         redirectToHomeFragment()
     }

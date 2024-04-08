@@ -4,6 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
+import com.google.firebase.database.FirebaseDatabase
 import com.mobdeve.s13.grp7.pokelearn.model.PokemonNew
 import com.mobdeve.s13.grp7.pokelearn.model.UserProfile
 import org.json.JSONObject
@@ -153,6 +155,10 @@ class MyDatabaseHelper(context: Context) :
 class UserProfileDatabaseHelper(context: Context) :
     SQLiteOpenHelper(context, USER_DATABASE_NAME, null, DATABASE_VERSION) {
 
+
+    // Firebase reference
+    private val database = FirebaseDatabase.getInstance("https://pokelearn-aeb5e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("userprofiles")
+
     companion object {
         private const val USER_DATABASE_NAME = "UserDatabase"
         private const val USER_TABLE_NAME = "UserProfile"
@@ -206,6 +212,26 @@ class UserProfileDatabaseHelper(context: Context) :
 
         return result > 0
     }
+
+    // Call this function whenever you change the SQLite database
+    fun updateFirebaseDatabase(uid: String) {
+        val userProfile = getUserProfile(uid)
+        if (userProfile != null) {
+            // Convert the UserProfile object to a format suitable for Firebase
+            val dataForFirebase = mapOf(
+                "uid" to userProfile.uid,
+                "username" to userProfile.username,
+                "pokedex" to userProfile.pokedex.joinToString(),
+                "fullPomodoroCyclesCompleted" to userProfile.fullPomodoroCyclesCompleted
+            )
+
+            // Update Firebase
+            database.child(userProfile.uid).setValue(dataForFirebase)
+            Log.d("Firebase", "Firebase database updated");
+        }
+    }
+
+
 
     fun deleteUserProfile(uid: String): Boolean {
         val db = this.writableDatabase

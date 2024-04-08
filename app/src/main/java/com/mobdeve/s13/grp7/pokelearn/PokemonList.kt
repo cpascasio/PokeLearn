@@ -154,9 +154,11 @@ class PokemonList : Fragment() {
                 userPokemonList = fetchUserData(pokedex)
             } else {
                 userPokemonList = fetchUserData(dummyData)
+                Log.d("pokedex", "Pokedex is null")
             }
         } else {
             userPokemonList = fetchUserData(dummyData)
+            Log.d("pokedex", "UID is null")
         }
 
         val adapter = PokemonListAdapter(userPokemonList, requireActivity())

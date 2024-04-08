@@ -59,6 +59,16 @@ class RewardsActivity : AppCompatActivity() {
 
         addPokemonToPokedex(rolledNumber)
 
+        // update Firebase database
+
+
+        val sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE)
+        val uid = sharedPreferences.getString("uid", null)
+        if (uid != null) {
+            val userProfileDbHelper = UserProfileDatabaseHelper(this)
+            userProfileDbHelper.updateFirebaseDatabase(uid)
+        }
+
         // Initialize Facebook SDK
         FacebookSdk.setAutoInitEnabled(true)
         FacebookSdk.fullyInitialize()
@@ -71,6 +81,8 @@ class RewardsActivity : AppCompatActivity() {
             // Show the rating dialog when OK button is clicked
             showRatingActivity()
         }
+
+
 
         binding.shareBtn.setOnClickListener {
             shareToFacebook()

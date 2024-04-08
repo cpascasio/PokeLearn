@@ -138,6 +138,8 @@ class BreakTimeFragment : Fragment() {
             countDownTimer.cancel()
         }
         isTimerSet = false
+        setTime(0) // Reset the timer to 00:00:00
+        updateCountDownText() // Update the UI to show the reset timer
         redirectToHomeFragment()
     }
 

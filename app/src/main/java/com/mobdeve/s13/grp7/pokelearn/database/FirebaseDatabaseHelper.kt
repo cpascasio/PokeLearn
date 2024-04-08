@@ -7,7 +7,7 @@ import com.mobdeve.s13.grp7.pokelearn.model.UserProfile
 class FirebaseDatabaseHelper {
 
 
-    private val database = FirebaseDatabase.getInstance("https://pokelearn-aeb5e-default-rtdb.asia-southeast1.firebasedatabase.app/")
+    val database = FirebaseDatabase.getInstance("https://pokelearn-aeb5e-default-rtdb.asia-southeast1.firebasedatabase.app/")
 
     fun writeUser(userProfile: UserProfile) {
         val myRef = database.getReference("userprofiles").child(userProfile.uid)

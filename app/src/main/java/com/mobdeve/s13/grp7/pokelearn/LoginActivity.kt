@@ -48,7 +48,10 @@ class LoginActivity : AppCompatActivity() {
                         // store userID to shared preferences
                         editor.putString("uid", firebaseAuth.currentUser?.uid)
                         editor.putString("email", email)
+                        editor.putString("username", firebaseAuth.currentUser?.displayName)
+
                         // Fetch pokedex from Firebase
+
 
                         editor.apply()
                         Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
@@ -56,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
                         val uid = sharedPreferences.getString("uid", null)
 
                         // fetch userprofile in the firebase database given the UID
+
                         if (uid != null) {
                             firebaseHelper.readUser(uid) { userProfile ->
                                 if (userProfile != null) {
@@ -71,6 +75,7 @@ class LoginActivity : AppCompatActivity() {
                                 }
                             }
                         }
+
 
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
@@ -147,6 +152,7 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
 
@@ -155,6 +161,8 @@ class LoginActivity : AppCompatActivity() {
 
                     // store userID to shared preferences
                     editor.putString("uid", firebaseAuth.currentUser?.uid)
+                    editor.putString("username", firebaseAuth.currentUser?.displayName)
+
 
                     // add email to shared preferences
                     editor.putString("email", firebaseAuth.currentUser?.email)
@@ -164,23 +172,31 @@ class LoginActivity : AppCompatActivity() {
                     editor.apply()
 
                         Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
-                    // Create UserProfile object
-                    val userProfile = UserProfile().apply {
-                        this.uid = firebaseAuth.currentUser?.uid.toString()
-                        this.username = firebaseAuth.currentUser?.displayName.toString()
-                        this.pokedex = arrayListOf("1")
-                        this.fullPomodoroCyclesCompleted = 0 // Initialize with 0
+
+                    val uid = firebaseAuth.currentUser?.uid
+
+                    if (uid != null) {
+                        firebaseHelper.readUser(uid) { userProfile ->
+                            val userProfileDatabaseHelper = UserProfileDatabaseHelper(this)
+                            if (userProfile != null) {
+                                // User profile exists in Firebase, save it to SQLite
+                                userProfileDatabaseHelper.addUserProfile(userProfile)
+                            } else {
+                                // User profile does not exist in Firebase, create a new one
+                                val newUserProfile = UserProfile().apply {
+                                    this.uid = uid
+                                    this.username = firebaseAuth.currentUser?.displayName.toString()
+                                    this.pokedex = arrayListOf("1")
+                                    this.fullPomodoroCyclesCompleted = 0 // Initialize with 0
+                                }
+                                // Save new user profile to SQLite
+                                userProfileDatabaseHelper.addUserProfile(newUserProfile)
+                                // Save new user profile to Firebase
+                                firebaseHelper.writeUser(newUserProfile)
+                            }
+                        }
                     }
 
-                    // Save UserProfile into SQLite database
-                    val userProfileDatabaseHelper = UserProfileDatabaseHelper(this)
-                    val isAdded = userProfileDatabaseHelper.addUserProfile(userProfile)
-
-                    if (isAdded) {
-                        Log.d(TAG, "User profile added to SQLite database")
-                    } else {
-                        Log.e(TAG, "Failed to add user profile to SQLite database")
-                    }
 
                     val user = firebaseAuth.currentUser
 //                    updateUI(user)

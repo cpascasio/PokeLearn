@@ -3,6 +3,7 @@ package com.mobdeve.s13.grp7.pokelearn
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -48,6 +49,11 @@ class RewardsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = RewardsPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val rewardsSFX = MediaPlayer.create(this, R.raw.rewards)
+        rewardsSFX.start()
+
+        // Display a random Pokemon
 
         displayPokemon()
 

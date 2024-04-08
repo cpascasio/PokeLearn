@@ -9,8 +9,8 @@
 
 	<ImageView
 		android:id="@+id/ivwLP_Logo"
-		android:layout_width="84dp"
-		android:layout_height="84dp"
+		android:layout_width="93dp"
+		android:layout_height="94dp"
 		android:layout_marginTop="18dp"
 		android:contentDescription="pokelearn_logo"
 		android:src="@drawable/pokelearn_logo"
@@ -25,7 +25,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="152dp"
-		android:layout_marginTop="40dp"
+		android:layout_marginTop="20dp"
 		android:layout_marginEnd="152dp"
 		android:fontFamily="@font/squada_one"
 		android:text="Login"

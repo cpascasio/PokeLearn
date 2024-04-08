@@ -1,8 +1,17 @@
 package com.mobdeve.s13.grp7.pokelearn
 
 import SharedViewModel
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +20,10 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -38,6 +51,54 @@ class HomeFragment : Fragment() {
 
     private var cycleCounter = 0
 
+    private var isUserInApp: Boolean = false
+    private var appInBackground: Boolean = false
+    private val handler = Handler(Looper.getMainLooper())
+    //    private val inactivityThreshold: Long = 2 * 60 * 1000 // 2 minutes in milliseconds
+    private val inactivityThreshold: Long = 5 * 1000 // 5 secs for trial
+
+    private val logRunnable = Runnable {
+        if (!isUserInApp && appInBackground && isTimerSet) {
+            // User has left the app for over 2 minutes
+            sendNotification()
+            Log.d("MainActivity", "User has left the app for over 2 minutes")
+
+            cancelTimer() // Cancel the timer when the user leaves the app
+        }
+    }
+
+    private fun sendNotification() {
+        Log.d("MainActivity", "Notification sent")
+        val channelId = "default_channel_id"
+        val channelName = "Default"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(channelId, channelName, importance)
+            val notificationManager = requireContext().getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(notificationChannel)
+            Log.d("MainActivity", "version is good")
+        }
+        Log.d("MainActivity", "before notif builder")
+        val notificationBuilder = NotificationCompat.Builder(requireContext(), channelId)
+            .setSmallIcon(R.drawable.pokelearn_logo)
+            .setContentTitle("Wild Distraction Appeared!")
+            .setContentText("It seems like you’ve been distracted. Your Pokemon might escape!")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        Log.d("MainActivity", "Notif middle")
+        val notificationManager = requireContext().getSystemService(NotificationManager::class.java)
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d("MainActivity", "returned")
+            return
+        }
+        notificationManager.notify(1, notificationBuilder.build())
+        Log.d("MainActivity", "Done Sending")
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,6 +118,16 @@ class HomeFragment : Fragment() {
         setTimerButton.setOnClickListener { showTimerSettingsDialog() }
         cancelButton.setOnClickListener { cancelTimer() }
 
+        //log shared preferences
+        // Log shared preferences
+        val sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE)
+        val uid = sharedPreferences.getString("uid", "No UID found")
+        val email = sharedPreferences.getString("email", "No email found")
+
+        Log.d("SharedPreferences", "UID: $uid")
+        Log.d("SharedPreferences", "Email: $email")
+
+
         // Load the static Pokeball image initially
         Glide.with(this)
             .load(R.drawable.pokeball_static)
@@ -66,11 +137,12 @@ class HomeFragment : Fragment() {
         // Get productivity time and break duration from arguments
         val productivityTimeInMillis = arguments?.getLong(PRODUCTIVITY_TIME_KEY)
         val breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY)
+        val longbreakDurationInMillis = arguments?.getLong(LONGBREAK_DURATION_KEY)
 
         // Only call setProductivityTime and setupStartButton if productivityTimeInMillis and breakDurationInMillis are not null
-        if (productivityTimeInMillis != null && breakDurationInMillis != null) {
+        if (productivityTimeInMillis != null && breakDurationInMillis != null && longbreakDurationInMillis != null) {
             setProductivityTime(productivityTimeInMillis)
-            setupStartButton(productivityTimeInMillis, breakDurationInMillis)
+            setupStartButton(productivityTimeInMillis, breakDurationInMillis, longbreakDurationInMillis)
         }
 
         return view
@@ -91,6 +163,39 @@ class HomeFragment : Fragment() {
         secondsEditText = dialogView.findViewById(R.id.secondsEditText)
         val startTimerButton = dialogView.findViewById<Button>(R.id.btn_StartTimer)
 
+        // Other view initialization code...
+
+        // Set default values for productivity duration, short break, and long break
+        val defaultProductivityTime = 25 // Default productivity time in minutes
+        val defaultShortBreak = 5 // Default short break time in minutes
+        val defaultLongBreak = 10 // Default long break time in minutes
+
+        hoursEditText.setText("")
+        minutesEditText.setText(defaultProductivityTime.toString()) // Set default productivity duration
+        secondsEditText.setText("")
+
+        // Set default short break and long break durations in the dialog
+        dialogView.findViewById<EditText>(R.id.breakMinutesEditText).setText(defaultShortBreak.toString())
+        dialogView.findViewById<EditText>(R.id.breakSecondsEditText).setText("")
+        dialogView.findViewById<EditText>(R.id.breakHoursEditText).setText("")
+        dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).setText(defaultLongBreak.toString())
+        dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).setText("")
+        dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).setText("")
+
+        val clearDefaultButton = dialogView.findViewById<Button>(R.id.btn_ClearDefault)
+        clearDefaultButton.setOnClickListener {
+            // Clear default values
+            hoursEditText.setText("")
+            minutesEditText.setText("")
+            secondsEditText.setText("")
+            dialogView.findViewById<EditText>(R.id.breakHoursEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.breakMinutesEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.breakSecondsEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).setText("")
+        }
+
         startTimerButton.setOnClickListener {
             dialog.dismiss()
             // Start the timer based on the input duration
@@ -103,20 +208,39 @@ class HomeFragment : Fragment() {
             val breakMinutes = dialogView.findViewById<EditText>(R.id.breakMinutesEditText).text.toString().toIntOrNull() ?: 0
             val breakSeconds = dialogView.findViewById<EditText>(R.id.breakSecondsEditText).text.toString().toIntOrNull() ?: 0
 
-            val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
-            val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
+            // Get long break time duration
+            val longbreakHours = dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).text.toString().toIntOrNull() ?: 0
+            val longbreakMinutes = dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).text.toString().toIntOrNull() ?: 0
+            val longbreakSeconds = dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).text.toString().toIntOrNull() ?: 0
 
-            if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0) {
-                // Re-show the progress bar
-                progressBar.visibility = View.VISIBLE
-                startTimer(productivityDurationInSeconds, breakDurationInSeconds)
+            // Validate user input and start the timer
+            if (isValidInput(productivityHours, productivityMinutes, productivitySeconds) &&
+                isValidInput(breakHours, breakMinutes, breakSeconds) &&
+                isValidInput(longbreakHours, longbreakMinutes, longbreakSeconds)) {
+                val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
+                val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
+                val longbreakDurationInSeconds = longbreakHours * 3600L + longbreakMinutes * 60L + longbreakSeconds
+
+                if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0 && longbreakDurationInSeconds > 0) {
+                    progressBar.visibility = View.VISIBLE
+                    cancelButton.isEnabled = true
+                    startTimerButton.isEnabled = true
+
+                    val totalProductivityMillis = productivityDurationInSeconds * 1000L
+                    setTime(totalProductivityMillis)
+
+                    setupStartButton(totalProductivityMillis, breakDurationInSeconds * 1000L, longbreakDurationInSeconds * 1000L)
+                }
+            } else {
+                Toast.makeText(requireContext(), "Invalid input. Please enter valid values.", Toast.LENGTH_SHORT).show()
             }
         }
 
         dialog.show()
     }
 
-    private fun startTimer(productivityDurationInSeconds: Long, breakDurationInSeconds: Long) {
+
+    private fun startTimer(productivityDurationInSeconds: Long, breakDurationInSeconds: Long, longbreakDurationInSeconds: Long) {
         val totalProductivityMillis = productivityDurationInSeconds * 1000L
 
         if (totalProductivityMillis <= 0) return
@@ -140,7 +264,7 @@ class HomeFragment : Fragment() {
 
                 override fun onFinish() {
                     //start BreakTimeFragment and pass the break duration
-                    startBreakTimer(breakDurationInSeconds, productivityDurationInSeconds)
+                    startBreakTimer(breakDurationInSeconds, productivityDurationInSeconds, longbreakDurationInSeconds)
                 }
             }.start()
 
@@ -154,9 +278,10 @@ class HomeFragment : Fragment() {
         }, delayMillis)
     }
 
-    private fun startBreakTimer(durationInSeconds: Long, productivityDurationInSeconds: Long) {
+    private fun startBreakTimer(durationInSeconds: Long, productivityDurationInSeconds: Long, longbreakDurationInSeconds: Long) {
         val totalMillis = durationInSeconds * 1000L
         val totalProductivityMillis = productivityDurationInSeconds * 1000L
+        val totalLongbreakMillis = longbreakDurationInSeconds * 1000L
         if (totalMillis <= 0) return
 
         setTime(totalMillis)
@@ -170,7 +295,7 @@ class HomeFragment : Fragment() {
         // Access the root layout of the activity and postDelayed on it
         view?.postDelayed({
             // Redirect to the BreakFragment
-            val breakTimeFragment = BreakTimeFragment.newInstance(totalMillis, totalMillis, totalProductivityMillis)
+            val breakTimeFragment = BreakTimeFragment.newInstance(totalMillis, totalMillis, totalProductivityMillis, totalLongbreakMillis)
             requireActivity().supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fragment_container, breakTimeFragment)
                 commit()
@@ -178,6 +303,10 @@ class HomeFragment : Fragment() {
 
             // Start the break timer
             //breakTimeFragment.startTimer()
+
+            // Update the timer text when starting break timer
+            updateCountDownText() // Update the timer text
+
         }, delayMillis)
 
         isBreakTime = true // Set isBreakTime flag to true since it's break time
@@ -198,7 +327,7 @@ class HomeFragment : Fragment() {
         startTimeInMillis = 0
         timeLeftInMillis = 0
         isBreakTime = false
-        updateCountDownText()
+        updateCountDownText() // Update the timer text
 
         // Set startTimer button to not clickable
         binding.btnMPStart.isEnabled = false
@@ -244,15 +373,17 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun setupStartButton(productivityTimeInMillis: Long, breakDurationInMillis: Long) {
+    fun setupStartButton(productivityTimeInMillis: Long, breakDurationInMillis: Long, longbreakDurationInMillis: Long) {
         val productivityTimeInSecondsfunc = productivityTimeInMillis / 1000L
 
         val breakDurationInMillisfunc = breakDurationInMillis / 1000L
 
+        val longbreakDurationInMillisfunc = longbreakDurationInMillis / 1000L
+
         binding.btnMPStart.apply {
             isEnabled = true
             setOnClickListener {
-                startTimer(productivityTimeInSecondsfunc, breakDurationInMillisfunc)
+                startTimer(productivityTimeInSecondsfunc, breakDurationInMillisfunc, longbreakDurationInMillisfunc)
                 isEnabled = false
             }
         }
@@ -260,6 +391,48 @@ class HomeFragment : Fragment() {
     companion object {
         const val PRODUCTIVITY_TIME_KEY = "productivity_time"
         const val BREAK_DURATION_KEY = "break_duration"
+        const val LONGBREAK_DURATION_KEY = "longbreak_duration"
     }
 
+    override fun onStart() {
+        super.onStart()
+        // User is in the app
+        isUserInApp = true
+        Log.d("MainActivity", "onStart() called")
+        cancelLogTask() // Cancel any previously scheduled log task
+        appInBackground = false
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // User has left the app
+        isUserInApp = false
+        Log.d("MainActivity", "onStop() called")
+        scheduleLogTask() // Schedule a log task if the app is going into the background
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startTimeInMillis = 0
+        timeLeftInMillis = 0
+        updateCountDownText() // Update the timer text when the fragment resumes
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancelLogTask() // Cancel any scheduled log task when the activity is destroyed
+    }
+
+    private fun scheduleLogTask() {
+        appInBackground = true
+        handler.postDelayed(logRunnable, inactivityThreshold)
+    }
+
+    private fun cancelLogTask() {
+        handler.removeCallbacks(logRunnable)
+    }
+
+    private fun isValidInput(hours: Int, minutes: Int, seconds: Int): Boolean {
+        return hours in 0..24 && minutes in 0..59 && seconds in 0..59
+    }
 }

@@ -1,29 +1,25 @@
 package com.mobdeve.s13.grp7.pokelearn
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.ScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 import com.mobdeve.s13.grp7.pokelearn.adapter.PokemonListAdapter
-import com.mobdeve.s13.grp7.pokelearn.common.Common
 import com.mobdeve.s13.grp7.pokelearn.common.ItemOffsetDecoration
 import com.mobdeve.s13.grp7.pokelearn.database.MyDatabaseHelper
+import com.mobdeve.s13.grp7.pokelearn.database.UserProfileDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.model.PokemonNew
-import io.reactivex.disposables.CompositeDisposable
-import retrofit2.Retrofit
-import com.mobdeve.s13.grp7.pokelearn.retrofit.IPokemonList
-import com.mobdeve.s13.grp7.pokelearn.retrofit.RetrofitClient
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlin.random.Random
 
 class PokemonList : Fragment() {
@@ -108,7 +104,7 @@ class PokemonList : Fragment() {
         var finalPokemonList = ArrayList<PokemonNew>()
 
         for (i in 0 until data.size) {
-            var tempPoke = dbHelper.getPokemon(data[i].toInt())
+            var tempPoke = dbHelper.getPokemon(data[i].trim().toInt())
 
             if (tempPoke != null) {
                 finalPokemonList.add(tempPoke)
@@ -147,21 +143,26 @@ class PokemonList : Fragment() {
     }
 
     private fun fetchData() {
-//compositeDisposable.add(iPokemonList.listPokemon
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe{pokemonDex ->
-//                Common.pokemonList = pokemonDex.pokemon!!
-//                val adapter = PokemonListAdapter(Common.pokemonList, requireActivity())
-//
-//                rvw_pokemon.adapter = adapter
-//            })
+        val sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE)
+        val uid = sharedPreferences.getString("uid", null) // Get UID from SharedPreferences
 
-        userPokemonList = fetchUserData(dummyData)
+        if (uid != null) {
+            val userProfileDatabaseHelper = UserProfileDatabaseHelper(requireContext())
+            val pokedex = userProfileDatabaseHelper.getPokedex(uid) // Get pokedex from SQLite database
+
+            if (pokedex != null) {
+                userPokemonList = fetchUserData(pokedex)
+            } else {
+                userPokemonList = fetchUserData(dummyData)
+                Log.d("pokedex", "Pokedex is null")
+            }
+        } else {
+            userPokemonList = fetchUserData(dummyData)
+            Log.d("pokedex", "UID is null")
+        }
 
         val adapter = PokemonListAdapter(userPokemonList, requireActivity())
         rvw_pokemon.adapter = adapter
-
     }
 
 }

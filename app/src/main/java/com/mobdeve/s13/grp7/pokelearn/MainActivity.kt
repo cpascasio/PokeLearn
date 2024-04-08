@@ -6,11 +6,9 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Button
 import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
 import com.mobdeve.s13.grp7.pokelearn.databinding.WelcomePageBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
-
-import android.content.Intent
 
 import android.util.Log
 import android.view.MenuItem
@@ -21,7 +19,6 @@ import androidx.fragment.app.FragmentManager
 
 import com.mobdeve.s13.grp7.pokelearn.database.MyDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.databinding.ActivityMainBinding
-import com.mobdeve.s13.grp7.pokelearn.model.Pokemon
 import com.mobdeve.s13.grp7.pokelearn.model.PokemonNew
 import org.json.JSONArray
 import java.io.IOException
@@ -40,66 +37,74 @@ import io.grpc.Context
 
 class MainActivity : AppCompatActivity() {
 
+
+
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var toolbar: Toolbar
 
     private lateinit var firebaseAuth: FirebaseAuth
 
-    private var isUserInApp: Boolean = false
-    private var appInBackground: Boolean = false
-    private val handler = Handler(Looper.getMainLooper())
-//    private val inactivityThreshold: Long = 2 * 60 * 1000 // 2 minutes in milliseconds
-    private val inactivityThreshold: Long = 5 * 1000 // 5 secs for trial
-
-
-    private val logRunnable = Runnable {
-        if (!isUserInApp && appInBackground) {
-            // User has left the app for over 2 minutes
-            sendNotification()
-            Log.d("MainActivity", "User has left the app for over 2 minutes")
-        }
-    }
-
-    private fun sendNotification() {
-        Log.d("MainActivity", "Notification sent")
-        val channelId = "default_channel_id"
-        val channelName = "Default"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(channelId, channelName, importance)
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(notificationChannel)
-            Log.d("MainActivity", "version is good")
-        }
-        Log.d("MainActivity", "before notif builder")
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.logo_pokelearn)
-            .setContentTitle("Wild Distraction Appeared!")
-            .setContentText("It seems like you’ve been distracted. Your Pokemon might escape!")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        Log.d("MainActivity", "Notif middle")
-        val notificationManager = NotificationManagerCompat.from(this)
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            Log.d("MainActivity", "returned")
-            return
-        }
-        notificationManager.notify(1, notificationBuilder.build())
-        Log.d("MainActivity", "Done Sending")
-    }
+//    private var isUserInApp: Boolean = false
+//    private var appInBackground: Boolean = false
+//    private val handler = Handler(Looper.getMainLooper())
+////    private val inactivityThreshold: Long = 2 * 60 * 1000 // 2 minutes in milliseconds
+//    private val inactivityThreshold: Long = 5 * 1000 // 5 secs for trial
+//    private var timerStarted = false
+//
+//
+//
+//    private val logRunnable = Runnable {
+//        if (!isUserInApp && appInBackground) {
+//            // User has left the app for over 2 minutes
+//            sendNotification()
+//            Log.d("MainActivity", "User has left the app for over 2 minutes")
+//        }
+//    }
+//
+//    private fun sendNotification() {
+//        Log.d("MainActivity", "Notification sent")
+//        val channelId = "default_channel_id"
+//        val channelName = "Default"
+//        val importance = NotificationManager.IMPORTANCE_DEFAULT
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val notificationChannel = NotificationChannel(channelId, channelName, importance)
+//            val notificationManager = getSystemService(NotificationManager::class.java)
+//            notificationManager.createNotificationChannel(notificationChannel)
+//            Log.d("MainActivity", "version is good")
+//        }
+//        Log.d("MainActivity", "before notif builder")
+//        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+//            .setSmallIcon(R.drawable.logo_pokelearn)
+//            .setContentTitle("Wild Distraction Appeared!")
+//            .setContentText("It seems like you’ve been distracted. Your Pokemon might escape!")
+//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//        Log.d("MainActivity", "Notif middle")
+//        val notificationManager = NotificationManagerCompat.from(this)
+//        if (ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.POST_NOTIFICATIONS
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            Log.d("MainActivity", "returned")
+//            return
+//        }
+//        notificationManager.notify(1, notificationBuilder.build())
+//        Log.d("MainActivity", "Done Sending")
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.bottomNavigationView.selectedItemId = R.id.home
         replaceFragment(HomeFragment())
 
         //registerReceiver(showDetail, IntentFilter(Common.KEY_ENABLE_HOME))
+
 
         // Create an instance of MyDatabaseHelper
         val dbHelper = MyDatabaseHelper(this)
@@ -191,41 +196,43 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-//    override fun onDestroy() {
-//        super.onDestroy()
-//
-//    }
-
-    override fun onStart() {
-        super.onStart()
-        // User is in the app
-        isUserInApp = true
-        Log.d("MainActivity", "onStart() called")
-        cancelLogTask() // Cancel any previously scheduled log task
-        appInBackground = false
-    }
-
-    override fun onStop() {
-        super.onStop()
-        // User has left the app
-        isUserInApp = false
-        Log.d("MainActivity", "onStop() called")
-        scheduleLogTask() // Schedule a log task if the app is going into the background
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        cancelLogTask() // Cancel any scheduled log task when the activity is destroyed
+
     }
 
-    private fun scheduleLogTask() {
-        appInBackground = true
-        handler.postDelayed(logRunnable, inactivityThreshold)
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        // User is in the app
+//        isUserInApp = true
+//        Log.d("MainActivity", "onStart() called")
+//        cancelLogTask() // Cancel any previously scheduled log task
+//        appInBackground = false
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        // User has left the app
+//        isUserInApp = false
+//        Log.d("MainActivity", "onStop() called")
+//        scheduleLogTask() // Schedule a log task if the app is going into the background
+//    }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        cancelLogTask() // Cancel any scheduled log task when the activity is destroyed
+//    }
+//
+//    private fun scheduleLogTask() {
+//        appInBackground = true
+//        handler.postDelayed(logRunnable, inactivityThreshold)
+//    }
+//
+//    private fun cancelLogTask() {
+//        handler.removeCallbacks(logRunnable)
+//    }
 
-    private fun cancelLogTask() {
-        handler.removeCallbacks(logRunnable)
-    }
+
 }
 
 

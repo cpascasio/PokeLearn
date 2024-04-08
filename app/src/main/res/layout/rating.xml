@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/ivw_RateLogo"
-        android:layout_width="326dp"
-        android:layout_height="46dp"
+        android:layout_width="329dp"
+        android:layout_height="68dp"
         android:layout_marginTop="18dp"
         android:contentDescription="pokelearn_logo"
         android:src="@drawable/pokelearn_logo"

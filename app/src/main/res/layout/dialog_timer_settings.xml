@@ -10,13 +10,23 @@
         android:id="@+id/tvw_CustomTimer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/squada_one"
         android:text="Custom Timer"
         android:textAlignment="center"
         android:textColor="#FF7602"
-        android:textSize="38sp"
+        android:textSize="55sp"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_ClearDefault"
+        android:layout_width="129dp"
+        android:layout_height="21dp"
+        android:background="#032D5A"
+        android:fontFamily="@font/squada_one"
+        android:text="Clear Default Duration"
+        android:textColor="#5084C9"
+        android:textSize="12sp" />
 
     <!-- Productivity interval settings -->
     <TextView
@@ -189,10 +199,10 @@
         android:layout_width="wrap_content"
         android:layout_height="26dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/sign_in_box_color"
         android:fontFamily="@font/squada_one"
-        android:text="Start Timer"
+        android:text="Set Time"
         android:textColor="@color/white"
         android:textSize="12sp" />
 

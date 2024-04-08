@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/ivwSUP_Logo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="86dp"
+        android:layout_height="83dp"
         android:layout_centerHorizontal="true"
         android:contentDescription="pokelearn_logo_3"
         android:src="@drawable/pokelearn_logo"

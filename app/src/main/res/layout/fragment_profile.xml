@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/ivwPP_Logo"
-        android:layout_width="86dp"
-        android:layout_height="72dp"
+        android:layout_width="110dp"
+        android:layout_height="96dp"
         android:layout_centerHorizontal="true"
         android:contentDescription="pokelearn_logo_3"
         android:src="@drawable/pokelearn_logo"
@@ -23,7 +23,7 @@
         android:id="@+id/tvwPP_Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/squada_one"
         android:text="Profile"
@@ -66,7 +66,7 @@
         android:id="@+id/tvwPP_TitleEmail"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="72dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/squada_one"
@@ -81,8 +81,8 @@
 
     <TextView
         android:id="@+id/tvwPP_Email"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="18dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/squada_one"
@@ -92,71 +92,95 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/ivwLine3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.525"
         app:layout_constraintStart_toEndOf="@+id/tvwPP_TitleEmail"
-        app:layout_constraintTop_toBottomOf="@+id/ivwLine2" />
+        app:layout_constraintTop_toBottomOf="@+id/ivwLine2"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/ivwLine3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/tvwPP_TitlePass"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvwPP_TitleEmail"
         app:srcCompat="@drawable/profile_line" />
 
     <TextView
-        android:id="@+id/tvwPP_TitlePass"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/tvwPP_TitleStat1"
+        android:layout_width="161dp"
+        android:layout_height="17dp"
         android:layout_marginStart="72dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginBottom="5dp"
         android:fontFamily="@font/squada_one"
-        android:text="Password"
-        android:textAlignment="center"
+        android:text="Productivity Cycles Completed"
+        android:textAlignment="textStart"
         android:textColor="#004081"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/ivwLine4"
-        app:layout_constraintEnd_toStartOf="@+id/tvwPP_Username"
+        app:layout_constraintBottom_toTopOf="@+id/tvwPP_TitleStat2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivwLine3" />
 
     <TextView
-        android:id="@+id/tvwPP_Password"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:id="@+id/tvwPP_Stat1Num"
+        android:layout_width="86dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="55dp"
         android:fontFamily="@font/squada_one"
-        android:text="********"
+        android:text="0"
         android:textAlignment="textStart"
         android:textColor="#5084C9"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/ivwLine4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvwPP_TitlePass"
+        app:layout_constraintHorizontal_bias="0.293"
+        app:layout_constraintStart_toEndOf="@id/tvwPP_TitleStat1"
         app:layout_constraintTop_toBottomOf="@+id/ivwLine3" />
 
-    <ImageView
-        android:id="@+id/ivwLine4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="212dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/tvwPP_TitleStat2"
+        android:layout_width="161dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/squada_one"
+        android:text="Total Time Spent"
+        android:textAlignment="textStart"
+        android:textColor="#004081"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvwPP_TitlePass"
-        app:srcCompat="@drawable/profile_line" />
+        app:layout_constraintTop_toBottomOf="@id/tvwPP_TitleStat1" />
+
+    <TextView
+        android:id="@+id/tvwPP_Stat2Num"
+        android:layout_width="86dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/squada_one"
+        android:text="0 minutes"
+        android:textAlignment="textStart"
+        android:textColor="#5084C9"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/logoutBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.293"
+        app:layout_constraintStart_toEndOf="@id/tvwPP_TitleStat2"
+        app:layout_constraintTop_toBottomOf="@id/tvwPP_Stat1Num"
+        app:layout_constraintVertical_bias="0.025" />
 
     <Button
         android:id="@+id/logoutBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="86dp"
+        android:layout_height="34dp"
+        android:background="#FFBC1E"
+        android:fontFamily="@font/squada_one"
         android:text="Logout"
+        android:textColor="#004081"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivwLine4" />
+        app:layout_constraintTop_toBottomOf="@+id/tvwPP_TitleStat2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

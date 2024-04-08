@@ -15,7 +15,7 @@
         android:text="Custom Timer"
         android:textAlignment="center"
         android:textColor="#FF7602"
-        android:textSize="38sp"
+        android:textSize="55sp"
         android:textStyle="bold" />
 
     <Button

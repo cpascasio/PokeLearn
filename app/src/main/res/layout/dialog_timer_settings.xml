@@ -18,6 +18,16 @@
         android:textSize="38sp"
         android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/btn_ClearDefault"
+        android:layout_width="129dp"
+        android:layout_height="21dp"
+        android:background="#032D5A"
+        android:fontFamily="@font/squada_one"
+        android:text="Clear Default Duration"
+        android:textColor="#5084C9"
+        android:textSize="12sp" />
+
     <!-- Productivity interval settings -->
     <TextView
         android:id="@+id/twv_TitleProdDur"

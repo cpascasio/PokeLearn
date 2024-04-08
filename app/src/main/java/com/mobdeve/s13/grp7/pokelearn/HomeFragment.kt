@@ -163,23 +163,38 @@ class HomeFragment : Fragment() {
         secondsEditText = dialogView.findViewById(R.id.secondsEditText)
         val startTimerButton = dialogView.findViewById<Button>(R.id.btn_StartTimer)
 
+        // Other view initialization code...
+
         // Set default values for productivity duration, short break, and long break
         val defaultProductivityTime = 25 // Default productivity time in minutes
         val defaultShortBreak = 5 // Default short break time in minutes
         val defaultLongBreak = 10 // Default long break time in minutes
 
-        hoursEditText.setText("0")
+        hoursEditText.setText("")
         minutesEditText.setText(defaultProductivityTime.toString()) // Set default productivity duration
-        secondsEditText.setText("0")
+        secondsEditText.setText("")
 
         // Set default short break and long break durations in the dialog
         dialogView.findViewById<EditText>(R.id.breakMinutesEditText).setText(defaultShortBreak.toString())
-        dialogView.findViewById<EditText>(R.id.breakSecondsEditText).setText("0")
-        dialogView.findViewById<EditText>(R.id.breakHoursEditText).setText("0")
+        dialogView.findViewById<EditText>(R.id.breakSecondsEditText).setText("")
+        dialogView.findViewById<EditText>(R.id.breakHoursEditText).setText("")
         dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).setText(defaultLongBreak.toString())
-        dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).setText("0")
-        dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).setText("0")
+        dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).setText("")
+        dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).setText("")
 
+        val clearDefaultButton = dialogView.findViewById<Button>(R.id.btn_ClearDefault)
+        clearDefaultButton.setOnClickListener {
+            // Clear default values
+            hoursEditText.setText("")
+            minutesEditText.setText("")
+            secondsEditText.setText("")
+            dialogView.findViewById<EditText>(R.id.breakHoursEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.breakMinutesEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.breakSecondsEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).setText("")
+        }
 
         startTimerButton.setOnClickListener {
             dialog.dismiss()
@@ -193,57 +208,37 @@ class HomeFragment : Fragment() {
             val breakMinutes = dialogView.findViewById<EditText>(R.id.breakMinutesEditText).text.toString().toIntOrNull() ?: 0
             val breakSeconds = dialogView.findViewById<EditText>(R.id.breakSecondsEditText).text.toString().toIntOrNull() ?: 0
 
-//            val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
-//            val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
-
+            // Get long break time duration
             val longbreakHours = dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).text.toString().toIntOrNull() ?: 0
             val longbreakMinutes = dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).text.toString().toIntOrNull() ?: 0
             val longbreakSeconds = dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).text.toString().toIntOrNull() ?: 0
 
-            val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
-            val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
-            val longbreakDurationInSeconds = longbreakHours * 3600L + longbreakMinutes * 60L + longbreakSeconds
-
-//            if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0 && longbreakDurationInSeconds > 0) {
-//                // Re-show the progress bar
-//                progressBar.visibility = View.VISIBLE
-//                // set cancel button to clickable
-//                cancelButton.isEnabled = true
-//                startTimerButton.isEnabled = false
-//                startTimer(productivityDurationInSeconds, breakDurationInSeconds, longbreakDurationInSeconds)
-//            }
-
-            // Validate user input
+            // Validate user input and start the timer
             if (isValidInput(productivityHours, productivityMinutes, productivitySeconds) &&
-                isValidInput(breakHours, breakMinutes, breakSeconds)) {
-//                val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
-//                val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
+                isValidInput(breakHours, breakMinutes, breakSeconds) &&
+                isValidInput(longbreakHours, longbreakMinutes, longbreakSeconds)) {
+                val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
+                val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
+                val longbreakDurationInSeconds = longbreakHours * 3600L + longbreakMinutes * 60L + longbreakSeconds
 
-                // Start the timer only if both productivity and break durations are greater than 0
                 if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0 && longbreakDurationInSeconds > 0) {
-                    // Re-show the progress bar
                     progressBar.visibility = View.VISIBLE
-                    // set cancel button to clickable
                     cancelButton.isEnabled = true
                     startTimerButton.isEnabled = true
 
                     val totalProductivityMillis = productivityDurationInSeconds * 1000L
                     setTime(totalProductivityMillis)
 
-                    //call setupstartbutton
-                    setupStartButton(productivityDurationInSeconds * 1000L, breakDurationInSeconds * 1000L, longbreakDurationInSeconds * 1000L)
-
-
-                    //startTimer(productivityDurationInSeconds, breakDurationInSeconds, longbreakDurationInSeconds)
+                    setupStartButton(totalProductivityMillis, breakDurationInSeconds * 1000L, longbreakDurationInSeconds * 1000L)
                 }
-            }else {
-                // Show a toast message for invalid input
+            } else {
                 Toast.makeText(requireContext(), "Invalid input. Please enter valid values.", Toast.LENGTH_SHORT).show()
             }
         }
 
         dialog.show()
     }
+
 
     private fun startTimer(productivityDurationInSeconds: Long, breakDurationInSeconds: Long, longbreakDurationInSeconds: Long) {
         val totalProductivityMillis = productivityDurationInSeconds * 1000L

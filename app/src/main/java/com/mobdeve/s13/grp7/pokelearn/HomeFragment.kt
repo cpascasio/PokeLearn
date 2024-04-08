@@ -62,6 +62,8 @@ class HomeFragment : Fragment() {
             // User has left the app for over 2 minutes
             sendNotification()
             Log.d("MainActivity", "User has left the app for over 2 minutes")
+
+            cancelTimer() // Cancel the timer when the user leaves the app
         }
     }
 

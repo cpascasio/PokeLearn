@@ -62,7 +62,7 @@ class Profile : Fragment() {
 
         // Display the size of the user's Pokedex
         val tvwPPStat1Num = view.findViewById<TextView>(R.id.tvwPP_Stat1Num)
-        tvwPPStat1Num.text = userPokedex?.size.toString()
+        tvwPPStat1Num.text = (userPokedex?.size?.minus(1)).toString()
 
         // Fetch the user's UserProfile from the SQLite database
         val userProfile = userProfileDbHelper.getUserProfile(uid!!)
@@ -70,7 +70,7 @@ class Profile : Fragment() {
         // Display the user's totalTimeSpent
         val tvwPPStat2Num = view.findViewById<TextView>(R.id.tvwPP_Stat2Num)
         userProfile?.let {
-            tvwPPStat2Num.text = (it.totalTimeSpent/60).toString()
+            tvwPPStat2Num.text = (it.totalTimeSpent/60).toString() + " minutes"
         }
 
 

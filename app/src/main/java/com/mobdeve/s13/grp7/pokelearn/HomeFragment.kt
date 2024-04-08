@@ -430,8 +430,8 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        startTimeInMillis = 0
-        timeLeftInMillis = 0
+        //startTimeInMillis = 0
+        //timeLeftInMillis = 0
         updateCountDownText() // Update the timer text when the fragment resumes
     }
 

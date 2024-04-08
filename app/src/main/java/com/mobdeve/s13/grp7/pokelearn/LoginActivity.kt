@@ -50,6 +50,7 @@ class LoginActivity : AppCompatActivity() {
 
                         if (uid != null) {
                             firebaseHelper.readUser(uid) { userProfile ->
+                                val userProfileDatabaseHelper = UserProfileDatabaseHelper(this)
                                 if (userProfile != null) {
                                     val sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE)
                                     val editor = sharedPreferences.edit()
@@ -61,10 +62,24 @@ class LoginActivity : AppCompatActivity() {
                                     editor.putString("username", username)
                                     // Fetch pokedex from Firebase
                                     editor.apply()
+                                    userProfileDatabaseHelper.addUserProfile(userProfile)
                                     Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
 //                                    val intent = Intent(this, MainActivity::class.java)
 //                                    startActivity(intent)
 //                                    finish()
+                                }else{
+                                    val newUserProfile = UserProfile().apply {
+                                        this.uid = uid
+                                        this.username = firebaseAuth.currentUser?.displayName.toString()
+                                        this.pokedex = arrayListOf("1")
+                                        this.fullPomodoroCyclesCompleted = 0 // Initialize with 0
+                                        this.totalTimeSpent = 0 // Initialize with 0
+                                    }
+                                    Log.d("USERNAMEINLOGIN", firebaseAuth.currentUser?.displayName.toString())
+                                    // Save new user profile to SQLite
+                                    userProfileDatabaseHelper.addUserProfile(newUserProfile)
+                                    // Save new user profile to Firebase
+                                    firebaseHelper.writeUser(newUserProfile)
                                 }
                             }
                         }

@@ -178,6 +178,19 @@ class HomeFragment : Fragment() {
         dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).setText("0")
         dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).setText("0")
 
+        val clearDefaultButton = dialogView.findViewById<Button>(R.id.btn_ClearDefault)
+        clearDefaultButton.setOnClickListener {
+            // Clear default values
+            hoursEditText.setText("")
+            minutesEditText.setText("")
+            secondsEditText.setText("")
+            dialogView.findViewById<EditText>(R.id.breakHoursEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.breakMinutesEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.breakSecondsEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).setText("")
+            dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).setText("")
+        }
 
         startTimerButton.setOnClickListener {
             dialog.dismiss()

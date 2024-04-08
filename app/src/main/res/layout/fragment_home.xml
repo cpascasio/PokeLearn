@@ -86,7 +86,7 @@
         android:layout_marginTop="30dp"
         android:backgroundTint="@color/type_fighting"
         android:fontFamily="@font/squada_one"
-        android:text="Set Custom Timer"
+        android:text="Set Timer"
         android:textColor="#004081"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

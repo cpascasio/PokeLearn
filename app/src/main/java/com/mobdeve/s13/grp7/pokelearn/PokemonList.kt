@@ -18,6 +18,7 @@ import com.google.gson.Gson
 import com.mobdeve.s13.grp7.pokelearn.adapter.PokemonListAdapter
 import com.mobdeve.s13.grp7.pokelearn.common.ItemOffsetDecoration
 import com.mobdeve.s13.grp7.pokelearn.database.MyDatabaseHelper
+import com.mobdeve.s13.grp7.pokelearn.database.UserProfileDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.model.PokemonNew
 import kotlin.random.Random
 
@@ -103,7 +104,7 @@ class PokemonList : Fragment() {
         var finalPokemonList = ArrayList<PokemonNew>()
 
         for (i in 0 until data.size) {
-            var tempPoke = dbHelper.getPokemon(data[i].toInt())
+            var tempPoke = dbHelper.getPokemon(data[i].trim().toInt())
 
             if (tempPoke != null) {
                 finalPokemonList.add(tempPoke)
@@ -143,22 +144,23 @@ class PokemonList : Fragment() {
 
     private fun fetchData() {
         val sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val pokedexJson = sharedPreferences.getString("pokedex", null)
-        Log.d(TAG, "pokedexJson: $pokedexJson") // Add this line
-        val pokedexType = object : TypeToken<ArrayList<String>>() {}.type
-        val pokedex: ArrayList<String>? = gson.fromJson(pokedexJson, pokedexType)
-        Log.d(TAG, "pokedex: $pokedex") // Add this line
+        val uid = sharedPreferences.getString("uid", null) // Get UID from SharedPreferences
 
-        if (pokedex != null) {
-            userPokemonList = fetchUserData(pokedex)
+        if (uid != null) {
+            val userProfileDatabaseHelper = UserProfileDatabaseHelper(requireContext())
+            val pokedex = userProfileDatabaseHelper.getPokedex(uid) // Get pokedex from SQLite database
+
+            if (pokedex != null) {
+                userPokemonList = fetchUserData(pokedex)
+            } else {
+                userPokemonList = fetchUserData(dummyData)
+            }
         } else {
             userPokemonList = fetchUserData(dummyData)
         }
 
         val adapter = PokemonListAdapter(userPokemonList, requireActivity())
         rvw_pokemon.adapter = adapter
-
     }
 
 }

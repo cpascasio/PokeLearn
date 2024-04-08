@@ -17,6 +17,7 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.mobdeve.s13.grp7.pokelearn.database.FirebaseDatabaseHelper
+import com.mobdeve.s13.grp7.pokelearn.database.UserProfileDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.databinding.LoginPageBinding
 import com.mobdeve.s13.grp7.pokelearn.model.UserProfile
 
@@ -64,6 +65,24 @@ class LoginActivity : AppCompatActivity() {
                             editor.apply()
                         }
                         Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
+
+                        // Create UserProfile object
+                        val userProfile = UserProfile().apply {
+                            this.uid = firebaseAuth.currentUser?.uid.toString()
+                            this.username = firebaseAuth.currentUser?.displayName.toString()
+                            this.pokedex = arrayListOf("1")
+                            this.fullPomodoroCyclesCompleted = 0 // Initialize with 0
+                        }
+
+                        // Save UserProfile into SQLite database
+                        val userProfileDatabaseHelper = UserProfileDatabaseHelper(this)
+                        val isAdded = userProfileDatabaseHelper.addUserProfile(userProfile)
+
+                        if (isAdded) {
+                            Log.d(TAG, "User profile added to SQLite database")
+                        } else {
+                            Log.e(TAG, "Failed to add user profile to SQLite database")
+                        }
 
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)

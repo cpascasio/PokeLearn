@@ -192,7 +192,7 @@
         android:layout_marginBottom="10dp"
         android:background="@color/sign_in_box_color"
         android:fontFamily="@font/squada_one"
-        android:text="Start Timer"
+        android:text="Set Time"
         android:textColor="@color/white"
         android:textSize="12sp" />
 

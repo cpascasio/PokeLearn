@@ -19,6 +19,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -148,6 +149,24 @@ class HomeFragment : Fragment() {
         secondsEditText = dialogView.findViewById(R.id.secondsEditText)
         val startTimerButton = dialogView.findViewById<Button>(R.id.btn_StartTimer)
 
+        // Set default values for productivity duration, short break, and long break
+        val defaultProductivityTime = 25 // Default productivity time in minutes
+        val defaultShortBreak = 5 // Default short break time in minutes
+        val defaultLongBreak = 10 // Default long break time in minutes
+
+        hoursEditText.setText("0")
+        minutesEditText.setText(defaultProductivityTime.toString()) // Set default productivity duration
+        secondsEditText.setText("0")
+
+        // Set default short break and long break durations in the dialog
+        dialogView.findViewById<EditText>(R.id.breakMinutesEditText).setText(defaultShortBreak.toString())
+        dialogView.findViewById<EditText>(R.id.breakSecondsEditText).setText("0")
+        dialogView.findViewById<EditText>(R.id.breakHoursEditText).setText("0")
+        dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).setText(defaultLongBreak.toString())
+        dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).setText("0")
+        dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).setText("0")
+
+
         startTimerButton.setOnClickListener {
             dialog.dismiss()
             // Start the timer based on the input duration
@@ -160,13 +179,44 @@ class HomeFragment : Fragment() {
             val breakMinutes = dialogView.findViewById<EditText>(R.id.breakMinutesEditText).text.toString().toIntOrNull() ?: 0
             val breakSeconds = dialogView.findViewById<EditText>(R.id.breakSecondsEditText).text.toString().toIntOrNull() ?: 0
 
-            val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
-            val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
+//            val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
+//            val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
 
-            if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0) {
-                // Re-show the progress bar
-                progressBar.visibility = View.VISIBLE
-                startTimer(productivityDurationInSeconds, breakDurationInSeconds)
+//            if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0) {
+//                // Re-show the progress bar
+//                progressBar.visibility = View.VISIBLE
+//                // set cancel button to clickable
+//                cancelButton.isEnabled = true
+//                startTimerButton.isEnabled = false
+//                startTimer(productivityDurationInSeconds, breakDurationInSeconds)
+//            }
+
+            // Validate user input
+            if (isValidInput(productivityHours, productivityMinutes, productivitySeconds) &&
+                isValidInput(breakHours, breakMinutes, breakSeconds)) {
+                val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
+                val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
+
+                // Start the timer only if both productivity and break durations are greater than 0
+                if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0) {
+                    // Re-show the progress bar
+                    progressBar.visibility = View.VISIBLE
+                    // set cancel button to clickable
+                    cancelButton.isEnabled = true
+                    startTimerButton.isEnabled = true
+
+                    val totalProductivityMillis = productivityDurationInSeconds * 1000L
+                    setTime(totalProductivityMillis)
+
+                    //call setupstartbutton
+                    setupStartButton(productivityDurationInSeconds * 1000L, breakDurationInSeconds * 1000L)
+
+
+                    //startTimer(productivityDurationInSeconds, breakDurationInSeconds)
+                }
+            }else {
+                // Show a toast message for invalid input
+                Toast.makeText(requireContext(), "Invalid input. Please enter valid values.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -348,6 +398,10 @@ class HomeFragment : Fragment() {
 
     private fun cancelLogTask() {
         handler.removeCallbacks(logRunnable)
+    }
+
+    private fun isValidInput(hours: Int, minutes: Int, seconds: Int): Boolean {
+        return hours in 0..24 && minutes in 0..59 && seconds in 0..59
     }
 
 

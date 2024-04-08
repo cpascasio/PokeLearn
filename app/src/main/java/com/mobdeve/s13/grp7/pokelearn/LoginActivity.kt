@@ -161,7 +161,7 @@ class LoginActivity : AppCompatActivity() {
 
                     // store userID to shared preferences
                     editor.putString("uid", firebaseAuth.currentUser?.uid)
-                    editor.putString("username", firebaseAuth.currentUser?.displayName)
+                    editor.putString("username", firebaseAuth.currentUser?.displayName.toString())
 
 
                     // add email to shared preferences
@@ -186,9 +186,11 @@ class LoginActivity : AppCompatActivity() {
                                 val newUserProfile = UserProfile().apply {
                                     this.uid = uid
                                     this.username = firebaseAuth.currentUser?.displayName.toString()
+
                                     this.pokedex = arrayListOf("1")
                                     this.fullPomodoroCyclesCompleted = 0 // Initialize with 0
                                 }
+                                Log.d("USERNAMEINLOGIN", firebaseAuth.currentUser?.displayName.toString())
                                 // Save new user profile to SQLite
                                 userProfileDatabaseHelper.addUserProfile(newUserProfile)
                                 // Save new user profile to Firebase

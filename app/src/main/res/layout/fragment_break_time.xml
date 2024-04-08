@@ -24,8 +24,8 @@
 
     <ImageView
         android:id="@+id/ivwBTP_Logo"
-        android:layout_width="42dp"
-        android:layout_height="56dp"
+        android:layout_width="76dp"
+        android:layout_height="78dp"
         android:layout_marginTop="18dp"
         android:contentDescription="pokelearn_logo"
         android:src="@drawable/pokelearn_logo"
@@ -65,7 +65,7 @@
         android:id="@+id/tvwBreakTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/squada_one"
         android:gravity="center_horizontal"
         android:text="00:00:00"

@@ -84,10 +84,10 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
-        android:backgroundTint="#004081"
+        android:backgroundTint="@color/type_fighting"
         android:fontFamily="@font/squada_one"
         android:text="Set Custom Timer"
-        android:textColor="#FFBC1E"
+        android:textColor="#004081"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnMP_Start" />

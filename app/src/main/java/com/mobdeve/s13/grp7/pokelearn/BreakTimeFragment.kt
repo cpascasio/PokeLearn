@@ -28,6 +28,17 @@ class BreakTimeFragment : Fragment() {
     private var startTimeInMillis: Long = 0
     private var timeLeftInMillis: Long = 0
 
+    private val videoUrls = arrayOf(
+//        "https://www.youtube.com/embed/QGZuKIPffV8?si=f9ExyuycdxpsMgcL&loop=1",
+        "https://www.youtube.com/embed/Kk4WCJobi3I?si=l2dMynYd_dG-2zbP&loop=1",
+        "https://www.youtube.com/embed/joEMMnOgdMs?si=hcF1vpSSHfJuRA4o&loop=1",
+        "https://www.youtube.com/embed/DmojrzZib5g?si=WNK1RPiLY1ea4Aop&loop=1",
+        "https://www.youtube.com/embed/h_V1WxifpjA?si=Ql502XLEnDxWxl9u&loop=1",
+        "https://www.youtube.com/embed/SNuY9rbGUio?si=i9MZ3y-6KGOkY0Ig&loop=1",
+        "https://www.youtube.com/embed/QGZuKIPffV8?si=XAuldG91DJMWM_HI&loop=1"
+        // Add more video URLs as needed
+    )
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,11 +94,19 @@ class BreakTimeFragment : Fragment() {
             startButton.isEnabled = false
         }
 
+        // Randomly select a video URL
+        val randomIndex = (0 until videoUrls.size).random()
+        val selectedVideoUrl = videoUrls[randomIndex]
+
+        // Load the selected YouTube video in the WebView
+        val videoHtml = "<iframe width=\"100%\" height=\"100%\" src=\"$selectedVideoUrl\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+        webView.loadData(videoHtml, "text/html", "utf-8")
+
 
         // Load the YouTube video in the WebView
-        val videoUrl = "https://www.youtube.com/embed/QGZuKIPffV8?si=f9ExyuycdxpsMgcL&loop=1"
-        val videoHtml = "<iframe width=\"100%\" height=\"100%\" src=\"$videoUrl\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
-        webView.loadData(videoHtml, "text/html", "utf-8")
+//        val videoUrl = "https://www.youtube.com/embed/QGZuKIPffV8?si=f9ExyuycdxpsMgcL&loop=1"
+//        val videoHtml = "<iframe width=\"100%\" height=\"100%\" src=\"$videoUrl\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+//        webView.loadData(videoHtml, "text/html", "utf-8")
         webView.settings.javaScriptEnabled = true
         webView.webChromeClient = WebChromeClient()
         return view

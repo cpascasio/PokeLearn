@@ -1,5 +1,6 @@
 package com.mobdeve.s13.grp7.pokelearn
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -43,6 +44,11 @@ class Profile : Fragment() {
         logoutButton.setOnClickListener {
             // Sign out the user
             auth.signOut()
+            
+            //clear shared preferences
+            val sharedPreferences = activity?.getSharedPreferences("User", Context.MODE_PRIVATE)
+            sharedPreferences?.edit()?.clear()?.apply()
+
             // Navigate to the login screen or perform any other action after logout
             LoginManager.getInstance().logOut()
             // For example, navigate back to the LoginActivity

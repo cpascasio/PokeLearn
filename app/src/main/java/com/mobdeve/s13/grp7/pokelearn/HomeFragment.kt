@@ -4,6 +4,7 @@ import SharedViewModel
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -114,6 +115,16 @@ class HomeFragment : Fragment() {
 
         setTimerButton.setOnClickListener { showTimerSettingsDialog() }
         cancelButton.setOnClickListener { cancelTimer() }
+
+        //log shared preferences
+        // Log shared preferences
+        val sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE)
+        val uid = sharedPreferences.getString("uid", "No UID found")
+        val email = sharedPreferences.getString("email", "No email found")
+
+        Log.d("SharedPreferences", "UID: $uid")
+        Log.d("SharedPreferences", "Email: $email")
+
 
         // Load the static Pokeball image initially
         Glide.with(this)

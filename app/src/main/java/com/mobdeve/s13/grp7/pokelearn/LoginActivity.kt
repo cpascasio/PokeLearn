@@ -51,19 +51,9 @@ class LoginActivity : AppCompatActivity() {
                         // store userID to shared preferences
                         editor.putString("uid", firebaseAuth.currentUser?.uid)
                         editor.putString("email", email)
-                        editor.putString("password", password)
-                        editor.putString("username", firebaseAuth.currentUser?.displayName)
                         // Fetch pokedex from Firebase
-                        firebaseHelper.readPokedex(firebaseAuth.currentUser!!.uid) { pokedex ->
-                            // Convert pokedex ArrayList to a JSON string
-                            val gson = Gson()
-                            val pokedexJson = gson.toJson(pokedex)
-                            editor.putString("pokedex", pokedexJson)
 
-                            Log.d("pokedexasdasd", pokedexJson)
-
-                            editor.apply()
-                        }
+                        editor.apply()
                         Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
 
                         // Create UserProfile object
@@ -161,7 +151,39 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
-                    Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
+
+                    val sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+
+                    // store userID to shared preferences
+                    editor.putString("uid", firebaseAuth.currentUser?.uid)
+
+                    // add email to shared preferences
+                    editor.putString("email", firebaseAuth.currentUser?.email)
+                    // add password to shared preferences
+                    // Fetch pokedex from Firebase
+
+                    editor.apply()
+
+                        Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
+                    // Create UserProfile object
+                    val userProfile = UserProfile().apply {
+                        this.uid = firebaseAuth.currentUser?.uid.toString()
+                        this.username = firebaseAuth.currentUser?.displayName.toString()
+                        this.pokedex = arrayListOf("1")
+                        this.fullPomodoroCyclesCompleted = 0 // Initialize with 0
+                    }
+
+                    // Save UserProfile into SQLite database
+                    val userProfileDatabaseHelper = UserProfileDatabaseHelper(this)
+                    val isAdded = userProfileDatabaseHelper.addUserProfile(userProfile)
+
+                    if (isAdded) {
+                        Log.d(TAG, "User profile added to SQLite database")
+                    } else {
+                        Log.e(TAG, "Failed to add user profile to SQLite database")
+                    }
+
                     val user = firebaseAuth.currentUser
 //                    updateUI(user)
                     startActivity(Intent(this, MainActivity::class.java))

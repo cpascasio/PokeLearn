@@ -5,18 +5,18 @@
         android:id="@+id/pokedex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/ic_android_black_24dp"
+        android:icon="@drawable/navbar_pokedex_icon"
         android:title="Pokedex" />
     <item
         android:id="@+id/home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/ic_android_black_24dp"
+        android:icon="@drawable/navbar_home_icon"
         android:title="Home" />
     <item
         android:id="@+id/profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/ic_android_black_24dp"
+        android:icon="@drawable/navbar_profile_icon"
         android:title="Profile" />
 </menu>

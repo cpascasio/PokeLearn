@@ -208,19 +208,19 @@ class BreakTimeFragment : Fragment() {
         }
     }
 
-    companion object {
-        const val BREAK_DURATION_KEY = "break_duration"
-        const val REMAINING_TIME_KEY = "remaining_time"
-        const val PRODUCTIVITY_TIME_KEY = "productivity_time"
-
-        fun newInstance(breakDurationInMillis: Long, remainingTimeInMillis: Long, productivityTimeInMillis: Long): BreakTimeFragment {
-            val fragment = BreakTimeFragment()
-            val args = Bundle()
-            args.putLong(BREAK_DURATION_KEY, breakDurationInMillis)
-            args.putLong(REMAINING_TIME_KEY, remainingTimeInMillis)
-            args.putLong(PRODUCTIVITY_TIME_KEY, productivityTimeInMillis)
-            fragment.arguments = args
-            return fragment
-        }
-    }
+//    companion object {
+//        const val BREAK_DURATION_KEY = "break_duration"
+//        const val REMAINING_TIME_KEY = "remaining_time"
+//        const val PRODUCTIVITY_TIME_KEY = "productivity_time"
+//
+//        fun newInstance(breakDurationInMillis: Long, remainingTimeInMillis: Long, productivityTimeInMillis: Long): BreakTimeFragment {
+//            val fragment = BreakTimeFragment()
+//            val args = Bundle()
+//            args.putLong(BREAK_DURATION_KEY, breakDurationInMillis)
+//            args.putLong(REMAINING_TIME_KEY, remainingTimeInMillis)
+//            args.putLong(PRODUCTIVITY_TIME_KEY, productivityTimeInMillis)
+//            fragment.arguments = args
+//            return fragment
+//        }
+//    }
 }

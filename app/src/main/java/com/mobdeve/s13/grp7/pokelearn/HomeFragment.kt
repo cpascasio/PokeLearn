@@ -203,8 +203,8 @@ class HomeFragment : Fragment() {
             // Validate user input
             if (isValidInput(productivityHours, productivityMinutes, productivitySeconds) &&
                 isValidInput(breakHours, breakMinutes, breakSeconds)) {
-                val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
-                val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
+//                val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
+//                val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
 
                 // Start the timer only if both productivity and break durations are greater than 0
                 if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0 && longbreakDurationInSeconds > 0) {
@@ -218,7 +218,7 @@ class HomeFragment : Fragment() {
                     setTime(totalProductivityMillis)
 
                     //call setupstartbutton
-                    setupStartButton(productivityDurationInSeconds * 1000L, breakDurationInSeconds * 1000L)
+                    setupStartButton(productivityDurationInSeconds * 1000L, breakDurationInSeconds * 1000L, longbreakDurationInSeconds * 1000L)
 
 
                     //startTimer(productivityDurationInSeconds, breakDurationInSeconds, longbreakDurationInSeconds)

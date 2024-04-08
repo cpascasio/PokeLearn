@@ -1,5 +1,3 @@
-package com.mobdeve.s13.grp7.pokelearn
-
 import SharedViewModel
 import android.content.Intent
 import android.os.Bundle
@@ -8,37 +6,39 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mobdeve.s13.grp7.pokelearn.databinding.FragmentBreakTimeBinding
+import com.mobdeve.s13.grp7.pokelearn.R
+import com.mobdeve.s13.grp7.pokelearn.HomeFragment
+import com.mobdeve.s13.grp7.pokelearn.RewardsActivity
+
 
 class BreakTimeFragment : Fragment() {
     private lateinit var binding: FragmentBreakTimeBinding
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var startButton: Button
-    private lateinit var webView: WebView // Declaration of webView
-
+    private lateinit var cancelButton: Button
+    private lateinit var webView: WebView
     private lateinit var sharedViewModel: SharedViewModel
 
     private var startTimeInMillis: Long = 0
     private var timeLeftInMillis: Long = 0
+    private var isTimerSet: Boolean = false
 
     private val videoUrls = arrayOf(
-//        "https://www.youtube.com/embed/QGZuKIPffV8?si=f9ExyuycdxpsMgcL&loop=1",
         "https://www.youtube.com/embed/Kk4WCJobi3I?si=l2dMynYd_dG-2zbP&loop=1",
         "https://www.youtube.com/embed/joEMMnOgdMs?si=hcF1vpSSHfJuRA4o&loop=1",
         "https://www.youtube.com/embed/DmojrzZib5g?si=WNK1RPiLY1ea4Aop&loop=1",
         "https://www.youtube.com/embed/h_V1WxifpjA?si=Ql502XLEnDxWxl9u&loop=1",
         "https://www.youtube.com/embed/SNuY9rbGUio?si=i9MZ3y-6KGOkY0Ig&loop=1",
         "https://www.youtube.com/embed/QGZuKIPffV8?si=XAuldG91DJMWM_HI&loop=1"
-        // Add more video URLs as needed
     )
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,53 +46,47 @@ class BreakTimeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        // Inflate the layout for this fragment
         binding = FragmentBreakTimeBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // Initialize the sharedViewModel
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        Log.d("BreakTimeFragment", "STARTING Cycle Counter: ${sharedViewModel.cycleCounter}")
-
         // Initialize UI elements
+        startButton = view.findViewById(R.id.btnStart)
+        cancelButton = view.findViewById(R.id.btnCancel)
+        webView = view.findViewById(R.id.webView)
         val timerText = binding.tvwBreakTimer
 
-        startButton = view.findViewById(R.id.btnStart) // Find the Start button
-        webView = view.findViewById(R.id.webView) // Find the WebView
+        // Set click listener for the start button
+        startButton.setOnClickListener {
+            startTimer()
+            startButton.isEnabled = false
+            cancelButton.isEnabled = true
+        }
 
-        val webView = binding.webView
+        // Set click listener for the cancel button
+        cancelButton.setOnClickListener {
+            cancelTimer()
+        }
 
+        // Get sharedViewModel
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        Log.d("BreakTimeFragment", "STARTING Cycle Counter: ${sharedViewModel.cycleCounter}")
 
         // Get break time duration and remaining time from arguments
         var breakDurationInMillis: Long
         var remainingTimeInMillis: Long
         if(sharedViewModel.cycleCounter == 3) {
-            // set breakDurationInMillis to 10 seconds
-
-            Log.d("BreakTimeFragment", "SET TO 30 MINUTES")
-            breakDurationInMillis = 10000
+            breakDurationInMillis = 10000 // Set break duration to 10 seconds for testing
             remainingTimeInMillis = breakDurationInMillis
-            //breakDurationInMillis = 1800000
-            //remainingTimeInMillis = breakDurationInMillis
-        }else{
+        } else {
             breakDurationInMillis = arguments?.getLong(BREAK_DURATION_KEY) ?: 0
             remainingTimeInMillis = arguments?.getLong(REMAINING_TIME_KEY) ?: breakDurationInMillis
         }
 
-
-        Log.d("BreakTimeFragment", "Remaining Time IN MILLIS: $remainingTimeInMillis")
-
         setTime(remainingTimeInMillis)
-
-
 
         // Update the timer text
         updateCountDownText()
-
-
-        startButton.setOnClickListener {
-            startTimer()
-            startButton.isEnabled = false
-        }
 
         // Randomly select a video URL
         val randomIndex = (0 until videoUrls.size).random()
@@ -101,23 +95,13 @@ class BreakTimeFragment : Fragment() {
         // Load the selected YouTube video in the WebView
         val videoHtml = "<iframe width=\"100%\" height=\"100%\" src=\"$selectedVideoUrl\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
         webView.loadData(videoHtml, "text/html", "utf-8")
-
-
-        // Load the YouTube video in the WebView
-//        val videoUrl = "https://www.youtube.com/embed/QGZuKIPffV8?si=f9ExyuycdxpsMgcL&loop=1"
-//        val videoHtml = "<iframe width=\"100%\" height=\"100%\" src=\"$videoUrl\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
-//        webView.loadData(videoHtml, "text/html", "utf-8")
         webView.settings.javaScriptEnabled = true
         webView.webChromeClient = WebChromeClient()
+
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-    }
-
-    internal fun startTimer() {
+    private fun startTimer() {
         countDownTimer = object : CountDownTimer(timeLeftInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 timeLeftInMillis = millisUntilFinished
@@ -126,24 +110,31 @@ class BreakTimeFragment : Fragment() {
 
             override fun onFinish() {
                 if(sharedViewModel.cycleCounter == 3) {
-
                     redirectToRewardsPage()
                     sharedViewModel.cycleCounter = 0
                     Log.d("BreakTimeFragment", "Cycle Counter if 3: ${sharedViewModel.cycleCounter}")
-                } else{
-
-sharedViewModel.cycleCounter++
+                } else {
+                    sharedViewModel.cycleCounter++
                     Log.d("BreakTimeFragment", "Cycle Counter: ${sharedViewModel.cycleCounter}")
                     redirectToHomeFragment()
                 }
             }
         }.start()
+
+        isTimerSet = true
     }
+
+    private fun cancelTimer() {
+        countDownTimer.cancel()
+        isTimerSet = false
+        redirectToHomeFragment()
+    }
+
 
     private fun setTime(milliseconds: Long) {
         startTimeInMillis = milliseconds
         timeLeftInMillis = milliseconds
-        updateCountDownText() // Update UI with initial time
+        updateCountDownText()
     }
 
     private fun updateCountDownText() {
@@ -177,23 +168,6 @@ sharedViewModel.cycleCounter++
         }
     }
 
-    companion object {
-        const val BREAK_DURATION_KEY = "break_duration"
-        const val REMAINING_TIME_KEY = "remaining_time"
-        const val PRODUCTIVITY_TIME_KEY = "productivity_time" // New constant for productivity time key
-
-        fun newInstance(breakDurationInMillis: Long, remainingTimeInMillis: Long, productivityTimeInMillis: Long): BreakTimeFragment {
-            val fragment = BreakTimeFragment()
-            val args = Bundle()
-            args.putLong(BREAK_DURATION_KEY, breakDurationInMillis)
-            args.putLong(REMAINING_TIME_KEY, remainingTimeInMillis)
-            args.putLong(PRODUCTIVITY_TIME_KEY, productivityTimeInMillis) // Add productivity time to the arguments
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
-
     private fun redirectToRewardsPage() {
         try {
             val rewardsIntent = Intent(requireContext(), RewardsActivity::class.java)
@@ -204,7 +178,19 @@ sharedViewModel.cycleCounter++
         }
     }
 
+    companion object {
+        const val BREAK_DURATION_KEY = "break_duration"
+        const val REMAINING_TIME_KEY = "remaining_time"
+        const val PRODUCTIVITY_TIME_KEY = "productivity_time"
+
+        fun newInstance(breakDurationInMillis: Long, remainingTimeInMillis: Long, productivityTimeInMillis: Long): BreakTimeFragment {
+            val fragment = BreakTimeFragment()
+            val args = Bundle()
+            args.putLong(BREAK_DURATION_KEY, breakDurationInMillis)
+            args.putLong(REMAINING_TIME_KEY, remainingTimeInMillis)
+            args.putLong(PRODUCTIVITY_TIME_KEY, productivityTimeInMillis)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 }
-
-
-

@@ -1,10 +1,12 @@
 package com.mobdeve.s13.grp7.pokelearn
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -13,6 +15,8 @@ import com.facebook.FacebookSdk
 import com.facebook.share.model.SharePhoto
 import com.facebook.share.model.SharePhotoContent
 import com.facebook.share.widget.ShareDialog
+import com.mobdeve.s13.grp7.pokelearn.database.MyDatabaseHelper
+import com.mobdeve.s13.grp7.pokelearn.database.UserProfileDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.databinding.RewardsPageBinding
 import kotlin.random.Random
 
@@ -49,7 +53,11 @@ class RewardsActivity : AppCompatActivity() {
         binding = RewardsPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        displayPokemon()
+        val rolledNumber = rollPokemon()
+
+        displayPokemon(rolledNumber)
+
+        addPokemonToPokedex(rolledNumber)
 
         // Initialize Facebook SDK
         FacebookSdk.setAutoInitEnabled(true)
@@ -77,9 +85,9 @@ class RewardsActivity : AppCompatActivity() {
         return randomPokedexNumber
     }
 
-    fun displayPokemon() {
+    fun displayPokemon(randomPokedexNumber:Int) {
         // Get the random Pokedex number
-        val randomPokedexNumber = rollPokemon()
+        //val randomPokedexNumber = rollPokemon()
 
         val drawableName = "pokegif_${randomPokedexNumber}"
         val resId = this.resources.getIdentifier(drawableName, "drawable", this.packageName)
@@ -88,6 +96,38 @@ class RewardsActivity : AppCompatActivity() {
         Glide.with(this)
             .load(resId)
             .into(binding.ivPokeReward)
+    }
+
+    //function to add the pokemon to the pokedex
+    fun addPokemonToPokedex(pokemonId: Int) {
+        val sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE)
+        val uid = sharedPreferences.getString("uid", null)
+
+        if (uid != null) {
+            // Create an instance of UserProfileDatabaseHelper
+            val userProfileDbHelper = UserProfileDatabaseHelper(this)
+
+            // Add rolled pokemon to the pokedex given the uid
+            val success = userProfileDbHelper.addPokemonToUser(uid, pokemonId.toString())
+
+            if (success) {
+                Toast.makeText(this, "Pokemon added to Pokedex", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Failed to add Pokemon to Pokedex", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+
+        //log the new pokedex of the user
+        val userProfileDbHelper = UserProfileDatabaseHelper(this)
+        val pokedex = userProfileDbHelper.getPokedex(uid!!)
+        if (pokedex != null) {
+            for (pokemon in pokedex) {
+                Log.d("pokedex", pokemon)
+            }
+        }
+
     }
 
     private fun showRatingActivity() {

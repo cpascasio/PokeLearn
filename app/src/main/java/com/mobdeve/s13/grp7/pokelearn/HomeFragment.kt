@@ -49,6 +49,8 @@ class HomeFragment : Fragment() {
     private var isTimerSet: Boolean = false
     private var isBreakTime: Boolean = false // Track if the current timer is for break time
 
+    private var timerSettingsDialog: BottomSheetDialog? = null
+
     private var cycleCounter = 0
 
     private var isUserInApp: Boolean = false
@@ -149,17 +151,65 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+
+        // Find the clear default button within the dialog's view hierarchy
+        val clearDefaultButton = timerSettingsDialog?.findViewById<Button>(R.id.btn_ClearDefault)
+        clearDefaultButton?.setOnClickListener {
+            clearDefaultValues()
+        }
     }
 
-    private fun showTimerSettingsDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_timer_settings, null)
-        val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(dialogView)
 
-        hoursEditText = dialogView.findViewById(R.id.hoursEditText)
-        minutesEditText = dialogView.findViewById(R.id.minutesEditText)
-        secondsEditText = dialogView.findViewById(R.id.secondsEditText)
-        val startTimerButton = dialogView.findViewById<Button>(R.id.btn_StartTimer)
+
+    private fun clearDefaultValues() {
+        // Ensure EditText objects are initialized
+        if (::hoursEditText.isInitialized && ::minutesEditText.isInitialized && ::secondsEditText.isInitialized) {
+            // Clear default values for productivity duration
+            hoursEditText.setText("")
+            minutesEditText.setText("")
+            secondsEditText.setText("")
+
+            // Clear default values for short break duration
+            val dialogView = timerSettingsDialog?.findViewById<View>(R.id.dialog_timer_settings)
+            val breakHoursEditText = dialogView?.findViewById<EditText>(R.id.breakHoursEditText)
+            val breakMinutesEditText = dialogView?.findViewById<EditText>(R.id.breakMinutesEditText)
+            val breakSecondsEditText = dialogView?.findViewById<EditText>(R.id.breakSecondsEditText)
+            breakHoursEditText?.setText("")
+            breakMinutesEditText?.setText("")
+            breakSecondsEditText?.setText("")
+
+            // Clear default values for long break duration
+            val longbreakHoursEditText = dialogView?.findViewById<EditText>(R.id.longbreakHoursEditText)
+            val longbreakMinutesEditText = dialogView?.findViewById<EditText>(R.id.longbreakMinutesEditText)
+            val longbreakSecondsEditText = dialogView?.findViewById<EditText>(R.id.longbreakSecondsEditText)
+            longbreakHoursEditText?.setText("")
+            longbreakMinutesEditText?.setText("")
+            longbreakSecondsEditText?.setText("")
+        } else {
+            // EditText objects are not initialized, handle the case gracefully
+            Log.e("HomeFragment", "EditText objects are not initialized")
+            // You can show a toast or log an error message to indicate the issue
+        }
+    }
+
+
+
+
+    private fun showTimerSettingsDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_timer_settings, null)
+        timerSettingsDialog = BottomSheetDialog(requireContext())
+        timerSettingsDialog?.setContentView(dialogView)
+
+        // Find the clear default button within the dialog's view hierarchy
+        val clearDefaultButton = dialogView.findViewById<Button>(R.id.btn_ClearDefault)
+        clearDefaultButton?.setOnClickListener {
+            clearDefaultValues()
+        }
+
+        // Initialize EditText views
+        hoursEditText = dialogView.findViewById(R.id.hoursEditText) ?: return
+        minutesEditText = dialogView.findViewById(R.id.minutesEditText) ?: return
+        secondsEditText = dialogView.findViewById(R.id.secondsEditText) ?: return
 
         // Set default values for productivity duration, short break, and long break
         val defaultProductivityTime = 25 // Default productivity time in minutes
@@ -171,51 +221,38 @@ class HomeFragment : Fragment() {
         secondsEditText.setText("0")
 
         // Set default short break and long break durations in the dialog
-        dialogView.findViewById<EditText>(R.id.breakMinutesEditText).setText(defaultShortBreak.toString())
-        dialogView.findViewById<EditText>(R.id.breakSecondsEditText).setText("0")
-        dialogView.findViewById<EditText>(R.id.breakHoursEditText).setText("0")
-        dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).setText(defaultLongBreak.toString())
-        dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).setText("0")
-        dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).setText("0")
+        dialogView.findViewById<EditText>(R.id.breakMinutesEditText)?.setText(defaultShortBreak.toString())
+        dialogView.findViewById<EditText>(R.id.breakSecondsEditText)?.setText("0")
+        dialogView.findViewById<EditText>(R.id.breakHoursEditText)?.setText("0")
+        dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText)?.setText(defaultLongBreak.toString())
+        dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText)?.setText("0")
+        dialogView.findViewById<EditText>(R.id.longbreakHoursEditText)?.setText("0")
 
+        val startTimerButton = dialogView.findViewById<Button>(R.id.btn_StartTimer)
 
         startTimerButton.setOnClickListener {
-            dialog.dismiss()
+            timerSettingsDialog?.dismiss()
             // Start the timer based on the input duration
             val productivityHours = hoursEditText.text.toString().toIntOrNull() ?: 0
             val productivityMinutes = minutesEditText.text.toString().toIntOrNull() ?: 0
             val productivitySeconds = secondsEditText.text.toString().toIntOrNull() ?: 0
 
             // Get break time duration
-            val breakHours = dialogView.findViewById<EditText>(R.id.breakHoursEditText).text.toString().toIntOrNull() ?: 0
-            val breakMinutes = dialogView.findViewById<EditText>(R.id.breakMinutesEditText).text.toString().toIntOrNull() ?: 0
-            val breakSeconds = dialogView.findViewById<EditText>(R.id.breakSecondsEditText).text.toString().toIntOrNull() ?: 0
+            val breakHours = dialogView.findViewById<EditText>(R.id.breakHoursEditText)?.text.toString().toIntOrNull() ?: 0
+            val breakMinutes = dialogView.findViewById<EditText>(R.id.breakMinutesEditText)?.text.toString().toIntOrNull() ?: 0
+            val breakSeconds = dialogView.findViewById<EditText>(R.id.breakSecondsEditText)?.text.toString().toIntOrNull() ?: 0
 
-//            val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
-//            val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
-
-            val longbreakHours = dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).text.toString().toIntOrNull() ?: 0
-            val longbreakMinutes = dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).text.toString().toIntOrNull() ?: 0
-            val longbreakSeconds = dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).text.toString().toIntOrNull() ?: 0
+            val longbreakHours = dialogView.findViewById<EditText>(R.id.longbreakHoursEditText)?.text.toString().toIntOrNull() ?: 0
+            val longbreakMinutes = dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText)?.text.toString().toIntOrNull() ?: 0
+            val longbreakSeconds = dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText)?.text.toString().toIntOrNull() ?: 0
 
             val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
             val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
             val longbreakDurationInSeconds = longbreakHours * 3600L + longbreakMinutes * 60L + longbreakSeconds
 
-//            if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0 && longbreakDurationInSeconds > 0) {
-//                // Re-show the progress bar
-//                progressBar.visibility = View.VISIBLE
-//                // set cancel button to clickable
-//                cancelButton.isEnabled = true
-//                startTimerButton.isEnabled = false
-//                startTimer(productivityDurationInSeconds, breakDurationInSeconds, longbreakDurationInSeconds)
-//            }
-
             // Validate user input
             if (isValidInput(productivityHours, productivityMinutes, productivitySeconds) &&
                 isValidInput(breakHours, breakMinutes, breakSeconds)) {
-//                val productivityDurationInSeconds = productivityHours * 3600L + productivityMinutes * 60L + productivitySeconds
-//                val breakDurationInSeconds = breakHours * 3600L + breakMinutes * 60L + breakSeconds
 
                 // Start the timer only if both productivity and break durations are greater than 0
                 if (productivityDurationInSeconds > 0 && breakDurationInSeconds > 0 && longbreakDurationInSeconds > 0) {
@@ -230,18 +267,16 @@ class HomeFragment : Fragment() {
 
                     //call setupstartbutton
                     setupStartButton(productivityDurationInSeconds * 1000L, breakDurationInSeconds * 1000L, longbreakDurationInSeconds * 1000L)
-
-
-                    //startTimer(productivityDurationInSeconds, breakDurationInSeconds, longbreakDurationInSeconds)
                 }
-            }else {
+            } else {
                 // Show a toast message for invalid input
                 Toast.makeText(requireContext(), "Invalid input. Please enter valid values.", Toast.LENGTH_SHORT).show()
             }
         }
 
-        dialog.show()
+        timerSettingsDialog?.show()
     }
+
 
     private fun startTimer(productivityDurationInSeconds: Long, breakDurationInSeconds: Long, longbreakDurationInSeconds: Long) {
         val totalProductivityMillis = productivityDurationInSeconds * 1000L
@@ -305,53 +340,14 @@ class HomeFragment : Fragment() {
             }
 
             // Start the break timer
-            //breakTimeFragment.startTimer()
-
-            // Update the timer text when starting break timer
-            updateCountDownText() // Update the timer text
+            breakTimeFragment.startTimer()
 
         }, delayMillis)
-
-        isBreakTime = true // Set isBreakTime flag to true since it's break time
-        isTimerSet = true
-        // Load the shaking Pokeball image when the timer is set
-        Glide.with(this)
-            .asGif()
-            .load(R.drawable.pokeball_shaking)
-            .into(shakingPokeballImageView)
     }
 
-
-    private fun cancelTimer() {
-        // Cancel the current timer and reset UI
-        countDownTimer?.cancel()
-        isTimerSet = false
-        countDownTimer = null
-        startTimeInMillis = 0
-        timeLeftInMillis = 0
-        isBreakTime = false
-        updateCountDownText() // Update the timer text
-
-        // Set startTimer button to not clickable
-        binding.btnMPStart.isEnabled = false
-
-        // set cancel button to not clickable
-        cancelButton.isEnabled = false
-
-        // Switch Pokeball image to static
-        Glide.with(this)
-            .load(R.drawable.pokeball_static)
-            .into(shakingPokeballImageView)
-    }
-
-    private fun setTime(milliseconds: Long) {
-        startTimeInMillis = milliseconds
-        timeLeftInMillis = milliseconds
-        updateCountDownText()
-    }
-
-    fun setProductivityTime(productivityTimeInMillis: Long) {
-        setTime(productivityTimeInMillis)
+    private fun updateProgressBar() {
+        val progress = (timeLeftInMillis * 100 / startTimeInMillis).toInt()
+        progressBar.progress = progress
     }
 
     private fun updateCountDownText() {
@@ -363,79 +359,57 @@ class HomeFragment : Fragment() {
         timerText.text = timeLeftFormatted
     }
 
-    private fun updateProgressBar() {
-        val elapsedTimeInMillis = startTimeInMillis - timeLeftInMillis
-        val progress = ((elapsedTimeInMillis * 100) / startTimeInMillis).toInt()
-        val filledProgress = 100 - progress  // Reverse progress to make it clockwise
+    private fun setTime(milliseconds: Long) {
+        startTimeInMillis = milliseconds
+        timeLeftInMillis = milliseconds
+        updateCountDownText()
+    }
 
-        progressBar.progress = filledProgress
-
-        // Ensure the progress bar reaches 100% when the timer finishes
-        if (progress == 100) {
-            progressBar.progress = 0 // Reset progress to 0 when the timer finishes
+    private fun cancelTimer() {
+        if (countDownTimer != null) {
+            countDownTimer?.cancel()
         }
+
+        isTimerSet = false
+        progressBar.visibility = View.INVISIBLE
+
+        // Load the static Pokeball image when the timer is canceled
+        Glide.with(this)
+            .load(R.drawable.pokeball_static)
+            .into(shakingPokeballImageView)
+
+        timerText.text = getString(R.string.default_timer_text)
+        progressBar.progress = 0
     }
 
-    fun setupStartButton(productivityTimeInMillis: Long, breakDurationInMillis: Long, longbreakDurationInMillis: Long) {
-        val productivityTimeInSecondsfunc = productivityTimeInMillis / 1000L
+    private fun setProductivityTime(milliseconds: Long) {
+        // Initialize the productivity time
+        setTime(milliseconds)
+    }
 
-        val breakDurationInMillisfunc = breakDurationInMillis / 1000L
-
-        val longbreakDurationInMillisfunc = longbreakDurationInMillis / 1000L
-
-        binding.btnMPStart.apply {
-            isEnabled = true
-            setOnClickListener {
-                startTimer(productivityTimeInSecondsfunc, breakDurationInMillisfunc, longbreakDurationInMillisfunc)
-                isEnabled = false
-            }
+    private fun setupStartButton(productivityDurationInMillis: Long, breakDurationInMillis: Long, longbreakDurationInMillis: Long) {
+        binding.btnMPStart.setOnClickListener {
+            startTimer(productivityDurationInMillis / 1000, breakDurationInMillis / 1000, longbreakDurationInMillis / 1000)
         }
-    }
-    companion object {
-        const val PRODUCTIVITY_TIME_KEY = "productivity_time"
-        const val BREAK_DURATION_KEY = "break_duration"
-        const val LONGBREAK_DURATION_KEY = "longbreak_duration"
-    }
-
-    override fun onStart() {
-        super.onStart()
-        // User is in the app
-        isUserInApp = true
-        Log.d("MainActivity", "onStart() called")
-        cancelLogTask() // Cancel any previously scheduled log task
-        appInBackground = false
-    }
-
-    override fun onStop() {
-        super.onStop()
-        // User has left the app
-        isUserInApp = false
-        Log.d("MainActivity", "onStop() called")
-        scheduleLogTask() // Schedule a log task if the app is going into the background
-    }
-
-    override fun onResume() {
-        super.onResume()
-        startTimeInMillis = 0
-        timeLeftInMillis = 0
-        updateCountDownText() // Update the timer text when the fragment resumes
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        cancelLogTask() // Cancel any scheduled log task when the activity is destroyed
-    }
-
-    private fun scheduleLogTask() {
-        appInBackground = true
-        handler.postDelayed(logRunnable, inactivityThreshold)
-    }
-
-    private fun cancelLogTask() {
-        handler.removeCallbacks(logRunnable)
     }
 
     private fun isValidInput(hours: Int, minutes: Int, seconds: Int): Boolean {
-        return hours in 0..24 && minutes in 0..59 && seconds in 0..59
+        return hours >= 0 && minutes >= 0 && seconds >= 0
+    }
+
+    companion object {
+        private const val PRODUCTIVITY_TIME_KEY = "PRODUCTIVITY_TIME"
+        private const val BREAK_DURATION_KEY = "BREAK_DURATION"
+        private const val LONGBREAK_DURATION_KEY = "LONGBREAK_DURATION"
+
+        fun newInstance(productivityTimeInMillis: Long, breakDurationInMillis: Long, longbreakDurationInMillis: Long): HomeFragment {
+            val fragment = HomeFragment()
+            val args = Bundle()
+            args.putLong(PRODUCTIVITY_TIME_KEY, productivityTimeInMillis)
+            args.putLong(BREAK_DURATION_KEY, breakDurationInMillis)
+            args.putLong(LONGBREAK_DURATION_KEY, longbreakDurationInMillis)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

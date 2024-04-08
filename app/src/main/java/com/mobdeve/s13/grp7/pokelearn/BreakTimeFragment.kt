@@ -110,7 +110,7 @@ class BreakTimeFragment : Fragment() {
         return view
     }
 
-    private fun startTimer() {
+    fun startTimer() {
         countDownTimer = object : CountDownTimer(timeLeftInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 timeLeftInMillis = millisUntilFinished

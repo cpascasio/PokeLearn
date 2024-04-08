@@ -32,6 +32,8 @@
     <string name="notification_title">Failed to catch pokemon</string>
     <string name="notification_message">Youve been away for too long!</string>
 
+    <string name="default_timer_text">00:00:00</string>
+
 
 
 </resources>

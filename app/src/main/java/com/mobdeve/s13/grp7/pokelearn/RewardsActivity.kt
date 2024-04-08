@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.facebook.share.widget.ShareDialog
 import com.mobdeve.s13.grp7.pokelearn.database.MyDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.database.UserProfileDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.databinding.RewardsPageBinding
+import kotlin.properties.Delegates
 import kotlin.random.Random
 
 class RewardsActivity : AppCompatActivity() {
@@ -26,6 +28,7 @@ class RewardsActivity : AppCompatActivity() {
     private lateinit var binding: RewardsPageBinding
     private lateinit var callbackManager: CallbackManager
     private lateinit var shareDialog: ShareDialog
+    private var rolledNumber by Delegates.notNull<Int>()
 
     // Move typeColorMapping here
     private val typeColorMapping = mapOf(
@@ -59,7 +62,7 @@ class RewardsActivity : AppCompatActivity() {
 
         // Display a random Pokemon
 
-        val rolledNumber = rollPokemon()
+        rolledNumber = rollPokemon()
 
         displayPokemon(rolledNumber)
 
@@ -146,11 +149,68 @@ class RewardsActivity : AppCompatActivity() {
 
     private fun shareToFacebook() {
         // Assuming you have a Bitmap named 'image' containing the image you want to share
-        val image: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.poke_1)
+//        val image: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.poke_1)
 
+        // Generate the drawable name based on the rolled number
+        val drawableName = "poke_$rolledNumber"
+
+        // Get the resource ID of the image using the drawable name
+        val resId = resources.getIdentifier(drawableName, "drawable", packageName)
+
+        // Load the image as a Bitmap
+//        val image: Bitmap = BitmapFactory.decodeResource(resources, resId)
+
+        // Load the reward image as a Bitmap
+        val rewardImage: Bitmap = BitmapFactory.decodeResource(resources, resId)
+
+        // Load the background image as a Bitmap
+        val backgroundImage: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.bg_sharetofb)
+
+        // Create a new Bitmap with the same dimensions as the background image
+//        val compositeImage = Bitmap.createBitmap(backgroundImage.width, backgroundImage.height, backgroundImage.config)
+
+        // Determine the scale factor to make the reward image larger
+        val scaleFactor = 3.0f // Adjust this value as needed
+
+        // Calculate the new dimensions of the scaled reward image
+        val newWidth = (rewardImage.width * scaleFactor).toInt()
+        val newHeight = (rewardImage.height * scaleFactor).toInt()
+
+
+        // Create a scaled version of the reward image
+        val scaledRewardImage = Bitmap.createScaledBitmap(rewardImage, newWidth, newHeight, true)
+
+        // Create a new Bitmap with the same dimensions as the background image
+        val compositeImage = Bitmap.createBitmap(backgroundImage.width, backgroundImage.height, backgroundImage.config)
+
+        // Create a Canvas to draw on the composite image
+//        val canvas = Canvas(compositeImage)
+
+        // Create a Canvas to draw on the composite image
+        val canvas = Canvas(compositeImage)
+
+        // Draw the background image on the canvas
+        canvas.drawBitmap(backgroundImage, 0f, 0f, null)
+
+        // Calculate the position to draw the reward image at the center of the composite image
+//        val x = (compositeImage.width - rewardImage.width) / 2f
+//        val y = (compositeImage.height - rewardImage.height) / 2f
+
+        // Calculate the position to draw the reward image at the center of the composite image
+        val x = (compositeImage.width - scaledRewardImage.width) / 2f
+        val y = (compositeImage.height - scaledRewardImage.height) / 2f
+
+        // Draw the reward image on the canvas
+        canvas.drawBitmap(scaledRewardImage, x, y, null)
+
+        // Create a SharePhoto object with the composite image
         val photo = SharePhoto.Builder()
-            .setBitmap(image)
+            .setBitmap(compositeImage)
             .build()
+
+//        val photo = SharePhoto.Builder()
+//            .setBitmap(image)
+//            .build()
 
         val content = SharePhotoContent.Builder()
             .addPhoto(photo)
@@ -163,6 +223,7 @@ class RewardsActivity : AppCompatActivity() {
             Toast.makeText(this, "Cannot show share dialog", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

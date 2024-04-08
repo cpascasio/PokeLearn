@@ -99,54 +99,10 @@
         android:id="@+id/ivwLine3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/tvwPP_TitlePass"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvwPP_TitleEmail"
-        app:srcCompat="@drawable/profile_line" />
-
-    <TextView
-        android:id="@+id/tvwPP_TitlePass"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:fontFamily="@font/squada_one"
-        android:text="Password"
-        android:textAlignment="center"
-        android:textColor="#004081"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/ivwLine4"
-        app:layout_constraintEnd_toStartOf="@+id/tvwPP_Username"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivwLine3" />
-
-    <TextView
-        android:id="@+id/tvwPP_Password"
-        android:layout_width="148dp"
-        android:layout_height="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:fontFamily="@font/squada_one"
-        android:text="********"
-        android:textAlignment="textStart"
-        android:textColor="#5084C9"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/ivwLine4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvwPP_TitlePass"
-        app:layout_constraintTop_toBottomOf="@+id/ivwLine3" />
-
-    <ImageView
-        android:id="@+id/ivwLine4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="212dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvwPP_TitlePass"
         app:srcCompat="@drawable/profile_line" />
 
     <TextView
@@ -154,29 +110,27 @@
         android:layout_width="161dp"
         android:layout_height="17dp"
         android:layout_marginStart="72dp"
-        android:layout_marginTop="20dp"
         android:fontFamily="@font/squada_one"
         android:text="Productivity Cycles Completed"
         android:textAlignment="textStart"
         android:textColor="#004081"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivwLine4" />
+        tools:layout_editor_absoluteY="488dp" />
 
     <TextView
         android:id="@+id/tvwPP_Stat1Num"
         android:layout_width="86dp"
         android:layout_height="16dp"
-        android:layout_marginTop="20dp"
         android:fontFamily="@font/squada_one"
         android:text="0"
         android:textAlignment="textStart"
         android:textColor="#5084C9"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.304"
+        app:layout_constraintHorizontal_bias="0.293"
         app:layout_constraintStart_toEndOf="@id/tvwPP_TitleStat1"
-        app:layout_constraintTop_toBottomOf="@+id/ivwLine4" />
+        tools:layout_editor_absoluteY="489dp" />
 
     <TextView
         android:id="@+id/tvwPP_TitleStat2"
@@ -196,7 +150,7 @@
         android:id="@+id/tvwPP_Stat2Num"
         android:layout_width="86dp"
         android:layout_height="16dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/squada_one"
         android:text="0 minutes"
         android:textAlignment="textStart"
@@ -218,8 +172,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivwLine4"
-        app:layout_constraintVertical_bias="0.635" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

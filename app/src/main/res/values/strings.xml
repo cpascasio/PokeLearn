@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PokeLearn</string>
+    <string name="app_name">PikaTimer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -31,7 +31,7 @@
 
     <string name="notification_title">Failed to catch pokemon</string>
     <string name="notification_message">Youve been away for too long!</string>
-
+    <string name="PikaTimer">PikaTimer</string>
 
 
 </resources>

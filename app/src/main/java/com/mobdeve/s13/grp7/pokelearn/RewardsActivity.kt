@@ -102,8 +102,23 @@ class RewardsActivity : AppCompatActivity() {
 
 
     fun rollPokemon(): Int {
-        // Generate a random Pokedex number from 1 to 50
-        val randomPokedexNumber = Random.nextInt(1, 51)
+
+        val sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE)
+        val uid = sharedPreferences.getString("uid", null)
+        val userProfileDbHelper = UserProfileDatabaseHelper(this)
+        val userPokedex = userProfileDbHelper.getPokedex(uid!!)
+
+        // Convert the user's Pokedex to a set for faster lookup
+        val pokedexSet = userPokedex?.toSet()
+
+        var randomPokedexNumber : Int
+
+        do {
+            // Generate a random Pokedex number from 1 to 50
+            randomPokedexNumber = Random.nextInt(1, 51)
+        } while (pokedexSet?.contains(randomPokedexNumber.toString()) == true)
+
+
         return randomPokedexNumber
     }
 

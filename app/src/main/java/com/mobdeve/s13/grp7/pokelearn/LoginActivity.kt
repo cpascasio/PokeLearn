@@ -43,39 +43,31 @@ class LoginActivity : AppCompatActivity() {
             if(checkAllField()){
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
                     if(it.isSuccessful){
-                        val sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE)
-                        val editor = sharedPreferences.edit()
-                        // store userID to shared preferences
-                        editor.putString("uid", firebaseAuth.currentUser?.uid)
-                        editor.putString("email", email)
-                        editor.putString("username", firebaseAuth.currentUser?.displayName)
 
-                        // Fetch pokedex from Firebase
-
-
-                        editor.apply()
-                        Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
-
-                        val uid = sharedPreferences.getString("uid", null)
+                        val uid = firebaseAuth.currentUser?.uid
 
                         // fetch userprofile in the firebase database given the UID
 
                         if (uid != null) {
                             firebaseHelper.readUser(uid) { userProfile ->
                                 if (userProfile != null) {
-                                    // Save UserProfile into SQLite database
-                                    val userProfileDatabaseHelper = UserProfileDatabaseHelper(this)
-                                    val isAdded = userProfileDatabaseHelper.addUserProfile(userProfile)
-
-                                    if (isAdded) {
-                                        Log.d(TAG, "User profile added to SQLite database")
-                                    } else {
-                                        Log.e(TAG, "Failed to add user profile to SQLite database")
-                                    }
+                                    val sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE)
+                                    val editor = sharedPreferences.edit()
+                                    // store userID to shared preferences
+                                    editor.putString("uid", firebaseAuth.currentUser?.uid)
+                                    editor.putString("email", email)
+                                    // fetch the data from firebase realtime database instead
+                                    val username = userProfile.username
+                                    editor.putString("username", username)
+                                    // Fetch pokedex from Firebase
+                                    editor.apply()
+                                    Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
+//                                    val intent = Intent(this, MainActivity::class.java)
+//                                    startActivity(intent)
+//                                    finish()
                                 }
                             }
                         }
-
 
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
@@ -186,9 +178,9 @@ class LoginActivity : AppCompatActivity() {
                                 val newUserProfile = UserProfile().apply {
                                     this.uid = uid
                                     this.username = firebaseAuth.currentUser?.displayName.toString()
-
                                     this.pokedex = arrayListOf("1")
                                     this.fullPomodoroCyclesCompleted = 0 // Initialize with 0
+                                    this.totalTimeSpent = 0 // Initialize with 0
                                 }
                                 Log.d("USERNAMEINLOGIN", firebaseAuth.currentUser?.displayName.toString())
                                 // Save new user profile to SQLite

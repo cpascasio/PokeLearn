@@ -29,6 +29,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mobdeve.s13.grp7.pokelearn.R
+import com.mobdeve.s13.grp7.pokelearn.database.UserProfileDatabaseHelper
 import com.mobdeve.s13.grp7.pokelearn.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -116,7 +117,7 @@ class HomeFragment : Fragment() {
         shakingPokeballImageView = binding.ivwMPShakingPokeball
 
         setTimerButton.setOnClickListener { showTimerSettingsDialog() }
-        cancelButton.setOnClickListener { cancelTimer() }
+        cancelButton.setOnClickListener { cancelTimer()  }
 
         //log shared preferences
         // Log shared preferences
@@ -263,8 +264,21 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onFinish() {
+
+                    // Update totalTimeSpent
+                    val userProfileDbHelper = UserProfileDatabaseHelper(requireContext())
+                    val sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE)
+                    val uid = sharedPreferences.getString("uid", null)
+                    userProfileDbHelper.updateUserTotalTimeSpent(uid!!, productivityDurationInSeconds.toInt())
+
+                    //update realtime firebase using updatefirebasedatabase
+
+                    userProfileDbHelper.updateFirebaseDatabase(uid)
+
+
                     //start BreakTimeFragment and pass the break duration
                     startBreakTimer(breakDurationInSeconds, productivityDurationInSeconds, longbreakDurationInSeconds)
+
                 }
             }.start()
 
@@ -334,6 +348,9 @@ class HomeFragment : Fragment() {
 
         // set cancel button to not clickable
         cancelButton.isEnabled = false
+
+        // SharedViewmodel cyclecounter reset to 0
+        sharedViewModel.cycleCounter = 0
 
         // Switch Pokeball image to static
         Glide.with(this)

@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
+import com.mobdeve.s13.grp7.pokelearn.database.UserProfileDatabaseHelper
 
 class Profile : Fragment() {
 
@@ -54,6 +55,24 @@ class Profile : Fragment() {
         username?.let {
             tvwPPName.text = it
         }
+
+        // Fetch the user's Pokedex from the SQLite database
+        val userProfileDbHelper = UserProfileDatabaseHelper(requireContext())
+        val userPokedex = userProfileDbHelper.getPokedex(uid!!)
+
+        // Display the size of the user's Pokedex
+        val tvwPPStat1Num = view.findViewById<TextView>(R.id.tvwPP_Stat1Num)
+        tvwPPStat1Num.text = userPokedex?.size.toString()
+
+        // Fetch the user's UserProfile from the SQLite database
+        val userProfile = userProfileDbHelper.getUserProfile(uid!!)
+
+        // Display the user's totalTimeSpent
+        val tvwPPStat2Num = view.findViewById<TextView>(R.id.tvwPP_Stat2Num)
+        userProfile?.let {
+            tvwPPStat2Num.text = (it.totalTimeSpent/60).toString()
+        }
+
 
 
         // Set OnClickListener for the logout button

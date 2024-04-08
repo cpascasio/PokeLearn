@@ -149,12 +149,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val pokemonList = dbHelper.getAllPokemon()
-
-        for (pokemon in pokemonList) {
-            Log.d("MainActivity123", pokemon.type[0].toString())
-        }
-
 
         binding.bottomNavigationView.setOnItemSelectedListener {
 

@@ -1,4 +1,5 @@
 import SharedViewModel
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -17,6 +18,7 @@ import com.mobdeve.s13.grp7.pokelearn.databinding.FragmentBreakTimeBinding
 import com.mobdeve.s13.grp7.pokelearn.R
 import com.mobdeve.s13.grp7.pokelearn.HomeFragment
 import com.mobdeve.s13.grp7.pokelearn.RewardsActivity
+import com.mobdeve.s13.grp7.pokelearn.database.UserProfileDatabaseHelper
 
 
 class BreakTimeFragment : Fragment() {
@@ -127,6 +129,18 @@ class BreakTimeFragment : Fragment() {
                     Log.d("BreakTimeFragment", "Cycle Counter: ${sharedViewModel.cycleCounter}")
                     redirectToHomeFragment()
                 }
+
+                // Update totalTimeSpent
+                val userProfileDbHelper = UserProfileDatabaseHelper(requireContext())
+
+                val sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE)
+                val uid = sharedPreferences.getString("uid", "")
+
+                userProfileDbHelper.updateUserTotalTimeSpent(uid!!, (startTimeInMillis/1000).toInt())
+
+                //update realtime firebase using updatefirebasedatabase
+                userProfileDbHelper.updateFirebaseDatabase(uid)
+
             }
         }.start()
 
@@ -138,6 +152,7 @@ class BreakTimeFragment : Fragment() {
             countDownTimer.cancel()
         }
         isTimerSet = false
+        sharedViewModel.cycleCounter = 0
         setTime(0) // Reset the timer to 00:00:00
         updateCountDownText() // Update the UI to show the reset timer
         redirectToHomeFragment()

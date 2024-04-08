@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 
 class Profile : Fragment() {
@@ -43,6 +44,7 @@ class Profile : Fragment() {
             // Sign out the user
             auth.signOut()
             // Navigate to the login screen or perform any other action after logout
+            LoginManager.getInstance().logOut()
             // For example, navigate back to the LoginActivity
             val intent = Intent(activity, WelcomePageActivity::class.java)
             startActivity(intent)

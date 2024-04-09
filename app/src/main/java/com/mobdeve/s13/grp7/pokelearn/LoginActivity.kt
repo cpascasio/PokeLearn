@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
                                     // Fetch pokedex from Firebase
                                     editor.apply()
                                     userProfileDatabaseHelper.addUserProfile(userProfile)
-                                    Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
+//                                    Toast.makeText(this, "Successfully signed in!", Toast.LENGTH_SHORT).show()
 //                                    val intent = Intent(this, MainActivity::class.java)
 //                                    startActivity(intent)
 //                                    finish()

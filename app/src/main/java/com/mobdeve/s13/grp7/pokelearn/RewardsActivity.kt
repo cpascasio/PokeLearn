@@ -102,7 +102,7 @@ class RewardsActivity : AppCompatActivity() {
 
         binding.shareBtn.setOnClickListener {
             shareToFacebook()
-            Toast.makeText(this, "Shared to Facebook", Toast.LENGTH_SHORT).show()
+
         }
     }
 
@@ -252,7 +252,7 @@ class RewardsActivity : AppCompatActivity() {
 
         if (ShareDialog.canShow(SharePhotoContent::class.java)) {
             shareDialog.show(content)
-            Toast.makeText(this, "shared", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Shared to Facebook", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Cannot show share dialog", Toast.LENGTH_SHORT).show()
         }

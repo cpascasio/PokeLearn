@@ -260,6 +260,15 @@ class UserProfileDatabaseHelper(context: Context) :
         return userProfile?.pokedex
     }
 
+    fun incrementPomodoroCyclesCompleted(uid: String): Boolean {
+        val db = this.writableDatabase
+        val userProfile = getUserProfile(uid)
+        if (userProfile != null) {
+            userProfile.fullPomodoroCyclesCompleted += 1
+            return updateUserProfile(userProfile)
+        }
+        return false
+    }
 
     fun updateUserTotalTimeSpent(uid: String, timeToAdd: Int) {
         val db = this.writableDatabase

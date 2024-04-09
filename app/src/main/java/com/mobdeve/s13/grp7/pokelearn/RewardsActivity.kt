@@ -74,9 +74,15 @@ class RewardsActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE)
         val uid = sharedPreferences.getString("uid", null)
         if (uid != null) {
+
             val userProfileDbHelper = UserProfileDatabaseHelper(this)
+            userProfileDbHelper.incrementPomodoroCyclesCompleted(uid)
             userProfileDbHelper.updateFirebaseDatabase(uid)
         }
+
+        // increment pomodorocycles function
+
+
 
         // Initialize Facebook SDK
         FacebookSdk.setAutoInitEnabled(true)

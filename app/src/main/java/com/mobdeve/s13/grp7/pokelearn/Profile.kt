@@ -66,14 +66,18 @@ class Profile : Fragment() {
 
         // Fetch the user's Pokedex from the SQLite database
         val userProfileDbHelper = UserProfileDatabaseHelper(requireContext())
-        val userPokedex = userProfileDbHelper.getPokedex(uid!!)
-
-        // Display the size of the user's Pokedex
-        val tvwPPStat1Num = view.findViewById<TextView>(R.id.tvwPP_Stat1Num)
-        tvwPPStat1Num.text = (userPokedex?.size?.minus(1)).toString()
-
         // Fetch the user's UserProfile from the SQLite database
         val userProfile = userProfileDbHelper.getUserProfile(uid!!)
+
+
+        // Display the user's fullPomodoroCyclesCompleted
+        val tvwPPStat1Num = view.findViewById<TextView>(R.id.tvwPP_Stat1Num)
+        userProfile?.let {
+            tvwPPStat1Num.text = it.fullPomodoroCyclesCompleted.toString()
+        }
+
+        // Fetch the user's UserProfile from the SQLite database
+        //val userProfile = userProfileDbHelper.getUserProfile(uid!!)
 
         // Display the user's totalTimeSpent
         val tvwPPStat2Num = view.findViewById<TextView>(R.id.tvwPP_Stat2Num)

@@ -7,4 +7,5 @@ class UserProfile(
     var fullPomodoroCyclesCompleted: Int = 0,
     var totalTimeSpent: Int = 0
 
+
 )

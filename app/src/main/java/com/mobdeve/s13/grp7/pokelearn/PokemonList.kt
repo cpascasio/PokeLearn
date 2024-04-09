@@ -1,5 +1,6 @@
 package com.mobdeve.s13.grp7.pokelearn
 
+import SharedViewModel
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.common.reflect.TypeToken
@@ -34,6 +36,8 @@ class PokemonList : Fragment() {
 
     private lateinit var userPokemonList: ArrayList<PokemonNew>
 
+    private lateinit var sharedViewModel: SharedViewModel
+
 
 
     override fun onCreateView(
@@ -42,6 +46,10 @@ class PokemonList : Fragment() {
     ): View? {
 
     dummyData.addAll(createDummyData())
+
+        // Get sharedViewModel
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        sharedViewModel.cycleCounter = 0
 
         return inflater.inflate(R.layout.fragment_pokemon_list, container, false)
 

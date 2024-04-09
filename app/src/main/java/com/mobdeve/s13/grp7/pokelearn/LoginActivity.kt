@@ -207,9 +207,9 @@ class LoginActivity : AppCompatActivity() {
                     }
 
 
-                    val user = firebaseAuth.currentUser
-//                    updateUI(user)
-                    startActivity(Intent(this, MainActivity::class.java))
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)

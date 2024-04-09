@@ -1,5 +1,6 @@
 package com.mobdeve.s13.grp7.pokelearn
 
+import SharedViewModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.mobdeve.s13.grp7.pokelearn.database.UserProfileDatabaseHelper
@@ -17,6 +19,8 @@ import com.mobdeve.s13.grp7.pokelearn.database.UserProfileDatabaseHelper
 class Profile : Fragment() {
 
     private lateinit var auth: FirebaseAuth
+
+    private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +42,10 @@ class Profile : Fragment() {
         val username = sharedPreferences?.getString("username", "")
         Log.d("username", username.toString())
         val email = sharedPreferences?.getString("email", "")
+
+        // Get sharedViewModel
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        sharedViewModel.cycleCounter = 0
 
 
         // Get user email from Firebase Auth

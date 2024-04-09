@@ -224,7 +224,7 @@ class UserProfileDatabaseHelper(context: Context) :
             val dataForFirebase = mapOf(
                 "uid" to userProfile.uid,
                 "username" to userProfile.username,
-                "pokedex" to userProfile.pokedex.joinToString(),
+                "pokedex" to userProfile.pokedex,
                 "fullPomodoroCyclesCompleted" to userProfile.fullPomodoroCyclesCompleted,
                 "totalTimeSpent" to userProfile.totalTimeSpent
             )

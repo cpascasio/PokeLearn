@@ -167,6 +167,7 @@ class UserProfileDatabaseHelper(context: Context) :
         private const val COL_USERNAME = "username"
         private const val COL_POKEDEX = "pokedex"
         private const val COL_POMODORO_CYCLES = "fullPomodoroCyclesCompleted"
+        private const val COL_TOTAL_TIME_SPENT = "totalTimeSpent"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -174,7 +175,8 @@ class UserProfileDatabaseHelper(context: Context) :
                 "$COL_UID TEXT PRIMARY KEY," +
                 "$COL_USERNAME TEXT," +
                 "$COL_POKEDEX TEXT," +
-                "$COL_POMODORO_CYCLES INTEGER)"
+                "$COL_POMODORO_CYCLES INTEGER," +
+                "$COL_TOTAL_TIME_SPENT INTEGER)"
 
         db?.execSQL(createTableStatement)
     }
@@ -194,6 +196,7 @@ class UserProfileDatabaseHelper(context: Context) :
         cv.put(COL_USERNAME, userProfile.username)
         cv.put(COL_POKEDEX, userProfile.pokedex.joinToString())
         cv.put(COL_POMODORO_CYCLES, userProfile.fullPomodoroCyclesCompleted)
+        cv.put(COL_TOTAL_TIME_SPENT, userProfile.totalTimeSpent)
 
         val result = db.insert(USER_TABLE_NAME, null, cv)
 
@@ -207,6 +210,7 @@ class UserProfileDatabaseHelper(context: Context) :
         cv.put(COL_USERNAME, userProfile.username)
         cv.put(COL_POKEDEX, userProfile.pokedex.joinToString())
         cv.put(COL_POMODORO_CYCLES, userProfile.fullPomodoroCyclesCompleted)
+        cv.put(COL_TOTAL_TIME_SPENT, userProfile.totalTimeSpent)
 
         val result = db.update(USER_TABLE_NAME, cv, "$COL_UID=?", arrayOf(userProfile.uid))
 
@@ -217,15 +221,14 @@ class UserProfileDatabaseHelper(context: Context) :
     fun updateFirebaseDatabase(uid: String) {
         val userProfile = getUserProfile(uid)
         if (userProfile != null) {
-            // Convert the UserProfile object to a format suitable for Firebase
             val dataForFirebase = mapOf(
                 "uid" to userProfile.uid,
                 "username" to userProfile.username,
-                "pokedex" to userProfile.pokedex.joinToString(),
-                "fullPomodoroCyclesCompleted" to userProfile.fullPomodoroCyclesCompleted
+                "pokedex" to userProfile.pokedex,
+                "fullPomodoroCyclesCompleted" to userProfile.fullPomodoroCyclesCompleted,
+                "totalTimeSpent" to userProfile.totalTimeSpent
             )
 
-            // Update Firebase
             database.child(userProfile.uid).setValue(dataForFirebase)
             Log.d("Firebase", "Firebase database updated");
         }
@@ -257,7 +260,24 @@ class UserProfileDatabaseHelper(context: Context) :
         return userProfile?.pokedex
     }
 
+    fun incrementPomodoroCyclesCompleted(uid: String): Boolean {
+        val db = this.writableDatabase
+        val userProfile = getUserProfile(uid)
+        if (userProfile != null) {
+            userProfile.fullPomodoroCyclesCompleted += 1
+            return updateUserProfile(userProfile)
+        }
+        return false
+    }
 
+    fun updateUserTotalTimeSpent(uid: String, timeToAdd: Int) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        val userProfile = getUserProfile(uid)
+        val newTotalTimeSpent = userProfile?.totalTimeSpent?.plus(timeToAdd)
+        contentValues.put("totalTimeSpent", newTotalTimeSpent)
+        db.update("UserProfile", contentValues, "uid = ?", arrayOf(uid))
+    }
 
     fun getUserProfile(uid: String): UserProfile? {
         val db = this.readableDatabase
@@ -270,6 +290,7 @@ class UserProfileDatabaseHelper(context: Context) :
                 this.pokedex =
                     queryResult.getString(queryResult.getColumnIndexOrThrow(COL_POKEDEX)).split(",").toMutableList() as ArrayList<String>
                 this.fullPomodoroCyclesCompleted = queryResult.getInt(queryResult.getColumnIndexOrThrow(COL_POMODORO_CYCLES))
+                this.totalTimeSpent = queryResult.getInt(queryResult.getColumnIndexOrThrow(COL_TOTAL_TIME_SPENT))
             }
             queryResult.close()
         }

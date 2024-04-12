@@ -74,9 +74,15 @@ class RewardsActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE)
         val uid = sharedPreferences.getString("uid", null)
         if (uid != null) {
+
             val userProfileDbHelper = UserProfileDatabaseHelper(this)
+            userProfileDbHelper.incrementPomodoroCyclesCompleted(uid)
             userProfileDbHelper.updateFirebaseDatabase(uid)
         }
+
+        // increment pomodorocycles function
+
+
 
         // Initialize Facebook SDK
         FacebookSdk.setAutoInitEnabled(true)
@@ -96,14 +102,29 @@ class RewardsActivity : AppCompatActivity() {
 
         binding.shareBtn.setOnClickListener {
             shareToFacebook()
-            Toast.makeText(this, "Shared to Facebook", Toast.LENGTH_SHORT).show()
+
         }
     }
 
 
     fun rollPokemon(): Int {
-        // Generate a random Pokedex number from 1 to 50
-        val randomPokedexNumber = Random.nextInt(1, 51)
+
+        val sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE)
+        val uid = sharedPreferences.getString("uid", null)
+        val userProfileDbHelper = UserProfileDatabaseHelper(this)
+        val userPokedex = userProfileDbHelper.getPokedex(uid!!)
+
+        // Convert the user's Pokedex to a set for faster lookup
+        val pokedexSet = userPokedex?.toSet()
+
+        var randomPokedexNumber : Int
+
+        do {
+            // Generate a random Pokedex number from 1 to 50
+            randomPokedexNumber = Random.nextInt(1, 51)
+        } while (pokedexSet?.contains(randomPokedexNumber.toString()) == true)
+
+
         return randomPokedexNumber
     }
 
@@ -231,7 +252,7 @@ class RewardsActivity : AppCompatActivity() {
 
         if (ShareDialog.canShow(SharePhotoContent::class.java)) {
             shareDialog.show(content)
-            Toast.makeText(this, "shared", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Shared to Facebook", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Cannot show share dialog", Toast.LENGTH_SHORT).show()
         }

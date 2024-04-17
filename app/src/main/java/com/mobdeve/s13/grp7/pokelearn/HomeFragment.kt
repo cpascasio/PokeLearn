@@ -311,19 +311,19 @@ class HomeFragment : Fragment() {
         startTimerButton.setOnClickListener {
             dialog.dismiss()
             // Start the timer based on the input duration
-            val productivityHours = hoursEditText.text.toString().toIntOrNull() ?: 0
-            val productivityMinutes = minutesEditText.text.toString().toIntOrNull() ?: 0
-            val productivitySeconds = secondsEditText.text.toString().toIntOrNull() ?: 0
+            val productivityHours = hoursEditText.text.toString().removeSuffix("h").toIntOrNull() ?: 0
+            val productivityMinutes = minutesEditText.text.toString().removeSuffix("m").toIntOrNull() ?: 0
+            val productivitySeconds = secondsEditText.text.toString().removeSuffix("s").toIntOrNull() ?: 0
 
             // Get break time duration
-            val breakHours = dialogView.findViewById<EditText>(R.id.breakHoursEditText).text.toString().toIntOrNull() ?: 0
-            val breakMinutes = dialogView.findViewById<EditText>(R.id.breakMinutesEditText).text.toString().toIntOrNull() ?: 0
-            val breakSeconds = dialogView.findViewById<EditText>(R.id.breakSecondsEditText).text.toString().toIntOrNull() ?: 0
+            val breakHours = dialogView.findViewById<EditText>(R.id.breakHoursEditText).text.toString().removeSuffix("h").toIntOrNull() ?: 0
+            val breakMinutes = dialogView.findViewById<EditText>(R.id.breakMinutesEditText).text.toString().removeSuffix("m").toIntOrNull() ?: 0
+            val breakSeconds = dialogView.findViewById<EditText>(R.id.breakSecondsEditText).text.toString().removeSuffix("s").toIntOrNull() ?: 0
 
             // Get long break time duration
-            val longbreakHours = dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).text.toString().toIntOrNull() ?: 0
-            val longbreakMinutes = dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).text.toString().toIntOrNull() ?: 0
-            val longbreakSeconds = dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).text.toString().toIntOrNull() ?: 0
+            val longbreakHours = dialogView.findViewById<EditText>(R.id.longbreakHoursEditText).text.toString().removeSuffix("h").toIntOrNull() ?: 0
+            val longbreakMinutes = dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText).text.toString().removeSuffix("m").toIntOrNull() ?: 0
+            val longbreakSeconds = dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText).text.toString().removeSuffix("s").toIntOrNull() ?: 0
 
             // Validate user input and start the timer
             if (isValidInput(productivityHours, productivityMinutes, productivitySeconds) &&

@@ -11,6 +11,8 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -165,6 +167,115 @@ class HomeFragment : Fragment() {
         val startTimerButton = dialogView.findViewById<Button>(R.id.btn_StartTimer)
 
         // Other view initialization code...
+
+        hoursEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (!s.toString().isEmpty() && !s.toString().endsWith("h")) {
+                    hoursEditText.setText("${s}h")
+                    hoursEditText.setSelection(hoursEditText.text.length - 1) // position cursor before 'h'
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        minutesEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (!s.toString().isEmpty() && !s.toString().endsWith("m")) {
+                    minutesEditText.setText("${s}m")
+                    minutesEditText.setSelection(minutesEditText.text.length - 1) // position cursor before 'm'
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        secondsEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (!s.toString().isEmpty() && !s.toString().endsWith("s")) {
+                    secondsEditText.setText("${s}s")
+                    secondsEditText.setSelection(secondsEditText.text.length - 1) // position cursor before 's'
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        val breakHoursEditText = dialogView.findViewById<EditText>(R.id.breakHoursEditText)
+        val breakMinutesEditText = dialogView.findViewById<EditText>(R.id.breakMinutesEditText)
+        val breakSecondsEditText = dialogView.findViewById<EditText>(R.id.breakSecondsEditText)
+
+        val longbreakHoursEditText = dialogView.findViewById<EditText>(R.id.longbreakHoursEditText)
+        val longbreakMinutesEditText = dialogView.findViewById<EditText>(R.id.longbreakMinutesEditText)
+        val longbreakSecondsEditText = dialogView.findViewById<EditText>(R.id.longbreakSecondsEditText)
+
+        breakHoursEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (!s.toString().isEmpty() && !s.toString().endsWith("h")) {
+                    breakHoursEditText.setText("${s}h")
+                    breakHoursEditText.setSelection(breakHoursEditText.text.length - 1) // position cursor before 'h'
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        breakMinutesEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (!s.toString().isEmpty() && !s.toString().endsWith("m")) {
+                    breakMinutesEditText.setText("${s}m")
+                    breakMinutesEditText.setSelection(breakMinutesEditText.text.length - 1) // position cursor before 'm'
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        breakSecondsEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (!s.toString().isEmpty() && !s.toString().endsWith("s")) {
+                    breakSecondsEditText.setText("${s}s")
+                    breakSecondsEditText.setSelection(breakSecondsEditText.text.length - 1) // position cursor before 's'
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        longbreakHoursEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (!s.toString().isEmpty() && !s.toString().endsWith("h")) {
+                    longbreakHoursEditText.setText("${s}h")
+                    longbreakHoursEditText.setSelection(longbreakHoursEditText.text.length - 1) // position cursor before 'h'
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        longbreakMinutesEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (!s.toString().isEmpty() && !s.toString().endsWith("m")) {
+                    longbreakMinutesEditText.setText("${s}m")
+                    longbreakMinutesEditText.setSelection(longbreakMinutesEditText.text.length - 1) // position cursor before 'm'
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        longbreakSecondsEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (!s.toString().isEmpty() && !s.toString().endsWith("s")) {
+                    longbreakSecondsEditText.setText("${s}s")
+                    longbreakSecondsEditText.setSelection(longbreakSecondsEditText.text.length - 1) // position cursor before 's'
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+
 
         // Set default values for productivity duration, short break, and long break
         val defaultProductivityTime = 25 // Default productivity time in minutes

@@ -145,22 +145,20 @@
             android:text="TextView"
             android:textSize="16sp" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
             android:layout_marginTop="40dp"
             android:layout_marginRight="60dp"
-            android:gravity="center"
             android:orientation="horizontal">
-
 
             <TextView
                 android:id="@+id/txtHeight"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
                 android:text="Height"
                 android:textStyle="bold" />
 
@@ -168,9 +166,11 @@
                 android:id="@+id/txtPokeHeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="start|left"
                 android:text="TextView"
-                android:textColor="@color/black" />
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:gravity="start" />
         </LinearLayout>
 
         <LinearLayout
@@ -179,16 +179,14 @@
             android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="60dp"
-            android:gravity="center"
             android:orientation="horizontal">
 
 
             <TextView
                 android:id="@+id/txtWeight"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
                 android:text="Weight"
                 android:textStyle="bold" />
 
@@ -196,9 +194,11 @@
                 android:id="@+id/txtPokeWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="start|left"
                 android:text="TextView"
-                android:textColor="@color/black" />
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:gravity="start"/>
         </LinearLayout>
 
         <LinearLayout
@@ -207,16 +207,14 @@
             android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="60dp"
-            android:gravity="center"
             android:orientation="horizontal">
 
 
             <TextView
                 android:id="@+id/txtCategory"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
                 android:text="Category"
                 android:textStyle="bold" />
 
@@ -224,9 +222,10 @@
                 android:id="@+id/txtPokeCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="TextView"
-                android:textColor="@color/black" />
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:gravity="start"/>
         </LinearLayout>
 
         <LinearLayout
@@ -235,16 +234,14 @@
             android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="60dp"
-            android:gravity="center"
             android:orientation="horizontal">
 
 
             <TextView
                 android:id="@+id/txtAbilities"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
                 android:text="Abilities"
                 android:textStyle="bold" />
 
@@ -252,9 +249,11 @@
                 android:id="@+id/txtPokeAbilities"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="TextView"
-                android:textColor="@color/black" />
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:gravity="start" />
+
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
